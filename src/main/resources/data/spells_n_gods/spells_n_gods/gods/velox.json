@@ -1,0 +1,140 @@
+{
+  "schema": 2,
+  "id": "velox",
+  "display_name": "Velox",
+  "gender": "male",
+  "domains": ["storm", "speed", "messenger"],
+  "philosophy": "Strike swiftly; hesitation is death.",
+  "magic_school": "lightning",
+  "rivals": { "primary": "glacia", "secondary": "venatas" },
+  "binding": {
+    "rune_item": "spells_n_gods:rune",
+    "monument": {
+      "block": "spells_n_gods:monument",
+      "variant": "velox",
+      "statue_profile": "skin_owner",
+      "fallback_profile": "MHF_Steve"
+    }
+  },
+  "favor": {
+    "thresholds": { "initiate": 10, "devout": 35, "exalted": 70, "ascendant": 95 },
+    "decay_per_day": 2.5
+  },
+  "worship": {
+    "prayer": { "min_seconds": 8, "cooldown_seconds": 240 },
+    "offering": { "grace_hours": 48, "diminishing_returns": true, "validator": "lightning_offering" }
+  },
+  "blessings": {
+    "initiate": {
+      "effects": [
+        { "type": "attribute_modifier", "attribute": "minecraft:generic.movement_speed", "amount": 0.02, "operation": "addition" }
+      ],
+      "monument_ability": { "type": "speed_aura", "radius": 8, "amplifier": 0 }
+    },
+    "devout": {
+      "effects": [
+        { "type": "attribute_modifier", "attribute": "minecraft:generic.movement_speed", "amount": 0.04, "operation": "addition" },
+        { "type": "potion_effect", "effect_id": "minecraft:speed", "amplifier": 0, "ambient": true }
+      ],
+      "monument_ability": { "type": "speed_aura", "radius": 12, "amplifier": 1 }
+    },
+    "exalted": {
+      "effects": [
+        { "type": "attribute_modifier", "attribute": "minecraft:generic.movement_speed", "amount": 0.06, "operation": "addition" },
+        { "type": "potion_effect", "effect_id": "minecraft:speed", "amplifier": 1, "ambient": true },
+        { "type": "attribute_modifier", "attribute": "minecraft:generic.attack_speed", "amount": 0.3, "operation": "addition" }
+      ],
+      "monument_ability": { "type": "speed_aura", "radius": 16, "amplifier": 1 }
+    },
+    "ascendant": {
+      "effects": [
+        { "type": "attribute_modifier", "attribute": "minecraft:generic.movement_speed", "amount": 0.08, "operation": "addition" },
+        { "type": "potion_effect", "effect_id": "minecraft:speed", "amplifier": 1, "ambient": true },
+        { "type": "attribute_modifier", "attribute": "minecraft:generic.attack_speed", "amount": 0.5, "operation": "addition" },
+        { "type": "conditional_combat", "condition": "sprinting", "damage_bonus": 3.0 }
+      ],
+      "monument_ability": { "type": "speed_aura", "radius": 24, "amplifier": 2 }
+    }
+  },
+  "rival_pressure": {
+    "primary": {
+      "effects": [
+        { "effect_id": "minecraft:slowness", "amplifier": 1, "duration_seconds": 30 }
+      ],
+      "event_pool": ["ice_snap", "frost_shackle"]
+    },
+    "secondary": {
+      "effects": [
+        { "effect_id": "minecraft:mining_fatigue", "amplifier": 0, "duration_seconds": 20 }
+      ],
+      "event_pool": []
+    }
+  },
+  "apostasy": {
+    "latent_curse": {
+      "effects": [
+        { "effect_id": "minecraft:slowness", "amplifier": 2 },
+        { "effect_id": "minecraft:mining_fatigue", "amplifier": 1 }
+      ],
+      "damage_multiplier": 1.1,
+      "hunger_drain": 1.4,
+      "duration_hours": 72,
+      "curse_message_key": "spells_n_gods.curse.velox"
+    },
+    "scar_modifiers": {
+      "health_reduction": 0.02,
+      "xp_penalty": 0.04,
+      "death_penalty_increase": 0.08,
+      "luck_reduction": 0.03,
+      "durability_penalty": 0.10
+    },
+    "trials": {
+      "phase_1": { "duration_seconds": 45 },
+      "phase_2": { "duration_seconds": 90, "pursuer_type": "minecraft:phantom", "pursuer_count": 4 },
+      "phase_3": { "duration_seconds": 150, "pursuer_type": "minecraft:warden" }
+    }
+  },
+  "boss": {
+    "max_health": 280.0,
+    "armor": 6.0,
+    "attack_damage": 14.0,
+    "movement_speed": 0.38,
+    "knockback_resistance": 0.4,
+    "weapon_id": "spells_n_gods:bow_of_agility",
+    "fallback_weapon_id": "minecraft:iron_sword",
+    "boss_bar_color": "blue",
+    "boss_bar_overlay": "progress",
+    "skin_texture": "spells_n_gods:textures/entity/boss_velox.png",
+    "spell_pool": [
+      { "spell_id": "irons_spellbooks:ascension", "min_level": 10, "max_level": 10, "weight": 12, "range": 999.0 },
+      { "spell_id": "irons_spellbooks:ball_lightning", "min_level": 10, "max_level": 10, "weight": 15, "range": 20.0 },
+      { "spell_id": "irons_spellbooks:chain_lightning", "min_level": 10, "max_level": 10, "weight": 18, "range": 20.0 },
+      { "spell_id": "irons_spellbooks:charge", "min_level": 3, "max_level": 3, "weight": 10, "range": 999.0 },
+      { "spell_id": "irons_spellbooks:electrocute", "min_level": 10, "max_level": 10, "weight": 18, "range": 12.0 },
+      { "spell_id": "irons_spellbooks:lightning_bolt", "min_level": 10, "max_level": 10, "weight": 20, "range": 20.0 },
+      { "spell_id": "irons_spellbooks:lightning_lance", "min_level": 10, "max_level": 10, "weight": 18, "range": 20.0 },
+      { "spell_id": "irons_spellbooks:shockwave", "min_level": 8, "max_level": 8, "weight": 15, "range": 12.0 },
+      { "spell_id": "irons_spellbooks:thunderstorm", "min_level": 8, "max_level": 8, "weight": 12, "range": 28.0 },
+      { "spell_id": "irons_spellbooks:volt_strike", "min_level": 10, "max_level": 10, "weight": 15, "range": 6.0 }
+    ],
+    "spell_cooldown_ticks": 50,
+    "leash_radius": 32.0,
+    "respawn_delay_ticks": 72000,
+    "phases": {
+      "enrage_health_percent": 0.25,
+      "enrage_damage_multiplier": 1.6,
+      "enrage_speed_multiplier": 1.4
+    }
+  },
+  "structure": {
+    "template_id": "spells_n_gods:god_temple_velox",
+    "biome_tag": "spells_n_gods:has_structure/god_temple",
+    "search_radius": 10000,
+    "min_dist_from_spawn": 1000,
+    "size": 16
+  },
+  "localization": {
+    "name_key": "god.spells_n_gods.velox",
+    "desc_key": "god.spells_n_gods.velox.desc"
+  }
+}

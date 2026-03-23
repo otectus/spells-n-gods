@@ -1,0 +1,8 @@
+{
+  "schema": 1,
+  "variant": "velox",
+  "material_palette": ["minecraft:copper_block", "minecraft:lightning_rod"],
+  "particle": "spells_n_gods:spark",
+  "ambient_sound": "spells_n_gods:thunder_rumble",
+  "ui_theme": "storm_blue"
+}

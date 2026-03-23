@@ -1,0 +1,9 @@
+{
+  "schema": 1,
+  "id": "holy_offering",
+  "type": "item_rule",
+  "rules": {
+    "accept_tags": ["spells_n_gods:holy_themed", "spells_n_gods:golden_goods"],
+    "min_rarity": "uncommon"
+  }
+}

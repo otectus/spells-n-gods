@@ -1,0 +1,20 @@
+{
+  "schema": 1,
+  "id": "arcane_audit",
+  "type": "zone_disruption",
+  "duration_seconds": 120,
+  "radius": 24,
+  "conditions": {
+    "requires_rival": "meridian",
+    "tier_at_least": "devout"
+  },
+  "effects": [
+    { "type": "increase_cooldown_multiplier", "value": 1.25 },
+    { "type": "ritual_failure_chance", "value": 0.15 }
+  ],
+  "presentation": {
+    "title_key": "event.spells_n_gods.arcane_audit",
+    "particles": "spells_n_gods:arcane_scrape",
+    "sound": "spells_n_gods:divine_gavel"
+  }
+}

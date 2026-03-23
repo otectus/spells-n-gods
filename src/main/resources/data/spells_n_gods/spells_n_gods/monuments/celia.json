@@ -1,0 +1,8 @@
+{
+  "schema": 1,
+  "variant": "celia",
+  "material_palette": ["minecraft:deepslate_bricks", "minecraft:redstone_block"],
+  "particle": "spells_n_gods:blood_drip",
+  "ambient_sound": "spells_n_gods:heartbeat",
+  "ui_theme": "blood_crimson"
+}

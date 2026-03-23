@@ -1,0 +1,26 @@
+{
+  "schema": 1,
+  "id": "ender_shift",
+  "type": "debuff_aura",
+  "duration_seconds": 60,
+  "radius": 16,
+  "conditions": {
+    "requires_rival": "ingenium",
+    "tier_at_least": "devout"
+  },
+  "effects": [
+    {
+      "type": "unstable_teleport_chance",
+      "chance": 0.05
+    },
+    {
+      "type": "nausea",
+      "amplifier": 1
+    }
+  ],
+  "presentation": {
+    "title_key": "event.spells_n_gods.ender_shift",
+    "particles": "reverse_portal",
+    "sound": "block.portal.ambient"
+  }
+}

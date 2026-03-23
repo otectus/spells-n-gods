@@ -1,0 +1,26 @@
+{
+  "schema": 1,
+  "id": "eldritch_whisper",
+  "type": "debuff_aura",
+  "duration_seconds": 60,
+  "radius": 20,
+  "conditions": {
+    "requires_rival": "magnus",
+    "tier_at_least": "devout"
+  },
+  "effects": [
+    {
+      "type": "nausea",
+      "amplifier": 1
+    },
+    {
+      "type": "reduced_healing",
+      "multiplier": 0.3
+    }
+  ],
+  "presentation": {
+    "title_key": "event.spells_n_gods.eldritch_whisper",
+    "particles": "witch",
+    "sound": "ambient.cave"
+  }
+}

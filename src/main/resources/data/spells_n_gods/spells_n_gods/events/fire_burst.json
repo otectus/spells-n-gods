@@ -1,0 +1,26 @@
+{
+  "schema": 1,
+  "id": "fire_burst",
+  "type": "debuff_aura",
+  "duration_seconds": 60,
+  "radius": 16,
+  "conditions": {
+    "requires_rival": "bella",
+    "tier_at_least": "devout"
+  },
+  "effects": [
+    {
+      "type": "fire_damage_vulnerability",
+      "multiplier": 0.2
+    },
+    {
+      "type": "ignite",
+      "duration_seconds": 3
+    }
+  ],
+  "presentation": {
+    "title_key": "event.spells_n_gods.fire_burst",
+    "particles": "flame",
+    "sound": "entity.blaze.shoot"
+  }
+}

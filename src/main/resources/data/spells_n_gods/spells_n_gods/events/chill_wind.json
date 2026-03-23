@@ -1,0 +1,26 @@
+{
+  "schema": 1,
+  "id": "chill_wind",
+  "type": "environmental",
+  "duration_seconds": 60,
+  "radius": 16,
+  "conditions": {
+    "requires_rival": "glacia",
+    "tier_at_least": "devout"
+  },
+  "effects": [
+    {
+      "type": "hunger_drain",
+      "multiplier": 1.3
+    },
+    {
+      "type": "reduced_movement",
+      "multiplier": 0.8
+    }
+  ],
+  "presentation": {
+    "title_key": "event.spells_n_gods.chill_wind",
+    "particles": "cloud",
+    "sound": "item.elytra.flying"
+  }
+}

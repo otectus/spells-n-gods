@@ -1,0 +1,9 @@
+{
+  "schema": 1,
+  "id": "timed_objectives_only",
+  "type": "action_rule",
+  "rules": {
+    "requires_timer": true,
+    "min_seconds": 30
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "schema": 1,
+  "id": "holy_burn",
+  "type": "debuff_aura",
+  "duration_seconds": 90,
+  "radius": 20,
+  "conditions": {
+    "requires_rival": "deus",
+    "tier_at_least": "devout"
+  },
+  "effects": [
+    {
+      "type": "weakness",
+      "amplifier": 1
+    },
+    {
+      "type": "reduced_lifesteal",
+      "multiplier": 0.5
+    }
+  ],
+  "presentation": {
+    "title_key": "event.spells_n_gods.holy_burn",
+    "particles": "end_rod",
+    "sound": "block.beacon.activate"
+  }
+}

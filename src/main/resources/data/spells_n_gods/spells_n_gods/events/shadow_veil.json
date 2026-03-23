@@ -1,0 +1,26 @@
+{
+  "schema": 1,
+  "id": "shadow_veil",
+  "type": "environmental",
+  "duration_seconds": 120,
+  "radius": 24,
+  "conditions": {
+    "requires_rival": "magnus",
+    "tier_at_least": "devout"
+  },
+  "effects": [
+    {
+      "type": "darkness",
+      "amplifier": 1
+    },
+    {
+      "type": "reduced_visibility",
+      "range": 8
+    }
+  ],
+  "presentation": {
+    "title_key": "event.spells_n_gods.shadow_veil",
+    "particles": "sculk_soul",
+    "sound": "entity.warden.ambient"
+  }
+}

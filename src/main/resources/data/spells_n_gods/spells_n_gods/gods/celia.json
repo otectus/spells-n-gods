@@ -1,0 +1,140 @@
+{
+  "schema": 2,
+  "id": "celia",
+  "display_name": "Celia",
+  "gender": "female",
+  "domains": ["blood", "alchemy", "sacrifice"],
+  "philosophy": "Power is paid in blood; the stronger the will, the deeper the cut.",
+  "magic_school": "blood",
+  "rivals": { "primary": "deus", "secondary": "bricoleur" },
+  "binding": {
+    "rune_item": "spells_n_gods:rune",
+    "monument": {
+      "block": "spells_n_gods:monument",
+      "variant": "celia",
+      "statue_profile": "skin_owner",
+      "fallback_profile": "MHF_Steve"
+    }
+  },
+  "favor": {
+    "thresholds": { "initiate": 10, "devout": 35, "exalted": 70, "ascendant": 95 },
+    "decay_per_day": 3.0
+  },
+  "worship": {
+    "prayer": { "min_seconds": 12, "cooldown_seconds": 360 },
+    "offering": { "grace_hours": 48, "diminishing_returns": true, "validator": "blood_sacrifice" }
+  },
+  "blessings": {
+    "initiate": {
+      "effects": [
+        { "type": "conditional_combat", "condition": "low_health", "damage_bonus": 2.0 }
+      ],
+      "monument_ability": { "type": "lifesteal_aura", "radius": 6, "percent": 0.05 }
+    },
+    "devout": {
+      "effects": [
+        { "type": "conditional_combat", "condition": "low_health", "damage_bonus": 4.0 },
+        { "type": "attribute_modifier", "attribute": "minecraft:generic.max_health", "amount": 4.0, "operation": "addition" }
+      ],
+      "monument_ability": { "type": "lifesteal_aura", "radius": 10, "percent": 0.10 }
+    },
+    "exalted": {
+      "effects": [
+        { "type": "conditional_combat", "condition": "low_health", "damage_bonus": 6.0 },
+        { "type": "attribute_modifier", "attribute": "minecraft:generic.max_health", "amount": 6.0, "operation": "addition" },
+        { "type": "potion_effect", "effect_id": "minecraft:strength", "amplifier": 0, "ambient": true }
+      ],
+      "monument_ability": { "type": "lifesteal_aura", "radius": 14, "percent": 0.15 }
+    },
+    "ascendant": {
+      "effects": [
+        { "type": "conditional_combat", "condition": "low_health", "damage_bonus": 8.0 },
+        { "type": "attribute_modifier", "attribute": "minecraft:generic.max_health", "amount": 10.0, "operation": "addition" },
+        { "type": "potion_effect", "effect_id": "minecraft:strength", "amplifier": 1, "ambient": true },
+        { "type": "luck_manipulation", "type_id": "lifesteal", "chance": 0.15 }
+      ],
+      "monument_ability": { "type": "lifesteal_aura", "radius": 20, "percent": 0.20 }
+    }
+  },
+  "rival_pressure": {
+    "primary": {
+      "effects": [
+        { "effect_id": "minecraft:weakness", "amplifier": 1, "duration_seconds": 30 }
+      ],
+      "event_pool": ["holy_burn", "divine_rebuke"]
+    },
+    "secondary": {
+      "effects": [
+        { "effect_id": "minecraft:nausea", "amplifier": 0, "duration_seconds": 15 }
+      ],
+      "event_pool": []
+    }
+  },
+  "apostasy": {
+    "latent_curse": {
+      "effects": [
+        { "effect_id": "minecraft:wither", "amplifier": 0 },
+        { "effect_id": "minecraft:hunger", "amplifier": 1 }
+      ],
+      "damage_multiplier": 1.25,
+      "hunger_drain": 1.5,
+      "duration_hours": 72,
+      "curse_message_key": "spells_n_gods.curse.celia"
+    },
+    "scar_modifiers": {
+      "health_reduction": 0.05,
+      "xp_penalty": 0.06,
+      "death_penalty_increase": 0.12,
+      "luck_reduction": 0.03,
+      "durability_penalty": 0.12
+    },
+    "trials": {
+      "phase_1": { "duration_seconds": 60 },
+      "phase_2": { "duration_seconds": 120, "pursuer_type": "minecraft:wither_skeleton", "pursuer_count": 3 },
+      "phase_3": { "duration_seconds": 180, "pursuer_type": "minecraft:warden" }
+    }
+  },
+  "boss": {
+    "max_health": 320.0,
+    "armor": 8.0,
+    "attack_damage": 14.0,
+    "movement_speed": 0.30,
+    "knockback_resistance": 0.5,
+    "weapon_id": "spells_n_gods:philosophers_dagger",
+    "fallback_weapon_id": "minecraft:iron_axe",
+    "boss_bar_color": "red",
+    "boss_bar_overlay": "progress",
+    "skin_texture": "spells_n_gods:textures/entity/boss_celia.png",
+    "spell_pool": [
+      { "spell_id": "irons_spellbooks:acupuncture", "min_level": 10, "max_level": 10, "weight": 12, "range": 12.0 },
+      { "spell_id": "irons_spellbooks:blood_needles", "min_level": 10, "max_level": 10, "weight": 15, "range": 20.0 },
+      { "spell_id": "irons_spellbooks:blood_slash", "min_level": 5, "max_level": 5, "weight": 18, "range": 6.0 },
+      { "spell_id": "irons_spellbooks:blood_step", "min_level": 5, "max_level": 5, "weight": 10, "range": 999.0 },
+      { "spell_id": "irons_spellbooks:devour", "min_level": 10, "max_level": 10, "weight": 18, "range": 12.0 },
+      { "spell_id": "irons_spellbooks:heartstop", "min_level": 5, "max_level": 5, "weight": 15, "range": 12.0 },
+      { "spell_id": "irons_spellbooks:raise_dead", "min_level": 6, "max_level": 6, "weight": 10, "range": 999.0 },
+      { "spell_id": "irons_spellbooks:ray_of_siphoning", "min_level": 10, "max_level": 10, "weight": 15, "range": 20.0 },
+      { "spell_id": "irons_spellbooks:sacrifice", "min_level": 5, "max_level": 5, "weight": 8, "range": 999.0 },
+      { "spell_id": "irons_spellbooks:wither_skull", "min_level": 10, "max_level": 10, "weight": 15, "range": 20.0 }
+    ],
+    "spell_cooldown_ticks": 55,
+    "leash_radius": 32.0,
+    "respawn_delay_ticks": 72000,
+    "phases": {
+      "enrage_health_percent": 0.30,
+      "enrage_damage_multiplier": 1.7,
+      "enrage_speed_multiplier": 1.2
+    }
+  },
+  "structure": {
+    "template_id": "spells_n_gods:god_temple_celia",
+    "biome_tag": "spells_n_gods:has_structure/god_temple",
+    "search_radius": 10000,
+    "min_dist_from_spawn": 1000,
+    "size": 16
+  },
+  "localization": {
+    "name_key": "god.spells_n_gods.celia",
+    "desc_key": "god.spells_n_gods.celia.desc"
+  }
+}

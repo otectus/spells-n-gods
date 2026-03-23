@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "spells_n_gods:item/stormcall_shard"
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "schema": 1,
+  "id": "mana_expenditure_or_scrolls",
+  "type": "action_rule",
+  "rules": {
+    "requires_mana_spend": true,
+    "allow_items": ["#spells_n_gods:offerings/rare"]
+  }
+}

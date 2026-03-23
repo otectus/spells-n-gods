@@ -1,0 +1,8 @@
+{
+  "schema": 1,
+  "id": "evocation_offering",
+  "type": "item_rule",
+  "rules": {
+    "accept_tags": ["spells_n_gods:evocation_themed", "spells_n_gods:mechanisms"]
+  }
+}

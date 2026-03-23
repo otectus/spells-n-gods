@@ -1,0 +1,8 @@
+{
+  "schema": 1,
+  "id": "nature_offering",
+  "type": "item_rule",
+  "rules": {
+    "accept_tags": ["spells_n_gods:nature_themed", "spells_n_gods:harvested_goods"]
+  }
+}

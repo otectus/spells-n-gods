@@ -1,0 +1,9 @@
+{
+  "schema": 1,
+  "id": "sustainable_harvest_and_replant",
+  "type": "action_rule",
+  "rules": {
+    "requires_replant": true,
+    "allow_items": ["#spells_n_gods:offerings/common"]
+  }
+}

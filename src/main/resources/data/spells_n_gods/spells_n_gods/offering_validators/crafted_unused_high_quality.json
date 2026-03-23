@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "id": "crafted_unused_high_quality",
+  "type": "item_rule",
+  "rules": {
+    "must_be_crafted": true,
+    "must_be_unused": true,
+    "min_rarity": "rare",
+    "deny_tags": ["spells_n_gods:mass_produced"]
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "schema": 1,
+  "variant": "venatas",
+  "material_palette": ["minecraft:oak_log", "minecraft:moss_block"],
+  "particle": "spells_n_gods:spores",
+  "ambient_sound": "spells_n_gods:forest_breath",
+  "ui_theme": "verdant"
+}

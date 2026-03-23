@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " G ",
+    "GXG",
+    " G "
+  ],
+  "key": {
+    "G": { "item": "minecraft:gold_ingot" },
+    "X": { "item": "minecraft:glowstone_dust" }
+  },
+  "result": {
+    "item": "spells_n_gods:sunward_relic",
+    "count": 1
+  }
+}

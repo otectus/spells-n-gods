@@ -1,0 +1,8 @@
+{
+  "schema": 1,
+  "variant": "magnus",
+  "material_palette": ["minecraft:crying_obsidian", "minecraft:amethyst_block"],
+  "particle": "spells_n_gods:arcane_scrape",
+  "ambient_sound": "spells_n_gods:arcane_hum",
+  "ui_theme": "arcane_violet"
+}

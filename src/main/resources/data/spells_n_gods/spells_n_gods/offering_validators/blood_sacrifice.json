@@ -1,0 +1,9 @@
+{
+  "schema": 1,
+  "id": "blood_sacrifice",
+  "type": "item_rule",
+  "rules": {
+    "accept_tags": ["spells_n_gods:blood_themed", "spells_n_gods:alchemical"],
+    "requires_kill_credit": true
+  }
+}

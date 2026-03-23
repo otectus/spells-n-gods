@@ -1,0 +1,8 @@
+{
+  "schema": 1,
+  "variant": "ingenium",
+  "material_palette": ["minecraft:purpur_block", "minecraft:end_stone_bricks"],
+  "particle": "spells_n_gods:fracture",
+  "ambient_sound": "spells_n_gods:rift_whisper",
+  "ui_theme": "void_purple"
+}

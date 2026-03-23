@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/handheld",
+  "textures": {
+    "layer0": "spells_n_gods:item/peacemaking_staff"
+  }
+}

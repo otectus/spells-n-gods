@@ -1,0 +1,26 @@
+{
+  "schema": 1,
+  "id": "root_grasp",
+  "type": "debuff_aura",
+  "duration_seconds": 30,
+  "radius": 12,
+  "conditions": {
+    "requires_rival": "venatas",
+    "tier_at_least": "devout"
+  },
+  "effects": [
+    {
+      "type": "slowness",
+      "amplifier": 3
+    },
+    {
+      "type": "mining_fatigue",
+      "amplifier": 2
+    }
+  ],
+  "presentation": {
+    "title_key": "event.spells_n_gods.root_grasp",
+    "particles": "block",
+    "sound": "block.rooted_dirt.break"
+  }
+}

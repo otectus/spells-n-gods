@@ -1,0 +1,8 @@
+{
+  "schema": 1,
+  "variant": "deus",
+  "material_palette": ["minecraft:quartz_block", "minecraft:gold_block"],
+  "particle": "spells_n_gods:holy_glow",
+  "ambient_sound": "spells_n_gods:divine_choir",
+  "ui_theme": "holy_gold"
+}

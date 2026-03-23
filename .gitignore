@@ -1,0 +1,32 @@
+# Compiled artifacts
+bin/
+build/
+out/
+*.class
+
+# Gradle
+.gradle/
+
+# IDE
+.idea/
+*.iml
+*.ipr
+*.iws
+.vscode/
+.settings/
+.classpath
+.project
+.factorypath
+
+# OS
+.DS_Store
+Thumbs.db
+nul
+desktop.ini
+
+# Runtime
+run/
+logs/
+
+# Claude Code
+.claude/

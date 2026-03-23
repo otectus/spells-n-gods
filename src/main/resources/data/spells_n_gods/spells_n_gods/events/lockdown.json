@@ -1,0 +1,16 @@
+{
+  "schema": 1,
+  "id": "lockdown",
+  "type": "zone_lockdown",
+  "duration_seconds": 180,
+  "radius": 32,
+  "effects": [
+    { "type": "movement_slow", "value": 0.2 },
+    { "type": "trade_disable", "value": 1.0 }
+  ],
+  "presentation": {
+    "title_key": "event.spells_n_gods.lockdown",
+    "particles": "spells_n_gods:order_sigil",
+    "sound": "spells_n_gods:divine_gavel"
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " G ",
+    "GXG",
+    " G "
+  ],
+  "key": {
+    "G": { "item": "minecraft:gold_ingot" },
+    "X": { "item": "minecraft:redstone" }
+  },
+  "result": {
+    "item": "spells_n_gods:sanguine_pendulum",
+    "count": 1
+  }
+}

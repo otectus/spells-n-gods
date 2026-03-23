@@ -1,0 +1,9 @@
+{
+  "schema": 1,
+  "id": "systemic_trade_and_tithe",
+  "type": "action_rule",
+  "rules": {
+    "requires_trade_cycle": true,
+    "allow_items": ["#spells_n_gods:offerings/common"]
+  }
+}

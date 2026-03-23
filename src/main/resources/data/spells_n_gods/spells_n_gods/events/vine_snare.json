@@ -1,0 +1,26 @@
+{
+  "schema": 1,
+  "id": "vine_snare",
+  "type": "debuff_aura",
+  "duration_seconds": 60,
+  "radius": 16,
+  "conditions": {
+    "requires_rival": "venatas",
+    "tier_at_least": "devout"
+  },
+  "effects": [
+    {
+      "type": "slowness",
+      "amplifier": 2
+    },
+    {
+      "type": "mining_fatigue",
+      "amplifier": 1
+    }
+  ],
+  "presentation": {
+    "title_key": "event.spells_n_gods.vine_snare",
+    "particles": "happy_villager",
+    "sound": "block.vine.place"
+  }
+}

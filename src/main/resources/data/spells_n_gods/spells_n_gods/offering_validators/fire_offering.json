@@ -1,0 +1,9 @@
+{
+  "schema": 1,
+  "id": "fire_offering",
+  "type": "item_rule",
+  "rules": {
+    "accept_tags": ["spells_n_gods:fire_themed", "spells_n_gods:smelted_goods"],
+    "deny_tags": ["spells_n_gods:perishable"]
+  }
+}

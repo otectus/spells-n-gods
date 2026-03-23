@@ -1,0 +1,9 @@
+{
+  "schema": 1,
+  "id": "combat_trophies_no_cheese",
+  "type": "item_rule",
+  "rules": {
+    "requires_kill_credit": true,
+    "deny_tags": ["spells_n_gods:mass_produced"]
+  }
+}

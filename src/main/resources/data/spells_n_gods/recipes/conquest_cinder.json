@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " G ",
+    "GXG",
+    " G "
+  ],
+  "key": {
+    "G": { "item": "minecraft:gold_ingot" },
+    "X": { "item": "minecraft:blaze_powder" }
+  },
+  "result": {
+    "item": "spells_n_gods:conquest_cinder",
+    "count": 1
+  }
+}

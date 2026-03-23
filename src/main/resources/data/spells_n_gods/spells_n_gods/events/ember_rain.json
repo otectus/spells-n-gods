@@ -1,0 +1,22 @@
+{
+  "schema": 1,
+  "id": "ember_rain",
+  "type": "environmental",
+  "duration_seconds": 120,
+  "radius": 24,
+  "conditions": {
+    "requires_rival": "bella",
+    "tier_at_least": "devout"
+  },
+  "effects": [
+    {
+      "type": "fire_tick",
+      "chance": 0.1
+    }
+  ],
+  "presentation": {
+    "title_key": "event.spells_n_gods.ember_rain",
+    "particles": "lava",
+    "sound": "block.fire.ambient"
+  }
+}

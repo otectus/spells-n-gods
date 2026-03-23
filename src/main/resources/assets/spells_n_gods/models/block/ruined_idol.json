@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/cube_all",
+  "textures": {
+    "all": "spells_n_gods:block/ruined_idol"
+  }
+}

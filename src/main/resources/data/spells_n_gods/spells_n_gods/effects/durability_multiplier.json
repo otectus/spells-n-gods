@@ -1,0 +1,8 @@
+{
+  "schema": 1,
+  "id": "durability_multiplier",
+  "type": "attribute_modifier",
+  "target": "generic.armor",
+  "operation": "multiply_total",
+  "value": 0.0
+}

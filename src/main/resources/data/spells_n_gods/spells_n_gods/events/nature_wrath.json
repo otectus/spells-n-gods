@@ -1,0 +1,26 @@
+{
+  "schema": 1,
+  "id": "nature_wrath",
+  "type": "environmental",
+  "duration_seconds": 90,
+  "radius": 20,
+  "conditions": {
+    "requires_rival": "venatas",
+    "tier_at_least": "devout"
+  },
+  "effects": [
+    {
+      "type": "poison_chance",
+      "chance": 0.1
+    },
+    {
+      "type": "thorns_damage",
+      "amount": 0.5
+    }
+  ],
+  "presentation": {
+    "title_key": "event.spells_n_gods.nature_wrath",
+    "particles": "spore_blossom_air",
+    "sound": "block.azalea_leaves.break"
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "schema": 1,
+  "variant": "glacia",
+  "material_palette": ["minecraft:packed_ice", "minecraft:blue_ice"],
+  "particle": "spells_n_gods:snowflake",
+  "ambient_sound": "spells_n_gods:frost_wind",
+  "ui_theme": "frost_cyan"
+}

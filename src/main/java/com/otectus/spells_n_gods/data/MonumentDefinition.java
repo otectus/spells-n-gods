@@ -1,0 +1,14 @@
+package com.otectus.spells_n_gods.data;
+
+import com.google.gson.JsonObject;
+import net.minecraft.resources.ResourceLocation;
+import java.util.Optional;
+
+public record MonumentDefinition(int schema, ResourceLocation id, JsonObject raw) {
+    public static Optional<MonumentDefinition> fromJson(ResourceLocation location, JsonObject json) {
+        int schema = SpellsNGodsJsonUtil.getInt(json, "schema", 1);
+        String idRaw = SpellsNGodsJsonUtil.getString(json, "variant", location.getPath());
+        ResourceLocation id = SpellsNGodsJsonUtil.parseId(idRaw, location);
+        return Optional.of(new MonumentDefinition(schema, id, json.deepCopy()));
+    }
+}

@@ -1,0 +1,9 @@
+{
+  "schema": 1,
+  "id": "voluntary_risk_gambles",
+  "type": "action_rule",
+  "rules": {
+    "requires_risk": true,
+    "allow_items": ["#spells_n_gods:offerings/rare"]
+  }
+}

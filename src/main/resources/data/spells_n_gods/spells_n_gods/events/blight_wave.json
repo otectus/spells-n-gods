@@ -1,0 +1,15 @@
+{
+  "schema": 1,
+  "id": "blight_wave",
+  "type": "zone_corruption",
+  "duration_seconds": 180,
+  "radius": 24,
+  "effects": [
+    { "type": "crop_wither", "value": 1.0 }
+  ],
+  "presentation": {
+    "title_key": "event.spells_n_gods.blight_wave",
+    "particles": "spells_n_gods:blight_spores",
+    "sound": "spells_n_gods:blight_hum"
+  }
+}

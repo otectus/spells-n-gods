@@ -1,0 +1,8 @@
+{
+  "type": "spells_n_gods:god_temple",
+  "god_id": "spells_n_gods:deus",
+  "biomes": "#spells_n_gods:has_structure/god_temple",
+  "spawn_overrides": {},
+  "step": "surface_structures",
+  "terrain_adaptation": "beard_thin"
+}

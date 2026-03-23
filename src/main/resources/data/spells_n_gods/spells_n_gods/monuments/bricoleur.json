@@ -1,0 +1,8 @@
+{
+  "schema": 1,
+  "variant": "bricoleur",
+  "material_palette": ["minecraft:prismarine_bricks", "minecraft:end_stone_bricks"],
+  "particle": "spells_n_gods:order_sigil",
+  "ambient_sound": "spells_n_gods:divine_gavel",
+  "ui_theme": "ivory_order"
+}

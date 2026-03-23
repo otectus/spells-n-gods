@@ -1,0 +1,15 @@
+{
+  "schema": 1,
+  "id": "sabotage",
+  "type": "structure_disruption",
+  "duration_seconds": 120,
+  "radius": 16,
+  "effects": [
+    { "type": "structure_instability", "value": 0.2 }
+  ],
+  "presentation": {
+    "title_key": "event.spells_n_gods.sabotage",
+    "particles": "spells_n_gods:fracture",
+    "sound": "spells_n_gods:stone_crack"
+  }
+}

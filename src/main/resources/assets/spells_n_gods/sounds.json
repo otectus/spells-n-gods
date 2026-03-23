@@ -1,0 +1,38 @@
+{
+  "divine_cast": {
+    "subtitle": "subtitles.spells_n_gods.divine_cast",
+    "sounds": ["minecraft:block/beacon/activate"]
+  },
+  "divine_impact": {
+    "subtitle": "subtitles.spells_n_gods.divine_impact",
+    "sounds": ["minecraft:block/anvil/land"]
+  },
+  "divine_blessing": {
+    "subtitle": "subtitles.spells_n_gods.divine_blessing",
+    "sounds": ["minecraft:entity/player/levelup"]
+  },
+  "divine_curse": {
+    "subtitle": "subtitles.spells_n_gods.divine_curse",
+    "sounds": ["minecraft:ambient/cave/cave1", "minecraft:ambient/cave/cave2"]
+  },
+  "divine_gavel": {
+    "subtitle": "subtitles.spells_n_gods.divine_gavel",
+    "sounds": ["minecraft:block/anvil/land"]
+  },
+  "boss_emerge": {
+    "subtitle": "subtitles.spells_n_gods.boss_emerge",
+    "sounds": ["minecraft:entity/warden/emerge"]
+  },
+  "boss_enrage": {
+    "subtitle": "subtitles.spells_n_gods.boss_enrage",
+    "sounds": ["minecraft:entity/wither/spawn"]
+  },
+  "apostasy_begin": {
+    "subtitle": "subtitles.spells_n_gods.apostasy_begin",
+    "sounds": ["minecraft:entity/warden/nearby_closer"]
+  },
+  "prayer_complete": {
+    "subtitle": "subtitles.spells_n_gods.prayer_complete",
+    "sounds": ["minecraft:block/amethyst/chime"]
+  }
+}

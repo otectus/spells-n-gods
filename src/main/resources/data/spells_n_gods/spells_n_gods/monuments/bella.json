@@ -1,0 +1,8 @@
+{
+  "schema": 1,
+  "variant": "bella",
+  "material_palette": ["minecraft:nether_bricks", "minecraft:magma_block"],
+  "particle": "spells_n_gods:embers",
+  "ambient_sound": "spells_n_gods:war_drum",
+  "ui_theme": "war_flame"
+}

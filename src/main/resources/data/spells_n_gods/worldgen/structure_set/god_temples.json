@@ -1,0 +1,19 @@
+{
+  "structures": [
+    { "structure": "spells_n_gods:god_temple_deus", "weight": 1 },
+    { "structure": "spells_n_gods:god_temple_velox", "weight": 1 },
+    { "structure": "spells_n_gods:god_temple_celia", "weight": 1 },
+    { "structure": "spells_n_gods:god_temple_bella", "weight": 1 },
+    { "structure": "spells_n_gods:god_temple_bricoleur", "weight": 1 },
+    { "structure": "spells_n_gods:god_temple_ingenium", "weight": 1 },
+    { "structure": "spells_n_gods:god_temple_venatas", "weight": 1 },
+    { "structure": "spells_n_gods:god_temple_magnus", "weight": 1 },
+    { "structure": "spells_n_gods:god_temple_glacia", "weight": 1 }
+  ],
+  "placement": {
+    "type": "minecraft:random_spread",
+    "spacing": 384,
+    "separation": 192,
+    "salt": 849271053
+  }
+}

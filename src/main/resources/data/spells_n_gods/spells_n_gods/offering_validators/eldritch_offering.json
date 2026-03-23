@@ -1,0 +1,9 @@
+{
+  "schema": 1,
+  "id": "eldritch_offering",
+  "type": "item_rule",
+  "rules": {
+    "accept_tags": ["spells_n_gods:eldritch_themed", "spells_n_gods:arcane_artifacts"],
+    "min_rarity": "rare"
+  }
+}
