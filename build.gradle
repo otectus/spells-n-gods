@@ -87,6 +87,17 @@ dependencies {
     // compileOnly fg.deobf("mezz.jei:jei-1.20.1-forge:15.2.0.27")
     // compileOnly fg.deobf("io.redspace.ironsspellbooks:irons_spellbooks-forge-1.20.1:3.1.5")
     // compileOnly fg.deobf("curse.maven:simplyswords-659887:5245370")
+
+    // Unit testing for the pure spawn-decision logic (no Minecraft classes required at runtime).
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.10.2'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+}
+
+test {
+    useJUnitPlatform()
+    testLogging {
+        events 'passed', 'skipped', 'failed'
+    }
 }
 
 tasks.named('processResources', ProcessResources).configure {

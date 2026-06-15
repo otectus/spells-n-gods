@@ -1,0 +1,11 @@
+{
+  "replace": false,
+  "values": [
+    "minecraft:monument",
+    "minecraft:shipwreck",
+    "minecraft:shipwreck_beached",
+    "minecraft:buried_treasure",
+    "minecraft:ocean_ruin_cold",
+    "minecraft:ocean_ruin_warm"
+  ]
+}

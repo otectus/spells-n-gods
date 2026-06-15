@@ -1,0 +1,7 @@
+{
+  "replace": false,
+  "values": [
+    "minecraft:pillager_outpost",
+    "minecraft:bastion_remnant"
+  ]
+}

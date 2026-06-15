@@ -3,10 +3,17 @@
   "id": "deus",
   "display_name": "Deus",
   "gender": "male",
-  "domains": ["creation", "light", "order"],
+  "domains": [
+    "creation",
+    "light",
+    "order"
+  ],
   "philosophy": "Through faith, all things are made whole.",
   "magic_school": "holy",
-  "rivals": { "primary": "magnus", "secondary": "celia" },
+  "rivals": {
+    "primary": "magnus",
+    "secondary": "celia"
+  },
   "binding": {
     "rune_item": "spells_n_gods:rune",
     "monument": {
@@ -17,55 +24,139 @@
     }
   },
   "favor": {
-    "thresholds": { "initiate": 10, "devout": 35, "exalted": 70, "ascendant": 95 },
+    "thresholds": {
+      "initiate": 10,
+      "devout": 35,
+      "exalted": 70,
+      "ascendant": 95
+    },
     "decay_per_day": 2.0
   },
   "worship": {
-    "prayer": { "min_seconds": 10, "cooldown_seconds": 300 },
-    "offering": { "grace_hours": 72, "diminishing_returns": true, "validator": "holy_offering" }
+    "prayer": {
+      "min_seconds": 10,
+      "cooldown_seconds": 300
+    },
+    "offering": {
+      "grace_hours": 72,
+      "diminishing_returns": true,
+      "validator": "holy_offering"
+    }
   },
   "blessings": {
     "initiate": {
       "effects": [
-        { "type": "potion_effect", "effect_id": "minecraft:regeneration", "amplifier": 0, "ambient": true }
+        {
+          "type": "potion_effect",
+          "effect_id": "minecraft:regeneration",
+          "amplifier": 0,
+          "ambient": true
+        }
       ],
-      "monument_ability": { "type": "heal_aura", "radius": 8, "amount": 2.0 }
+      "monument_ability": {
+        "type": "heal_aura",
+        "radius": 8,
+        "amount": 2.0
+      }
     },
     "devout": {
       "effects": [
-        { "type": "potion_effect", "effect_id": "minecraft:regeneration", "amplifier": 0, "ambient": true },
-        { "type": "attribute_modifier", "attribute": "minecraft:generic.armor", "amount": 2.0, "operation": "addition" }
+        {
+          "type": "potion_effect",
+          "effect_id": "minecraft:regeneration",
+          "amplifier": 0,
+          "ambient": true
+        },
+        {
+          "type": "attribute_modifier",
+          "attribute": "minecraft:generic.armor",
+          "amount": 2.0,
+          "operation": "addition"
+        }
       ],
-      "monument_ability": { "type": "heal_aura", "radius": 12, "amount": 4.0 }
+      "monument_ability": {
+        "type": "heal_aura",
+        "radius": 12,
+        "amount": 4.0
+      }
     },
     "exalted": {
       "effects": [
-        { "type": "potion_effect", "effect_id": "minecraft:regeneration", "amplifier": 1, "ambient": true },
-        { "type": "attribute_modifier", "attribute": "minecraft:generic.armor", "amount": 4.0, "operation": "addition" },
-        { "type": "passive_regen", "heal_per_second": 0.5 }
+        {
+          "type": "potion_effect",
+          "effect_id": "minecraft:regeneration",
+          "amplifier": 1,
+          "ambient": true
+        },
+        {
+          "type": "attribute_modifier",
+          "attribute": "minecraft:generic.armor",
+          "amount": 4.0,
+          "operation": "addition"
+        },
+        {
+          "type": "passive_regen",
+          "heal_per_second": 0.5
+        }
       ],
-      "monument_ability": { "type": "heal_aura", "radius": 16, "amount": 6.0 }
+      "monument_ability": {
+        "type": "heal_aura",
+        "radius": 16,
+        "amount": 6.0
+      }
     },
     "ascendant": {
       "effects": [
-        { "type": "potion_effect", "effect_id": "minecraft:regeneration", "amplifier": 1, "ambient": true },
-        { "type": "attribute_modifier", "attribute": "minecraft:generic.armor", "amount": 6.0, "operation": "addition" },
-        { "type": "passive_regen", "heal_per_second": 1.0 },
-        { "type": "conditional_combat", "condition": "undead_target", "damage_bonus": 4.0 }
+        {
+          "type": "potion_effect",
+          "effect_id": "minecraft:regeneration",
+          "amplifier": 1,
+          "ambient": true
+        },
+        {
+          "type": "attribute_modifier",
+          "attribute": "minecraft:generic.armor",
+          "amount": 6.0,
+          "operation": "addition"
+        },
+        {
+          "type": "passive_regen",
+          "heal_per_second": 1.0
+        },
+        {
+          "type": "conditional_combat",
+          "condition": "undead_target",
+          "damage_bonus": 4.0
+        }
       ],
-      "monument_ability": { "type": "heal_aura", "radius": 24, "amount": 10.0 }
+      "monument_ability": {
+        "type": "heal_aura",
+        "radius": 24,
+        "amount": 10.0
+      }
     }
   },
   "rival_pressure": {
     "primary": {
       "effects": [
-        { "effect_id": "minecraft:darkness", "amplifier": 0, "duration_seconds": 30 }
+        {
+          "effect_id": "minecraft:darkness",
+          "amplifier": 0,
+          "duration_seconds": 30
+        }
       ],
-      "event_pool": ["eldritch_whisper", "shadow_veil"]
+      "event_pool": [
+        "eldritch_whisper",
+        "shadow_veil"
+      ]
     },
     "secondary": {
       "effects": [
-        { "effect_id": "minecraft:weakness", "amplifier": 0, "duration_seconds": 20 }
+        {
+          "effect_id": "minecraft:weakness",
+          "amplifier": 0,
+          "duration_seconds": 20
+        }
       ],
       "event_pool": []
     }
@@ -73,8 +164,14 @@
   "apostasy": {
     "latent_curse": {
       "effects": [
-        { "effect_id": "minecraft:weakness", "amplifier": 1 },
-        { "effect_id": "minecraft:unluck", "amplifier": 0 }
+        {
+          "effect_id": "minecraft:weakness",
+          "amplifier": 1
+        },
+        {
+          "effect_id": "minecraft:unluck",
+          "amplifier": 0
+        }
       ],
       "damage_multiplier": 1.15,
       "hunger_drain": 1.2,
@@ -89,9 +186,18 @@
       "durability_penalty": 0.15
     },
     "trials": {
-      "phase_1": { "duration_seconds": 60 },
-      "phase_2": { "duration_seconds": 120, "pursuer_type": "minecraft:iron_golem", "pursuer_count": 2 },
-      "phase_3": { "duration_seconds": 180, "pursuer_type": "minecraft:warden" }
+      "phase_1": {
+        "duration_seconds": 60
+      },
+      "phase_2": {
+        "duration_seconds": 120,
+        "pursuer_type": "minecraft:iron_golem",
+        "pursuer_count": 2
+      },
+      "phase_3": {
+        "duration_seconds": 180,
+        "pursuer_type": "minecraft:warden"
+      }
     }
   },
   "boss": {
@@ -106,18 +212,90 @@
     "boss_bar_overlay": "progress",
     "skin_texture": "spells_n_gods:textures/entity/boss_deus.png",
     "spell_pool": [
-      { "spell_id": "irons_spellbooks:angel_wing", "min_level": 5, "max_level": 5, "weight": 10, "range": 999.0 },
-      { "spell_id": "irons_spellbooks:blessing_of_life", "min_level": 10, "max_level": 10, "weight": 15, "range": 999.0 },
-      { "spell_id": "irons_spellbooks:cleanse", "min_level": 1, "max_level": 1, "weight": 8, "range": 999.0 },
-      { "spell_id": "irons_spellbooks:divine_smite", "min_level": 5, "max_level": 5, "weight": 20, "range": 6.0 },
-      { "spell_id": "irons_spellbooks:fortify", "min_level": 10, "max_level": 10, "weight": 12, "range": 999.0 },
-      { "spell_id": "irons_spellbooks:greater_heal", "min_level": 1, "max_level": 1, "weight": 10, "range": 999.0 },
-      { "spell_id": "irons_spellbooks:guiding_bolt", "min_level": 10, "max_level": 10, "weight": 20, "range": 20.0 },
-      { "spell_id": "irons_spellbooks:haste", "min_level": 4, "max_level": 4, "weight": 8, "range": 999.0 },
-      { "spell_id": "irons_spellbooks:heal", "min_level": 8, "max_level": 8, "weight": 15, "range": 999.0 },
-      { "spell_id": "irons_spellbooks:healing_circle", "min_level": 10, "max_level": 10, "weight": 12, "range": 999.0 },
-      { "spell_id": "irons_spellbooks:sunbeam", "min_level": 10, "max_level": 10, "weight": 18, "range": 28.0 },
-      { "spell_id": "irons_spellbooks:wisp", "min_level": 10, "max_level": 10, "weight": 10, "range": 20.0 }
+      {
+        "spell_id": "irons_spellbooks:angel_wing",
+        "min_level": 5,
+        "max_level": 5,
+        "weight": 10,
+        "range": 999.0
+      },
+      {
+        "spell_id": "irons_spellbooks:blessing_of_life",
+        "min_level": 10,
+        "max_level": 10,
+        "weight": 15,
+        "range": 999.0
+      },
+      {
+        "spell_id": "irons_spellbooks:cleanse",
+        "min_level": 1,
+        "max_level": 1,
+        "weight": 8,
+        "range": 999.0
+      },
+      {
+        "spell_id": "irons_spellbooks:divine_smite",
+        "min_level": 5,
+        "max_level": 5,
+        "weight": 20,
+        "range": 6.0
+      },
+      {
+        "spell_id": "irons_spellbooks:fortify",
+        "min_level": 10,
+        "max_level": 10,
+        "weight": 12,
+        "range": 999.0
+      },
+      {
+        "spell_id": "irons_spellbooks:greater_heal",
+        "min_level": 1,
+        "max_level": 1,
+        "weight": 10,
+        "range": 999.0
+      },
+      {
+        "spell_id": "irons_spellbooks:guiding_bolt",
+        "min_level": 10,
+        "max_level": 10,
+        "weight": 20,
+        "range": 20.0
+      },
+      {
+        "spell_id": "irons_spellbooks:haste",
+        "min_level": 4,
+        "max_level": 4,
+        "weight": 8,
+        "range": 999.0
+      },
+      {
+        "spell_id": "irons_spellbooks:heal",
+        "min_level": 8,
+        "max_level": 8,
+        "weight": 15,
+        "range": 999.0
+      },
+      {
+        "spell_id": "irons_spellbooks:healing_circle",
+        "min_level": 10,
+        "max_level": 10,
+        "weight": 12,
+        "range": 999.0
+      },
+      {
+        "spell_id": "irons_spellbooks:sunbeam",
+        "min_level": 10,
+        "max_level": 10,
+        "weight": 18,
+        "range": 28.0
+      },
+      {
+        "spell_id": "irons_spellbooks:wisp",
+        "min_level": 10,
+        "max_level": 10,
+        "weight": 10,
+        "range": 20.0
+      }
     ],
     "spell_cooldown_ticks": 60,
     "leash_radius": 32.0,
@@ -133,7 +311,32 @@
     "biome_tag": "spells_n_gods:has_structure/god_temple",
     "search_radius": 10000,
     "min_dist_from_spawn": 1000,
-    "size": 16
+    "size": 16,
+    "default_tier": "rare",
+    "disable_default": false,
+    "domain_tags": [
+      "#spells_n_gods:wisdom_structures"
+    ],
+    "whitelist": [
+      {
+        "id": "minecraft:stronghold",
+        "weight": 25
+      },
+      {
+        "id": "minecraft:village_plains",
+        "weight": 10
+      },
+      {
+        "id": "minecraft:trail_ruins",
+        "weight": 8
+      }
+    ],
+    "placement": "nearest_safe_floor",
+    "default_alignment": "neutral",
+    "alignment_overrides": {
+      "#spells_n_gods:death_structures": "hostile",
+      "#spells_n_gods:wisdom_structures": "neutral"
+    }
   },
   "localization": {
     "name_key": "god.spells_n_gods.deus",

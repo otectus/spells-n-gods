@@ -1,0 +1,10 @@
+{
+  "replace": false,
+  "values": [
+    "minecraft:jungle_pyramid",
+    "minecraft:desert_pyramid",
+    "minecraft:igloo",
+    "minecraft:trail_ruins",
+    "minecraft:village_taiga"
+  ]
+}

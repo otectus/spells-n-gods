@@ -3,10 +3,17 @@
   "id": "venatas",
   "display_name": "Venatas",
   "gender": "male",
-  "domains": ["hunt", "nature", "beast"],
+  "domains": [
+    "hunt",
+    "nature",
+    "beast"
+  ],
   "philosophy": "The wild does not forgive; it endures.",
   "magic_school": "nature",
-  "rivals": { "primary": "ingenium", "secondary": "bricoleur" },
+  "rivals": {
+    "primary": "ingenium",
+    "secondary": "bricoleur"
+  },
   "binding": {
     "rune_item": "spells_n_gods:rune",
     "monument": {
@@ -17,55 +24,142 @@
     }
   },
   "favor": {
-    "thresholds": { "initiate": 10, "devout": 35, "exalted": 70, "ascendant": 95 },
+    "thresholds": {
+      "initiate": 10,
+      "devout": 35,
+      "exalted": 70,
+      "ascendant": 95
+    },
     "decay_per_day": 1.5
   },
   "worship": {
-    "prayer": { "min_seconds": 10, "cooldown_seconds": 300 },
-    "offering": { "grace_hours": 96, "diminishing_returns": true, "validator": "nature_offering" }
+    "prayer": {
+      "min_seconds": 10,
+      "cooldown_seconds": 300
+    },
+    "offering": {
+      "grace_hours": 96,
+      "diminishing_returns": true,
+      "validator": "nature_offering"
+    }
   },
   "blessings": {
     "initiate": {
       "effects": [
-        { "type": "attribute_modifier", "attribute": "minecraft:generic.attack_damage", "amount": 1.0, "operation": "addition" }
+        {
+          "type": "attribute_modifier",
+          "attribute": "minecraft:generic.attack_damage",
+          "amount": 1.0,
+          "operation": "addition"
+        }
       ],
-      "monument_ability": { "type": "tame_aura", "radius": 12, "chance": 0.10 }
+      "monument_ability": {
+        "type": "tame_aura",
+        "radius": 12,
+        "chance": 0.1
+      }
     },
     "devout": {
       "effects": [
-        { "type": "attribute_modifier", "attribute": "minecraft:generic.attack_damage", "amount": 2.0, "operation": "addition" },
-        { "type": "potion_effect", "effect_id": "minecraft:jump_boost", "amplifier": 0, "ambient": true }
+        {
+          "type": "attribute_modifier",
+          "attribute": "minecraft:generic.attack_damage",
+          "amount": 2.0,
+          "operation": "addition"
+        },
+        {
+          "type": "potion_effect",
+          "effect_id": "minecraft:jump_boost",
+          "amplifier": 0,
+          "ambient": true
+        }
       ],
-      "monument_ability": { "type": "tame_aura", "radius": 16, "chance": 0.20 }
+      "monument_ability": {
+        "type": "tame_aura",
+        "radius": 16,
+        "chance": 0.2
+      }
     },
     "exalted": {
       "effects": [
-        { "type": "attribute_modifier", "attribute": "minecraft:generic.attack_damage", "amount": 3.0, "operation": "addition" },
-        { "type": "potion_effect", "effect_id": "minecraft:jump_boost", "amplifier": 1, "ambient": true },
-        { "type": "conditional_combat", "condition": "animal_target", "damage_bonus": 5.0 }
+        {
+          "type": "attribute_modifier",
+          "attribute": "minecraft:generic.attack_damage",
+          "amount": 3.0,
+          "operation": "addition"
+        },
+        {
+          "type": "potion_effect",
+          "effect_id": "minecraft:jump_boost",
+          "amplifier": 1,
+          "ambient": true
+        },
+        {
+          "type": "conditional_combat",
+          "condition": "animal_target",
+          "damage_bonus": 5.0
+        }
       ],
-      "monument_ability": { "type": "tame_aura", "radius": 24, "chance": 0.30 }
+      "monument_ability": {
+        "type": "tame_aura",
+        "radius": 24,
+        "chance": 0.3
+      }
     },
     "ascendant": {
       "effects": [
-        { "type": "attribute_modifier", "attribute": "minecraft:generic.attack_damage", "amount": 4.0, "operation": "addition" },
-        { "type": "potion_effect", "effect_id": "minecraft:jump_boost", "amplifier": 1, "ambient": true },
-        { "type": "conditional_combat", "condition": "animal_target", "damage_bonus": 8.0 },
-        { "type": "attribute_modifier", "attribute": "minecraft:generic.movement_speed", "amount": 0.03, "operation": "addition" }
+        {
+          "type": "attribute_modifier",
+          "attribute": "minecraft:generic.attack_damage",
+          "amount": 4.0,
+          "operation": "addition"
+        },
+        {
+          "type": "potion_effect",
+          "effect_id": "minecraft:jump_boost",
+          "amplifier": 1,
+          "ambient": true
+        },
+        {
+          "type": "conditional_combat",
+          "condition": "animal_target",
+          "damage_bonus": 8.0
+        },
+        {
+          "type": "attribute_modifier",
+          "attribute": "minecraft:generic.movement_speed",
+          "amount": 0.03,
+          "operation": "addition"
+        }
       ],
-      "monument_ability": { "type": "tame_aura", "radius": 32, "chance": 0.50 }
+      "monument_ability": {
+        "type": "tame_aura",
+        "radius": 32,
+        "chance": 0.5
+      }
     }
   },
   "rival_pressure": {
     "primary": {
       "effects": [
-        { "effect_id": "minecraft:blindness", "amplifier": 0, "duration_seconds": 20 }
+        {
+          "effect_id": "minecraft:blindness",
+          "amplifier": 0,
+          "duration_seconds": 20
+        }
       ],
-      "event_pool": ["void_glimpse", "ender_shift"]
+      "event_pool": [
+        "void_glimpse",
+        "ender_shift"
+      ]
     },
     "secondary": {
       "effects": [
-        { "effect_id": "minecraft:mining_fatigue", "amplifier": 0, "duration_seconds": 15 }
+        {
+          "effect_id": "minecraft:mining_fatigue",
+          "amplifier": 0,
+          "duration_seconds": 15
+        }
       ],
       "event_pool": []
     }
@@ -73,8 +167,14 @@
   "apostasy": {
     "latent_curse": {
       "effects": [
-        { "effect_id": "minecraft:poison", "amplifier": 0 },
-        { "effect_id": "minecraft:hunger", "amplifier": 1 }
+        {
+          "effect_id": "minecraft:poison",
+          "amplifier": 0
+        },
+        {
+          "effect_id": "minecraft:hunger",
+          "amplifier": 1
+        }
       ],
       "damage_multiplier": 1.2,
       "hunger_drain": 1.6,
@@ -84,14 +184,23 @@
     "scar_modifiers": {
       "health_reduction": 0.03,
       "xp_penalty": 0.04,
-      "death_penalty_increase": 0.10,
+      "death_penalty_increase": 0.1,
       "luck_reduction": 0.02,
       "durability_penalty": 0.12
     },
     "trials": {
-      "phase_1": { "duration_seconds": 60 },
-      "phase_2": { "duration_seconds": 120, "pursuer_type": "minecraft:ravager", "pursuer_count": 1 },
-      "phase_3": { "duration_seconds": 180, "pursuer_type": "minecraft:warden" }
+      "phase_1": {
+        "duration_seconds": 60
+      },
+      "phase_2": {
+        "duration_seconds": 120,
+        "pursuer_type": "minecraft:ravager",
+        "pursuer_count": 1
+      },
+      "phase_3": {
+        "duration_seconds": 180,
+        "pursuer_type": "minecraft:warden"
+      }
     }
   },
   "boss": {
@@ -106,18 +215,90 @@
     "boss_bar_overlay": "progress",
     "skin_texture": "spells_n_gods:textures/entity/boss_venatas.png",
     "spell_pool": [
-      { "spell_id": "irons_spellbooks:acid_orb", "min_level": 8, "max_level": 8, "weight": 15, "range": 20.0 },
-      { "spell_id": "irons_spellbooks:blight", "min_level": 8, "max_level": 8, "weight": 15, "range": 12.0 },
-      { "spell_id": "irons_spellbooks:earthquake", "min_level": 10, "max_level": 10, "weight": 12, "range": 28.0 },
-      { "spell_id": "irons_spellbooks:firefly_swarm", "min_level": 10, "max_level": 10, "weight": 12, "range": 20.0 },
-      { "spell_id": "irons_spellbooks:gluttony", "min_level": 5, "max_level": 5, "weight": 8, "range": 999.0 },
-      { "spell_id": "irons_spellbooks:oakskin", "min_level": 8, "max_level": 8, "weight": 12, "range": 999.0 },
-      { "spell_id": "irons_spellbooks:poison_arrow", "min_level": 10, "max_level": 10, "weight": 15, "range": 20.0 },
-      { "spell_id": "irons_spellbooks:poison_breath", "min_level": 10, "max_level": 10, "weight": 18, "range": 12.0 },
-      { "spell_id": "irons_spellbooks:poison_splash", "min_level": 10, "max_level": 10, "weight": 18, "range": 20.0 },
-      { "spell_id": "irons_spellbooks:root", "min_level": 10, "max_level": 10, "weight": 15, "range": 12.0 },
-      { "spell_id": "irons_spellbooks:spider_aspect", "min_level": 8, "max_level": 8, "weight": 10, "range": 999.0 },
-      { "spell_id": "irons_spellbooks:stomp", "min_level": 5, "max_level": 5, "weight": 12, "range": 6.0 }
+      {
+        "spell_id": "irons_spellbooks:acid_orb",
+        "min_level": 8,
+        "max_level": 8,
+        "weight": 15,
+        "range": 20.0
+      },
+      {
+        "spell_id": "irons_spellbooks:blight",
+        "min_level": 8,
+        "max_level": 8,
+        "weight": 15,
+        "range": 12.0
+      },
+      {
+        "spell_id": "irons_spellbooks:earthquake",
+        "min_level": 10,
+        "max_level": 10,
+        "weight": 12,
+        "range": 28.0
+      },
+      {
+        "spell_id": "irons_spellbooks:firefly_swarm",
+        "min_level": 10,
+        "max_level": 10,
+        "weight": 12,
+        "range": 20.0
+      },
+      {
+        "spell_id": "irons_spellbooks:gluttony",
+        "min_level": 5,
+        "max_level": 5,
+        "weight": 8,
+        "range": 999.0
+      },
+      {
+        "spell_id": "irons_spellbooks:oakskin",
+        "min_level": 8,
+        "max_level": 8,
+        "weight": 12,
+        "range": 999.0
+      },
+      {
+        "spell_id": "irons_spellbooks:poison_arrow",
+        "min_level": 10,
+        "max_level": 10,
+        "weight": 15,
+        "range": 20.0
+      },
+      {
+        "spell_id": "irons_spellbooks:poison_breath",
+        "min_level": 10,
+        "max_level": 10,
+        "weight": 18,
+        "range": 12.0
+      },
+      {
+        "spell_id": "irons_spellbooks:poison_splash",
+        "min_level": 10,
+        "max_level": 10,
+        "weight": 18,
+        "range": 20.0
+      },
+      {
+        "spell_id": "irons_spellbooks:root",
+        "min_level": 10,
+        "max_level": 10,
+        "weight": 15,
+        "range": 12.0
+      },
+      {
+        "spell_id": "irons_spellbooks:spider_aspect",
+        "min_level": 8,
+        "max_level": 8,
+        "weight": 10,
+        "range": 999.0
+      },
+      {
+        "spell_id": "irons_spellbooks:stomp",
+        "min_level": 5,
+        "max_level": 5,
+        "weight": 12,
+        "range": 6.0
+      }
     ],
     "spell_cooldown_ticks": 55,
     "leash_radius": 32.0,
@@ -133,7 +314,24 @@
     "biome_tag": "spells_n_gods:has_structure/god_temple",
     "search_radius": 10000,
     "min_dist_from_spawn": 1000,
-    "size": 16
+    "size": 16,
+    "default_tier": "common",
+    "disable_default": false,
+    "domain_tags": [
+      "#spells_n_gods:nature_structures"
+    ],
+    "whitelist": [
+      {
+        "id": "minecraft:jungle_pyramid",
+        "weight": 15
+      },
+      {
+        "id": "minecraft:desert_pyramid",
+        "weight": 10
+      }
+    ],
+    "placement": "nearest_safe_floor",
+    "default_alignment": "neutral"
   },
   "localization": {
     "name_key": "god.spells_n_gods.venatas",
