@@ -3,10 +3,17 @@
   "id": "bricoleur",
   "display_name": "Bricoleur",
   "gender": "male",
-  "domains": ["prophecy", "evocation", "summoning"],
+  "domains": [
+    "prophecy",
+    "evocation",
+    "summoning"
+  ],
   "philosophy": "The unseen hand shapes every fate.",
   "magic_school": "evocation",
-  "rivals": { "primary": "venatas", "secondary": "celia" },
+  "rivals": {
+    "primary": "venatas",
+    "secondary": "celia"
+  },
   "binding": {
     "rune_item": "spells_n_gods:rune",
     "monument": {
@@ -17,55 +24,135 @@
     }
   },
   "favor": {
-    "thresholds": { "initiate": 10, "devout": 35, "exalted": 70, "ascendant": 95 },
+    "thresholds": {
+      "initiate": 10,
+      "devout": 35,
+      "exalted": 70,
+      "ascendant": 95
+    },
     "decay_per_day": 2.0
   },
   "worship": {
-    "prayer": { "min_seconds": 15, "cooldown_seconds": 360 },
-    "offering": { "grace_hours": 72, "diminishing_returns": true, "validator": "evocation_offering" }
+    "prayer": {
+      "min_seconds": 15,
+      "cooldown_seconds": 360
+    },
+    "offering": {
+      "grace_hours": 72,
+      "diminishing_returns": true,
+      "validator": "evocation_offering"
+    }
   },
   "blessings": {
     "initiate": {
       "effects": [
-        { "type": "cooldown_reduction", "percent": 0.10 }
+        {
+          "type": "cooldown_reduction",
+          "percent": 0.1
+        }
       ],
-      "monument_ability": { "type": "summon_helper", "entity": "minecraft:iron_golem", "duration": 120 }
+      "monument_ability": {
+        "type": "summon_helper",
+        "entity": "minecraft:iron_golem",
+        "duration": 120
+      }
     },
     "devout": {
       "effects": [
-        { "type": "cooldown_reduction", "percent": 0.15 },
-        { "type": "potion_effect", "effect_id": "minecraft:resistance", "amplifier": 0, "ambient": true }
+        {
+          "type": "cooldown_reduction",
+          "percent": 0.15
+        },
+        {
+          "type": "potion_effect",
+          "effect_id": "minecraft:resistance",
+          "amplifier": 0,
+          "ambient": true
+        }
       ],
-      "monument_ability": { "type": "summon_helper", "entity": "minecraft:iron_golem", "duration": 240 }
+      "monument_ability": {
+        "type": "summon_helper",
+        "entity": "minecraft:iron_golem",
+        "duration": 240
+      }
     },
     "exalted": {
       "effects": [
-        { "type": "cooldown_reduction", "percent": 0.20 },
-        { "type": "potion_effect", "effect_id": "minecraft:resistance", "amplifier": 0, "ambient": true },
-        { "type": "attribute_modifier", "attribute": "minecraft:generic.armor_toughness", "amount": 4.0, "operation": "addition" }
+        {
+          "type": "cooldown_reduction",
+          "percent": 0.2
+        },
+        {
+          "type": "potion_effect",
+          "effect_id": "minecraft:resistance",
+          "amplifier": 0,
+          "ambient": true
+        },
+        {
+          "type": "attribute_modifier",
+          "attribute": "minecraft:generic.armor_toughness",
+          "amount": 4.0,
+          "operation": "addition"
+        }
       ],
-      "monument_ability": { "type": "summon_helper", "entity": "minecraft:iron_golem", "duration": 600 }
+      "monument_ability": {
+        "type": "summon_helper",
+        "entity": "minecraft:iron_golem",
+        "duration": 600
+      }
     },
     "ascendant": {
       "effects": [
-        { "type": "cooldown_reduction", "percent": 0.30 },
-        { "type": "potion_effect", "effect_id": "minecraft:resistance", "amplifier": 1, "ambient": true },
-        { "type": "attribute_modifier", "attribute": "minecraft:generic.armor_toughness", "amount": 6.0, "operation": "addition" },
-        { "type": "conditional_combat", "condition": "outnumbered", "damage_bonus": 3.0 }
+        {
+          "type": "cooldown_reduction",
+          "percent": 0.3
+        },
+        {
+          "type": "potion_effect",
+          "effect_id": "minecraft:resistance",
+          "amplifier": 1,
+          "ambient": true
+        },
+        {
+          "type": "attribute_modifier",
+          "attribute": "minecraft:generic.armor_toughness",
+          "amount": 6.0,
+          "operation": "addition"
+        },
+        {
+          "type": "conditional_combat",
+          "condition": "outnumbered",
+          "damage_bonus": 3.0
+        }
       ],
-      "monument_ability": { "type": "summon_helper", "entity": "minecraft:iron_golem", "duration": 1200 }
+      "monument_ability": {
+        "type": "summon_helper",
+        "entity": "minecraft:iron_golem",
+        "duration": 1200
+      }
     }
   },
   "rival_pressure": {
     "primary": {
       "effects": [
-        { "effect_id": "minecraft:poison", "amplifier": 0, "duration_seconds": 20 }
+        {
+          "effect_id": "minecraft:poison",
+          "amplifier": 0,
+          "duration_seconds": 20
+        }
       ],
-      "event_pool": ["vine_snare", "nature_wrath"]
+      "event_pool": [
+        "vine_snare",
+        "nature_wrath"
+      ]
     },
     "secondary": {
       "effects": [
-        { "effect_id": "minecraft:nausea", "amplifier": 0, "duration_seconds": 10 }
+        {
+          "effect_id": "minecraft:nausea",
+          "amplifier": 0,
+          "duration_seconds": 10
+        }
       ],
       "event_pool": []
     }
@@ -73,8 +160,14 @@
   "apostasy": {
     "latent_curse": {
       "effects": [
-        { "effect_id": "minecraft:mining_fatigue", "amplifier": 1 },
-        { "effect_id": "minecraft:weakness", "amplifier": 0 }
+        {
+          "effect_id": "minecraft:mining_fatigue",
+          "amplifier": 1
+        },
+        {
+          "effect_id": "minecraft:weakness",
+          "amplifier": 0
+        }
       ],
       "damage_multiplier": 1.2,
       "hunger_drain": 1.2,
@@ -84,14 +177,23 @@
     "scar_modifiers": {
       "health_reduction": 0.03,
       "xp_penalty": 0.05,
-      "death_penalty_increase": 0.10,
+      "death_penalty_increase": 0.1,
       "luck_reduction": 0.03,
       "durability_penalty": 0.14
     },
     "trials": {
-      "phase_1": { "duration_seconds": 60 },
-      "phase_2": { "duration_seconds": 120, "pursuer_type": "minecraft:evoker", "pursuer_count": 2 },
-      "phase_3": { "duration_seconds": 180, "pursuer_type": "minecraft:warden" }
+      "phase_1": {
+        "duration_seconds": 60
+      },
+      "phase_2": {
+        "duration_seconds": 120,
+        "pursuer_type": "minecraft:evoker",
+        "pursuer_count": 2
+      },
+      "phase_3": {
+        "duration_seconds": 180,
+        "pursuer_type": "minecraft:warden"
+      }
     }
   },
   "boss": {
@@ -106,19 +208,97 @@
     "boss_bar_overlay": "progress",
     "skin_texture": "spells_n_gods:textures/entity/boss_bricoleur.png",
     "spell_pool": [
-      { "spell_id": "irons_spellbooks:arrow_volley", "min_level": 6, "max_level": 6, "weight": 15, "range": 20.0 },
-      { "spell_id": "irons_spellbooks:chain_creeper", "min_level": 6, "max_level": 6, "weight": 10, "range": 20.0 },
-      { "spell_id": "irons_spellbooks:fang_strike", "min_level": 10, "max_level": 10, "weight": 20, "range": 12.0 },
-      { "spell_id": "irons_spellbooks:fang_ward", "min_level": 8, "max_level": 8, "weight": 12, "range": 999.0 },
-      { "spell_id": "irons_spellbooks:firecracker", "min_level": 10, "max_level": 10, "weight": 12, "range": 20.0 },
-      { "spell_id": "irons_spellbooks:gust", "min_level": 10, "max_level": 10, "weight": 10, "range": 12.0 },
-      { "spell_id": "irons_spellbooks:invisibility", "min_level": 6, "max_level": 6, "weight": 8, "range": 999.0 },
-      { "spell_id": "irons_spellbooks:lob_creeper", "min_level": 10, "max_level": 10, "weight": 12, "range": 20.0 },
-      { "spell_id": "irons_spellbooks:shield", "min_level": 10, "max_level": 10, "weight": 15, "range": 999.0 },
-      { "spell_id": "irons_spellbooks:slow", "min_level": 4, "max_level": 4, "weight": 10, "range": 12.0 },
-      { "spell_id": "irons_spellbooks:spectral_hammer", "min_level": 5, "max_level": 5, "weight": 15, "range": 20.0 },
-      { "spell_id": "irons_spellbooks:summon_vex", "min_level": 5, "max_level": 5, "weight": 12, "range": 999.0 },
-      { "spell_id": "irons_spellbooks:throw", "min_level": 5, "max_level": 5, "weight": 10, "range": 12.0 }
+      {
+        "spell_id": "irons_spellbooks:arrow_volley",
+        "min_level": 6,
+        "max_level": 6,
+        "weight": 15,
+        "range": 20.0
+      },
+      {
+        "spell_id": "irons_spellbooks:chain_creeper",
+        "min_level": 6,
+        "max_level": 6,
+        "weight": 10,
+        "range": 20.0
+      },
+      {
+        "spell_id": "irons_spellbooks:fang_strike",
+        "min_level": 10,
+        "max_level": 10,
+        "weight": 20,
+        "range": 12.0
+      },
+      {
+        "spell_id": "irons_spellbooks:fang_ward",
+        "min_level": 8,
+        "max_level": 8,
+        "weight": 12,
+        "range": 999.0
+      },
+      {
+        "spell_id": "irons_spellbooks:firecracker",
+        "min_level": 10,
+        "max_level": 10,
+        "weight": 12,
+        "range": 20.0
+      },
+      {
+        "spell_id": "irons_spellbooks:gust",
+        "min_level": 10,
+        "max_level": 10,
+        "weight": 10,
+        "range": 12.0
+      },
+      {
+        "spell_id": "irons_spellbooks:invisibility",
+        "min_level": 6,
+        "max_level": 6,
+        "weight": 8,
+        "range": 999.0
+      },
+      {
+        "spell_id": "irons_spellbooks:lob_creeper",
+        "min_level": 10,
+        "max_level": 10,
+        "weight": 12,
+        "range": 20.0
+      },
+      {
+        "spell_id": "irons_spellbooks:shield",
+        "min_level": 10,
+        "max_level": 10,
+        "weight": 15,
+        "range": 999.0
+      },
+      {
+        "spell_id": "irons_spellbooks:slow",
+        "min_level": 4,
+        "max_level": 4,
+        "weight": 10,
+        "range": 12.0
+      },
+      {
+        "spell_id": "irons_spellbooks:spectral_hammer",
+        "min_level": 5,
+        "max_level": 5,
+        "weight": 15,
+        "range": 20.0
+      },
+      {
+        "spell_id": "irons_spellbooks:summon_vex",
+        "min_level": 5,
+        "max_level": 5,
+        "weight": 12,
+        "range": 999.0
+      },
+      {
+        "spell_id": "irons_spellbooks:throw",
+        "min_level": 5,
+        "max_level": 5,
+        "weight": 10,
+        "range": 12.0
+      }
     ],
     "spell_cooldown_ticks": 65,
     "leash_radius": 32.0,
@@ -134,7 +314,25 @@
     "biome_tag": "spells_n_gods:has_structure/god_temple",
     "search_radius": 10000,
     "min_dist_from_spawn": 1000,
-    "size": 16
+    "size": 16,
+    "default_tier": "common",
+    "disable_default": false,
+    "domain_tags": [
+      "#spells_n_gods:forge_structures",
+      "#spells_n_gods:wisdom_structures"
+    ],
+    "whitelist": [
+      {
+        "id": "minecraft:trail_ruins",
+        "weight": 15
+      },
+      {
+        "id": "minecraft:village_plains",
+        "weight": 10
+      }
+    ],
+    "placement": "shrine_anchor",
+    "default_alignment": "neutral"
   },
   "localization": {
     "name_key": "god.spells_n_gods.bricoleur",

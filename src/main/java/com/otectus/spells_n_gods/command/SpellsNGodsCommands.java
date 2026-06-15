@@ -543,6 +543,75 @@ public final class SpellsNGodsCommands {
                                             ctx.getSource().sendSuccess(() -> Component.literal("Structure protection disabled").withStyle(ChatFormatting.YELLOW), true);
                                             return 1;
                                         }))))
+                // Data-driven tag/tier spawning diagnostics
+                .then(Commands.literal("spawning")
+                        .then(Commands.literal("here")
+                                .executes(ctx -> {
+                                    try {
+                                        ServerPlayer player = ctx.getSource().getPlayerOrException();
+                                        ServerLevel level = player.serverLevel();
+                                        BlockPos pos = player.blockPosition();
+                                        var registry = level.registryAccess().registryOrThrow(
+                                                net.minecraft.core.registries.Registries.STRUCTURE);
+                                        var here = level.structureManager().getAllStructuresAt(pos);
+
+                                        ctx.getSource().sendSuccess(() -> Component.literal(
+                                                "=== Structures at your position ===").withStyle(ChatFormatting.GOLD), false);
+                                        if (here.isEmpty()) {
+                                            ctx.getSource().sendSuccess(() -> Component.literal(
+                                                    "  (none — stand inside a structure)").withStyle(ChatFormatting.GRAY), false);
+                                            return 0;
+                                        }
+                                        int shown = 0;
+                                        for (var structure : here.keySet()) {
+                                            var start = level.structureManager().getStructureAt(pos, structure);
+                                            if (start == null || !start.isValid()) continue;
+                                            var id = registry.getKey(structure);
+                                            if (id == null) continue;
+                                            var holder = registry.wrapAsHolder(structure);
+                                            StringBuilder tags = new StringBuilder();
+                                            for (var tag : com.otectus.spells_n_gods.spawning.DomainStructureTags.DOMAIN_TAGS) {
+                                                if (holder.is(tag)) {
+                                                    tags.append(" #").append(tag.location());
+                                                }
+                                            }
+                                            String line = "  " + id + (tags.length() == 0 ? " (no domain tags)" : " ->" + tags);
+                                            ctx.getSource().sendSuccess(() -> Component.literal(line)
+                                                    .withStyle(ChatFormatting.AQUA), false);
+                                            shown++;
+                                        }
+                                        return shown;
+                                    } catch (Exception e) {
+                                        ctx.getSource().sendFailure(Component.literal("Error: " + e.getMessage()));
+                                        return 0;
+                                    }
+                                }))
+                        .then(Commands.literal("encounters")
+                                .executes(ctx -> {
+                                    var server = ctx.getSource().getServer();
+                                    var state = com.otectus.spells_n_gods.worldstate.StructureEncounterState.get(server);
+                                    long now = server.overworld().getGameTime();
+                                    ctx.getSource().sendSuccess(() -> Component.literal(
+                                            "=== Encounter records: " + state.size() + " ===").withStyle(ChatFormatting.GOLD), false);
+                                    for (var r : state.all()) {
+                                        String line = "  " + r.structureId() + " active=" + r.activeDeityCount()
+                                                + " spawned=" + r.spawnedCount()
+                                                + (r.isPermanentlyExhausted() ? " [EXHAUSTED]" : "")
+                                                + " key=" + r.key();
+                                        ctx.getSource().sendSuccess(() -> Component.literal(line), false);
+                                    }
+                                    return state.size();
+                                }))
+                        .then(Commands.literal("prune")
+                                .executes(ctx -> {
+                                    var server = ctx.getSource().getServer();
+                                    var state = com.otectus.spells_n_gods.worldstate.StructureEncounterState.get(server);
+                                    int removed = state.prune(server.overworld().getGameTime());
+                                    ctx.getSource().sendSuccess(() -> Component.literal(
+                                            "Pruned " + removed + " expired encounter record(s).")
+                                            .withStyle(ChatFormatting.GREEN), true);
+                                    return removed;
+                                })))
                 // Force-spawn: bare entity test (no god lookup, just entity creation)
                 .then(Commands.literal("testspawn")
                         .executes(ctx -> {

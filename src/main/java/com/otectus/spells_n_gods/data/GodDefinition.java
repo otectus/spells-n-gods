@@ -4,11 +4,17 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.otectus.spells_n_gods.item.ability.DivineAbilityDefinition;
+import com.otectus.spells_n_gods.spawning.SpawnAlignment;
+import com.otectus.spells_n_gods.spawning.SpawnPlacement;
+import com.otectus.spells_n_gods.spawning.StructureTier;
+import com.otectus.spells_n_gods.spawning.logic.DeityStructureProfile;
 import net.minecraft.resources.ResourceLocation;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 public record GodDefinition(
@@ -348,26 +354,142 @@ public record GodDefinition(
         }
     }
 
+    /**
+     * Structure-spawning configuration for a deity.
+     *
+     * <p>The first block of fields ({@code templateId}..{@code size}) drives the legacy dedicated
+     * god-temple worldgen and is kept for backward compatibility. The second block powers the
+     * data-driven tag/tier spawning system: deities opt into existing (vanilla or modded)
+     * structures via domain tags and/or an explicit weighted whitelist, with a default tier,
+     * placement strategy, and per-structure/tag alignment overrides.
+     *
+     * @param defaultTier        tier applied to tag-matched structures (string parsed leniently)
+     * @param disableDefault     if true, only the explicit whitelist counts (no tags / any-structure)
+     * @param domainTags         structure tag references, e.g. {@code "#spells_n_gods:wisdom_structures"}
+     * @param whitelistWeights   explicit structure id -> selection weight
+     * @param placement          spawn placement strategy ("" = use config default)
+     * @param defaultAlignment   alignment when no override matches
+     * @param alignmentOverrides per-tag-or-structure-id alignment overrides
+     */
     public record StructureDefinition(
             String templateId,
             String biomeTag,
             int searchRadius,
             int minDistFromSpawn,
-            int size
+            int size,
+            String defaultTier,
+            boolean disableDefault,
+            List<String> domainTags,
+            Map<String, Integer> whitelistWeights,
+            String placement,
+            String defaultAlignment,
+            Map<String, String> alignmentOverrides
     ) {
+        public StructureDefinition {
+            domainTags = domainTags == null ? List.of() : List.copyOf(domainTags);
+            whitelistWeights = whitelistWeights == null ? Map.of() : Map.copyOf(whitelistWeights);
+            alignmentOverrides = alignmentOverrides == null ? Map.of() : Map.copyOf(alignmentOverrides);
+            if (templateId == null) templateId = "";
+            if (biomeTag == null) biomeTag = "";
+            if (defaultTier == null) defaultTier = "uncommon";
+            if (placement == null) placement = "";
+            if (defaultAlignment == null) defaultAlignment = "hostile";
+        }
+
         public static StructureDefinition defaultStructure() {
-            return new StructureDefinition("", "", 10000, 1000, 16);
+            return new StructureDefinition("", "", 10000, 1000, 16,
+                    "uncommon", false, List.of(), Map.of(), "", "hostile", Map.of());
         }
 
         public static StructureDefinition fromJson(JsonObject json) {
             if (json == null) return defaultStructure();
+
+            // --- Weighted whitelist: supports both an array of {id, weight} objects and a
+            //     simple {id: weight} object form. Backward compatible with absent field. ---
+            Map<String, Integer> whitelist = new LinkedHashMap<>();
+            JsonElement wlElem = json.get("whitelist");
+            if (wlElem != null && wlElem.isJsonArray()) {
+                for (JsonElement e : wlElem.getAsJsonArray()) {
+                    if (e.isJsonObject()) {
+                        JsonObject o = e.getAsJsonObject();
+                        String id = SpellsNGodsJsonUtil.getString(o, "id", "");
+                        int weight = SpellsNGodsJsonUtil.getInt(o, "weight", DeityStructureProfile.DEFAULT_TAG_WEIGHT);
+                        if (!id.isBlank()) {
+                            whitelist.put(id, weight);
+                        }
+                    }
+                }
+            } else if (wlElem != null && wlElem.isJsonObject()) {
+                JsonObject o = wlElem.getAsJsonObject();
+                for (String key : o.keySet()) {
+                    if (o.get(key).isJsonPrimitive()) {
+                        whitelist.put(key, o.get(key).getAsInt());
+                    }
+                }
+            }
+
+            // --- Per-tag/structure alignment overrides: { "#tag": "neutral", "ns:struct": "hostile" } ---
+            Map<String, String> alignments = new LinkedHashMap<>();
+            JsonObject aoObj = SpellsNGodsJsonUtil.getObject(json, "alignment_overrides");
+            if (aoObj != null) {
+                for (String key : aoObj.keySet()) {
+                    if (aoObj.get(key).isJsonPrimitive()) {
+                        alignments.put(key, aoObj.get(key).getAsString());
+                    }
+                }
+            }
+
             return new StructureDefinition(
                     SpellsNGodsJsonUtil.getString(json, "template_id", ""),
                     SpellsNGodsJsonUtil.getString(json, "biome_tag", ""),
                     SpellsNGodsJsonUtil.getInt(json, "search_radius", 10000),
                     SpellsNGodsJsonUtil.getInt(json, "min_dist_from_spawn", 1000),
-                    SpellsNGodsJsonUtil.getInt(json, "size", 16)
+                    SpellsNGodsJsonUtil.getInt(json, "size", 16),
+                    SpellsNGodsJsonUtil.getString(json, "default_tier", "uncommon"),
+                    json.has("disable_default") && json.get("disable_default").getAsBoolean(),
+                    SpellsNGodsJsonUtil.getStringList(json, "domain_tags"),
+                    whitelist,
+                    SpellsNGodsJsonUtil.getString(json, "placement", ""),
+                    SpellsNGodsJsonUtil.getString(json, "default_alignment", "hostile"),
+                    alignments
             );
+        }
+
+        /** Distil this definition into the pure-logic profile consumed by the spawn engine. */
+        public DeityStructureProfile toProfile(String deityId) {
+            return new DeityStructureProfile(
+                    deityId,
+                    StructureTier.fromString(defaultTier, StructureTier.RARE),
+                    disableDefault,
+                    domainTags,
+                    whitelistWeights);
+        }
+
+        public SpawnPlacement resolvePlacement(SpawnPlacement fallback) {
+            return SpawnPlacement.fromString(placement, fallback);
+        }
+
+        /**
+         * Resolve the alignment for a spawn, preferring an exact structure-id override, then any
+         * matched-tag override, else the deity default.
+         *
+         * @param structureId  the structure being spawned at
+         * @param matchedTags  domain tag references this structure matched (e.g. "#ns:war_structures")
+         */
+        public SpawnAlignment resolveAlignment(String structureId, List<String> matchedTags) {
+            String byId = alignmentOverrides.get(structureId);
+            if (byId != null) {
+                return SpawnAlignment.fromString(byId, SpawnAlignment.HOSTILE);
+            }
+            if (matchedTags != null) {
+                for (String tag : matchedTags) {
+                    String byTag = alignmentOverrides.get(tag);
+                    if (byTag != null) {
+                        return SpawnAlignment.fromString(byTag, SpawnAlignment.HOSTILE);
+                    }
+                }
+            }
+            return SpawnAlignment.fromString(defaultAlignment, SpawnAlignment.HOSTILE);
         }
     }
 }

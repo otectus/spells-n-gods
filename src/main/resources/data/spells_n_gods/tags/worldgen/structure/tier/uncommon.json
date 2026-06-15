@@ -1,0 +1,10 @@
+{
+  "replace": false,
+  "values": [
+    "minecraft:pillager_outpost",
+    "minecraft:desert_pyramid",
+    "minecraft:jungle_pyramid",
+    "minecraft:ocean_ruin_cold",
+    "minecraft:ocean_ruin_warm"
+  ]
+}

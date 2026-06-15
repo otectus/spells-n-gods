@@ -1,0 +1,12 @@
+{
+  "replace": false,
+  "values": [
+    "minecraft:stronghold",
+    "minecraft:trail_ruins",
+    "minecraft:village_plains",
+    "minecraft:village_desert",
+    "minecraft:village_savanna",
+    "minecraft:village_snowy",
+    "minecraft:village_taiga"
+  ]
+}

@@ -5,6 +5,7 @@ import com.otectus.spells_n_gods.config.SpellsNGodsConfig;
 import com.otectus.spells_n_gods.data.GodDefinition;
 import com.otectus.spells_n_gods.data.SpellsNGodsDataManager;
 import com.otectus.spells_n_gods.registry.ModEntities;
+import com.otectus.spells_n_gods.spawning.SpawnAlignment;
 import com.otectus.spells_n_gods.util.SchoolColors;
 import com.otectus.spells_n_gods.worldstate.GodWorldState;
 import com.otectus.spells_n_gods.worldstate.StructureRecord;
@@ -24,17 +25,28 @@ import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.level.LevelEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
+import java.util.function.Consumer;
 
 /**
  * Manages the dramatic "rising from the ground" spawn animation for god bosses.
- * When triggered, the boss entity is created below the altar and smoothly rises
+ * When triggered, the boss entity is created below the spawn point and smoothly rises
  * over several seconds with themed particles, sounds, and a GeckoLib animation.
+ *
+ * <p>Two entry points exist:
+ * <ul>
+ *   <li>{@link #beginSpawnSequence(ServerLevel, GodWorldState, StructureRecord)} — legacy
+ *       dedicated god-temple path (boss rises to the altar standing offset).</li>
+ *   <li>{@link #spawnGodAt(ServerLevel, String, BlockPos, SpawnAlignment, Consumer)} — the
+ *       data-driven tag/tier path (boss rises to a resolved ground standing position, with a
+ *       configurable {@link SpawnAlignment}).</li>
+ * </ul>
  */
 @Mod.EventBusSubscriber(modid = SpellsNGodsMod.MODID)
 public class BossSpawnAnimationHandler {
@@ -43,46 +55,66 @@ public class BossSpawnAnimationHandler {
     private static final Set<GodBossEntity> activeBosses = Collections.newSetFromMap(new java.util.IdentityHashMap<>());
 
     private static final int TOTAL_DURATION = 120;        // 6 seconds
-    private static final double START_Y_OFFSET = -2.5;     // Start 2.5 blocks below altar surface
+    private static final double START_Y_OFFSET = -2.5;     // Start 2.5 blocks below the spawn point
     private static final double END_Y_OFFSET = GodBossEntity.ALTAR_STANDING_Y_OFFSET;
     private static final int VISIBILITY_TICK = 50;          // Become visible at ~2.5 seconds
     private static final int AI_ENABLE_TICK = TOTAL_DURATION;
 
     // --- Public API ---
 
+    /** Legacy dedicated-temple spawn: rises to the altar standing offset above {@code record.center()}. */
     public static void beginSpawnSequence(ServerLevel level, GodWorldState state,
                                            StructureRecord record) {
-        GodDefinition god = SpellsNGodsDataManager.getGods()
-                .get(new ResourceLocation(record.godId()));
+        spawnInternal(level, record.godId(), record.center(), END_Y_OFFSET, SpawnAlignment.HOSTILE,
+                boss -> state.setStructure(record.godId(), record.withBossSpawned(boss.getUUID())));
+    }
+
+    /**
+     * Data-driven spawn at an already-resolved, safe standing position. The boss rises to stand
+     * exactly at {@code standingPos} (no altar offset).
+     *
+     * @param onSpawned callback invoked once the entity has been added to the world (may be null)
+     * @return the spawned entity, or {@code null} if creation failed
+     */
+    @Nullable
+    public static GodBossEntity spawnGodAt(ServerLevel level, String godId, BlockPos standingPos,
+                                           SpawnAlignment alignment, @Nullable Consumer<GodBossEntity> onSpawned) {
+        return spawnInternal(level, godId, standingPos, 0.0, alignment, onSpawned);
+    }
+
+    @Nullable
+    private static GodBossEntity spawnInternal(ServerLevel level, String godId, BlockPos center,
+                                               double endYOffset, SpawnAlignment alignment,
+                                               @Nullable Consumer<GodBossEntity> onSpawned) {
+        GodDefinition god = SpellsNGodsDataManager.getGods().get(new ResourceLocation(godId));
         if (god == null) {
-            SpellsNGodsMod.LOGGER.warn("Cannot spawn boss: god def not found for {}", record.godId());
-            return;
+            SpellsNGodsMod.LOGGER.warn("Cannot spawn boss: god def not found for {}", godId);
+            return null;
         }
 
         GodBossEntity boss = ModEntities.GOD_BOSS.get().create(level);
         if (boss == null) {
-            SpellsNGodsMod.LOGGER.error("Failed to create boss entity for {}", record.godId());
-            return;
+            SpellsNGodsMod.LOGGER.error("Failed to create boss entity for {}", godId);
+            return null;
         }
-
-        BlockPos center = record.center();
 
         // If spawn animation is disabled, place the boss instantly at final position
         if (!SpellsNGodsConfig.COMMON.bossSpawnAnimationEnabled.get()) {
-            boss.setGodId(record.godId());
-            boss.moveTo(center.getX() + 0.5, center.getY() + END_Y_OFFSET,
+            boss.setGodId(godId);
+            boss.moveTo(center.getX() + 0.5, center.getY() + endYOffset,
                         center.getZ() + 0.5, 0.0F, 0.0F);
             boss.applyGodStats();
+            boss.setNoAi(!alignment.isCombatActiveOnSpawn());
             level.addFreshEntity(boss);
-            state.setStructure(record.godId(), record.withBossSpawned(boss.getUUID()));
-            SpellsNGodsMod.LOGGER.info("Instant spawn (animation disabled) for {} at {}",
-                                     record.godId(), center);
-            return;
+            if (onSpawned != null) onSpawned.accept(boss);
+            SpellsNGodsMod.LOGGER.info("Instant spawn (animation disabled) for {} at {} [{}]",
+                                     godId, center, alignment);
+            return boss;
         }
 
         double startY = center.getY() + START_Y_OFFSET;
 
-        boss.setGodId(record.godId());
+        boss.setGodId(godId);
         boss.moveTo(center.getX() + 0.5, startY, center.getZ() + 0.5, 0.0F, 0.0F);
         boss.applyGodStats();
         boss.setNoAi(true);
@@ -91,23 +123,20 @@ public class BossSpawnAnimationHandler {
                 0, false, false));
         boss.setEmerging(true);
 
-        // Register the spawn sequence BEFORE adding the entity to the world.
-        // This prevents a race where the entity's first tick checks hasActiveSequence()
-        // before the sequence is registered, which would immediately cancel the animation.
-        String magicSchool = god.magicSchool();
-        activeSequences.add(new SpawnSequence(boss, center, level, magicSchool));
+        // Register the spawn sequence BEFORE adding the entity to the world to avoid a race
+        // where the entity's first tick cancels the animation before it is registered.
+        activeSequences.add(new SpawnSequence(boss, center, level, god.magicSchool(), endYOffset, alignment));
         activeBosses.add(boss);
 
         level.addFreshEntity(boss);
-
-        // Mark boss as spawned in world state (clears awaitingPlayerSpawn)
-        state.setStructure(record.godId(), record.withBossSpawned(boss.getUUID()));
+        if (onSpawned != null) onSpawned.accept(boss);
 
         // Initial rumble sound
         level.playSound(null, center, SoundEvents.WARDEN_EMERGE,
                 SoundSource.HOSTILE, 1.5F, 0.5F);
 
-        SpellsNGodsMod.LOGGER.info("Started spawn sequence for {} at {}", record.godId(), center);
+        SpellsNGodsMod.LOGGER.info("Started spawn sequence for {} at {} [{}]", godId, center, alignment);
+        return boss;
     }
 
     public static boolean hasActiveSequence(GodBossEntity boss) {
@@ -162,7 +191,7 @@ public class BossSpawnAnimationHandler {
         // Smooth cubic ease-out for Y position
         double easedProgress = 1.0 - Math.pow(1.0 - progress, 3);
         double currentY = seq.center.getY() + START_Y_OFFSET
-                + (END_Y_OFFSET - START_Y_OFFSET) * easedProgress;
+                + (seq.endYOffset - START_Y_OFFSET) * easedProgress;
 
         seq.boss.teleportTo(
                 seq.center.getX() + 0.5,
@@ -257,18 +286,18 @@ public class BossSpawnAnimationHandler {
         // Snap to final position
         boss.teleportTo(
                 seq.center.getX() + 0.5,
-                seq.center.getY() + END_Y_OFFSET,
+                seq.center.getY() + seq.endYOffset,
                 seq.center.getZ() + 0.5);
 
-        // Enable AI and combat
-        boss.setNoAi(false);
+        // Enable AI/combat according to alignment (dormant/passive deities stay inert until provoked)
+        boss.setNoAi(!seq.alignment.isCombatActiveOnSpawn());
         boss.setInvulnerable(false);
         boss.setEmerging(false);
         boss.removeEffect(MobEffects.INVISIBILITY);
 
         // Dramatic reveal burst
         double cx = seq.center.getX() + 0.5;
-        double cy = seq.center.getY() + END_Y_OFFSET;
+        double cy = seq.center.getY() + seq.endYOffset;
         double cz = seq.center.getZ() + 0.5;
 
         seq.level.sendParticles(ParticleTypes.EXPLOSION_EMITTER,
@@ -287,8 +316,8 @@ public class BossSpawnAnimationHandler {
             }
         }
 
-        SpellsNGodsMod.LOGGER.info("Spawn sequence complete for {} at {}",
-                boss.getGodId(), seq.center);
+        SpellsNGodsMod.LOGGER.info("Spawn sequence complete for {} at {} [{}]",
+                boss.getGodId(), seq.center, seq.alignment);
     }
 
     // --- Internal State ---
@@ -298,14 +327,18 @@ public class BossSpawnAnimationHandler {
         final BlockPos center;
         final ServerLevel level;
         final String magicSchool;
+        final double endYOffset;
+        final SpawnAlignment alignment;
         int ticksElapsed;
 
         SpawnSequence(GodBossEntity boss, BlockPos center, ServerLevel level,
-                      String magicSchool) {
+                      String magicSchool, double endYOffset, SpawnAlignment alignment) {
             this.boss = boss;
             this.center = center;
             this.level = level;
             this.magicSchool = magicSchool;
+            this.endYOffset = endYOffset;
+            this.alignment = alignment;
             this.ticksElapsed = 0;
         }
     }

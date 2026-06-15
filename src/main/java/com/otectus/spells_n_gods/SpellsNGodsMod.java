@@ -5,6 +5,8 @@ import com.otectus.spells_n_gods.boss.GodBossRenderer;
 import com.otectus.spells_n_gods.command.SpellsNGodsCommands;
 import com.otectus.spells_n_gods.config.SpellsNGodsConfig;
 import com.otectus.spells_n_gods.config.ShrineConfig;
+import com.otectus.spells_n_gods.config.StructureSpawnConfig;
+import com.otectus.spells_n_gods.spawning.StructureSpawnValidator;
 import com.otectus.spells_n_gods.data.SpellsNGodsDataManager;
 import com.otectus.spells_n_gods.item.ability.DivineAbilityRegistry;
 import com.otectus.spells_n_gods.network.ModNetwork;
@@ -70,6 +72,7 @@ public class SpellsNGodsMod {
         ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, SpellsNGodsConfig.COMMON_SPEC, "spells_n_gods/spells_n_gods-common.toml");
         ModLoadingContext.get().registerConfig(ModConfig.Type.SERVER, SpellsNGodsConfig.SERVER_SPEC, "spells_n_gods/spells_n_gods-server.toml");
         ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, ShrineConfig.SPEC, "spells_n_gods/shrines.toml");
+        ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, StructureSpawnConfig.SPEC, "spells_n_gods/structure_spawns.toml");
 
         // Ensure the schematics directory exists
         try {
@@ -125,6 +128,8 @@ public class SpellsNGodsMod {
 
     private void onServerStarting(ServerStartingEvent event) {
         SchematicLoader.init(event.getServer());
+        // Validate the data-driven structure-spawn config once deity data is loaded.
+        StructureSpawnValidator.validateAll();
     }
 
     private void onServerStopping(ServerStoppingEvent event) {

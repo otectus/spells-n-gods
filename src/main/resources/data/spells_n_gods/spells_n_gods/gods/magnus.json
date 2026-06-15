@@ -3,10 +3,17 @@
   "id": "magnus",
   "display_name": "Magnus",
   "gender": "male",
-  "domains": ["arcane", "eldritch", "forbidden"],
+  "domains": [
+    "arcane",
+    "eldritch",
+    "forbidden"
+  ],
   "philosophy": "Knowledge unbound is power unbridled.",
   "magic_school": "eldritch",
-  "rivals": { "primary": "deus", "secondary": "velox" },
+  "rivals": {
+    "primary": "deus",
+    "secondary": "velox"
+  },
   "binding": {
     "rune_item": "spells_n_gods:rune",
     "monument": {
@@ -17,56 +24,147 @@
     }
   },
   "favor": {
-    "thresholds": { "initiate": 10, "devout": 35, "exalted": 70, "ascendant": 95 },
+    "thresholds": {
+      "initiate": 10,
+      "devout": 35,
+      "exalted": 70,
+      "ascendant": 95
+    },
     "decay_per_day": 2.5
   },
   "worship": {
-    "prayer": { "min_seconds": 15, "cooldown_seconds": 360 },
-    "offering": { "grace_hours": 60, "diminishing_returns": true, "validator": "eldritch_offering" }
+    "prayer": {
+      "min_seconds": 15,
+      "cooldown_seconds": 360
+    },
+    "offering": {
+      "grace_hours": 60,
+      "diminishing_returns": true,
+      "validator": "eldritch_offering"
+    }
   },
   "blessings": {
     "initiate": {
       "effects": [
-        { "type": "attribute_modifier", "attribute": "minecraft:generic.attack_damage", "amount": 1.0, "operation": "addition" }
+        {
+          "type": "attribute_modifier",
+          "attribute": "minecraft:generic.attack_damage",
+          "amount": 1.0,
+          "operation": "addition"
+        }
       ],
-      "monument_ability": { "type": "xp_aura", "radius": 8, "multiplier": 1.2 }
+      "monument_ability": {
+        "type": "xp_aura",
+        "radius": 8,
+        "multiplier": 1.2
+      }
     },
     "devout": {
       "effects": [
-        { "type": "attribute_modifier", "attribute": "minecraft:generic.attack_damage", "amount": 2.0, "operation": "addition" },
-        { "type": "potion_effect", "effect_id": "minecraft:night_vision", "amplifier": 0, "ambient": true }
+        {
+          "type": "attribute_modifier",
+          "attribute": "minecraft:generic.attack_damage",
+          "amount": 2.0,
+          "operation": "addition"
+        },
+        {
+          "type": "potion_effect",
+          "effect_id": "minecraft:night_vision",
+          "amplifier": 0,
+          "ambient": true
+        }
       ],
-      "monument_ability": { "type": "xp_aura", "radius": 12, "multiplier": 1.5 }
+      "monument_ability": {
+        "type": "xp_aura",
+        "radius": 12,
+        "multiplier": 1.5
+      }
     },
     "exalted": {
       "effects": [
-        { "type": "attribute_modifier", "attribute": "minecraft:generic.attack_damage", "amount": 3.0, "operation": "addition" },
-        { "type": "potion_effect", "effect_id": "minecraft:night_vision", "amplifier": 0, "ambient": true },
-        { "type": "conditional_combat", "condition": "wither_target", "damage_bonus": 5.0 }
+        {
+          "type": "attribute_modifier",
+          "attribute": "minecraft:generic.attack_damage",
+          "amount": 3.0,
+          "operation": "addition"
+        },
+        {
+          "type": "potion_effect",
+          "effect_id": "minecraft:night_vision",
+          "amplifier": 0,
+          "ambient": true
+        },
+        {
+          "type": "conditional_combat",
+          "condition": "wither_target",
+          "damage_bonus": 5.0
+        }
       ],
-      "monument_ability": { "type": "xp_aura", "radius": 16, "multiplier": 1.8 }
+      "monument_ability": {
+        "type": "xp_aura",
+        "radius": 16,
+        "multiplier": 1.8
+      }
     },
     "ascendant": {
       "effects": [
-        { "type": "attribute_modifier", "attribute": "minecraft:generic.attack_damage", "amount": 4.0, "operation": "addition" },
-        { "type": "potion_effect", "effect_id": "minecraft:night_vision", "amplifier": 0, "ambient": true },
-        { "type": "conditional_combat", "condition": "wither_target", "damage_bonus": 8.0 },
-        { "type": "potion_effect", "effect_id": "minecraft:resistance", "amplifier": 0, "ambient": true }
+        {
+          "type": "attribute_modifier",
+          "attribute": "minecraft:generic.attack_damage",
+          "amount": 4.0,
+          "operation": "addition"
+        },
+        {
+          "type": "potion_effect",
+          "effect_id": "minecraft:night_vision",
+          "amplifier": 0,
+          "ambient": true
+        },
+        {
+          "type": "conditional_combat",
+          "condition": "wither_target",
+          "damage_bonus": 8.0
+        },
+        {
+          "type": "potion_effect",
+          "effect_id": "minecraft:resistance",
+          "amplifier": 0,
+          "ambient": true
+        }
       ],
-      "monument_ability": { "type": "xp_aura", "radius": 24, "multiplier": 2.0 }
+      "monument_ability": {
+        "type": "xp_aura",
+        "radius": 24,
+        "multiplier": 2.0
+      }
     }
   },
   "rival_pressure": {
     "primary": {
       "effects": [
-        { "effect_id": "minecraft:regeneration", "amplifier": 0, "duration_seconds": 5 },
-        { "effect_id": "minecraft:glowing", "amplifier": 0, "duration_seconds": 30 }
+        {
+          "effect_id": "minecraft:regeneration",
+          "amplifier": 0,
+          "duration_seconds": 5
+        },
+        {
+          "effect_id": "minecraft:glowing",
+          "amplifier": 0,
+          "duration_seconds": 30
+        }
       ],
-      "event_pool": ["divine_light", "holy_purge"]
+      "event_pool": [
+        "divine_light",
+        "holy_purge"
+      ]
     },
     "secondary": {
       "effects": [
-        { "effect_id": "minecraft:slowness", "amplifier": 0, "duration_seconds": 15 }
+        {
+          "effect_id": "minecraft:slowness",
+          "amplifier": 0,
+          "duration_seconds": 15
+        }
       ],
       "event_pool": []
     }
@@ -74,8 +172,14 @@
   "apostasy": {
     "latent_curse": {
       "effects": [
-        { "effect_id": "minecraft:wither", "amplifier": 1 },
-        { "effect_id": "minecraft:darkness", "amplifier": 0 }
+        {
+          "effect_id": "minecraft:wither",
+          "amplifier": 1
+        },
+        {
+          "effect_id": "minecraft:darkness",
+          "amplifier": 0
+        }
       ],
       "damage_multiplier": 1.3,
       "hunger_drain": 1.4,
@@ -87,12 +191,21 @@
       "xp_penalty": 0.08,
       "death_penalty_increase": 0.12,
       "luck_reduction": 0.04,
-      "durability_penalty": 0.10
+      "durability_penalty": 0.1
     },
     "trials": {
-      "phase_1": { "duration_seconds": 60 },
-      "phase_2": { "duration_seconds": 120, "pursuer_type": "minecraft:witch", "pursuer_count": 3 },
-      "phase_3": { "duration_seconds": 180, "pursuer_type": "minecraft:warden" }
+      "phase_1": {
+        "duration_seconds": 60
+      },
+      "phase_2": {
+        "duration_seconds": 120,
+        "pursuer_type": "minecraft:witch",
+        "pursuer_count": 3
+      },
+      "phase_3": {
+        "duration_seconds": 180,
+        "pursuer_type": "minecraft:warden"
+      }
     }
   },
   "boss": {
@@ -107,23 +220,89 @@
     "boss_bar_overlay": "progress",
     "skin_texture": "spells_n_gods:textures/entity/boss_magnus.png",
     "spell_pool": [
-      { "spell_id": "irons_spellbooks:abyssal_shroud", "min_level": 3, "max_level": 3, "weight": 12, "range": 999.0 },
-      { "spell_id": "irons_spellbooks:eldritch_blast", "min_level": 5, "max_level": 8, "weight": 22, "range": 20.0 },
-      { "spell_id": "irons_spellbooks:planar_sight", "min_level": 3, "max_level": 3, "weight": 8, "range": 999.0 },
-      { "spell_id": "irons_spellbooks:sculk_tentacles", "min_level": 4, "max_level": 6, "weight": 18, "range": 12.0 },
-      { "spell_id": "irons_spellbooks:sonic_boom", "min_level": 3, "max_level": 5, "weight": 16, "range": 20.0 },
-      { "spell_id": "irons_spellbooks:telekinesis", "min_level": 5, "max_level": 7, "weight": 12, "range": 20.0 },
-      { "spell_id": "irons_spellbooks:ray_of_siphoning", "min_level": 5, "max_level": 8, "weight": 15, "range": 16.0 },
-      { "spell_id": "irons_spellbooks:black_hole", "min_level": 3, "max_level": 5, "weight": 10, "range": 18.0 },
-      { "spell_id": "irons_spellbooks:counterspell", "min_level": 1, "max_level": 1, "weight": 8, "range": 16.0 },
-      { "spell_id": "irons_spellbooks:blight", "min_level": 5, "max_level": 8, "weight": 14, "range": 16.0 },
-      { "spell_id": "irons_spellbooks:blood_step", "min_level": 3, "max_level": 5, "weight": 10, "range": 999.0 }
+      {
+        "spell_id": "irons_spellbooks:abyssal_shroud",
+        "min_level": 3,
+        "max_level": 3,
+        "weight": 12,
+        "range": 999.0
+      },
+      {
+        "spell_id": "irons_spellbooks:eldritch_blast",
+        "min_level": 5,
+        "max_level": 8,
+        "weight": 22,
+        "range": 20.0
+      },
+      {
+        "spell_id": "irons_spellbooks:planar_sight",
+        "min_level": 3,
+        "max_level": 3,
+        "weight": 8,
+        "range": 999.0
+      },
+      {
+        "spell_id": "irons_spellbooks:sculk_tentacles",
+        "min_level": 4,
+        "max_level": 6,
+        "weight": 18,
+        "range": 12.0
+      },
+      {
+        "spell_id": "irons_spellbooks:sonic_boom",
+        "min_level": 3,
+        "max_level": 5,
+        "weight": 16,
+        "range": 20.0
+      },
+      {
+        "spell_id": "irons_spellbooks:telekinesis",
+        "min_level": 5,
+        "max_level": 7,
+        "weight": 12,
+        "range": 20.0
+      },
+      {
+        "spell_id": "irons_spellbooks:ray_of_siphoning",
+        "min_level": 5,
+        "max_level": 8,
+        "weight": 15,
+        "range": 16.0
+      },
+      {
+        "spell_id": "irons_spellbooks:black_hole",
+        "min_level": 3,
+        "max_level": 5,
+        "weight": 10,
+        "range": 18.0
+      },
+      {
+        "spell_id": "irons_spellbooks:counterspell",
+        "min_level": 1,
+        "max_level": 1,
+        "weight": 8,
+        "range": 16.0
+      },
+      {
+        "spell_id": "irons_spellbooks:blight",
+        "min_level": 5,
+        "max_level": 8,
+        "weight": 14,
+        "range": 16.0
+      },
+      {
+        "spell_id": "irons_spellbooks:blood_step",
+        "min_level": 3,
+        "max_level": 5,
+        "weight": 10,
+        "range": 999.0
+      }
     ],
     "spell_cooldown_ticks": 55,
     "leash_radius": 32.0,
     "respawn_delay_ticks": 72000,
     "phases": {
-      "enrage_health_percent": 0.20,
+      "enrage_health_percent": 0.2,
       "enrage_damage_multiplier": 1.7,
       "enrage_speed_multiplier": 1.2
     }
@@ -133,7 +312,25 @@
     "biome_tag": "spells_n_gods:has_structure/god_temple",
     "search_radius": 10000,
     "min_dist_from_spawn": 1000,
-    "size": 16
+    "size": 16,
+    "default_tier": "rare",
+    "disable_default": false,
+    "domain_tags": [
+      "#spells_n_gods:death_structures",
+      "#spells_n_gods:wisdom_structures"
+    ],
+    "whitelist": [
+      {
+        "id": "minecraft:mansion",
+        "weight": 30
+      },
+      {
+        "id": "minecraft:stronghold",
+        "weight": 15
+      }
+    ],
+    "placement": "nearest_safe_floor",
+    "default_alignment": "hostile"
   },
   "localization": {
     "name_key": "god.spells_n_gods.magnus",

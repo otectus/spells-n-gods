@@ -3,10 +3,17 @@
   "id": "glacia",
   "display_name": "Glacia",
   "gender": "female",
-  "domains": ["ice", "winter", "stillness"],
+  "domains": [
+    "ice",
+    "winter",
+    "stillness"
+  ],
   "philosophy": "In silence and frost, perfection crystallizes.",
   "magic_school": "ice",
-  "rivals": { "primary": "bella", "secondary": "velox" },
+  "rivals": {
+    "primary": "bella",
+    "secondary": "velox"
+  },
   "binding": {
     "rune_item": "spells_n_gods:rune",
     "monument": {
@@ -17,55 +24,144 @@
     }
   },
   "favor": {
-    "thresholds": { "initiate": 10, "devout": 35, "exalted": 70, "ascendant": 95 },
+    "thresholds": {
+      "initiate": 10,
+      "devout": 35,
+      "exalted": 70,
+      "ascendant": 95
+    },
     "decay_per_day": 1.5
   },
   "worship": {
-    "prayer": { "min_seconds": 12, "cooldown_seconds": 300 },
-    "offering": { "grace_hours": 72, "diminishing_returns": true, "validator": "ice_offering" }
+    "prayer": {
+      "min_seconds": 12,
+      "cooldown_seconds": 300
+    },
+    "offering": {
+      "grace_hours": 72,
+      "diminishing_returns": true,
+      "validator": "ice_offering"
+    }
   },
   "blessings": {
     "initiate": {
       "effects": [
-        { "type": "attribute_modifier", "attribute": "minecraft:generic.armor", "amount": 2.0, "operation": "addition" }
+        {
+          "type": "attribute_modifier",
+          "attribute": "minecraft:generic.armor",
+          "amount": 2.0,
+          "operation": "addition"
+        }
       ],
-      "monument_ability": { "type": "frost_aura", "radius": 8, "slowness_amplifier": 0 }
+      "monument_ability": {
+        "type": "frost_aura",
+        "radius": 8,
+        "slowness_amplifier": 0
+      }
     },
     "devout": {
       "effects": [
-        { "type": "attribute_modifier", "attribute": "minecraft:generic.armor", "amount": 4.0, "operation": "addition" },
-        { "type": "potion_effect", "effect_id": "minecraft:fire_resistance", "amplifier": 0, "ambient": true }
+        {
+          "type": "attribute_modifier",
+          "attribute": "minecraft:generic.armor",
+          "amount": 4.0,
+          "operation": "addition"
+        },
+        {
+          "type": "potion_effect",
+          "effect_id": "minecraft:fire_resistance",
+          "amplifier": 0,
+          "ambient": true
+        }
       ],
-      "monument_ability": { "type": "frost_aura", "radius": 12, "slowness_amplifier": 1 }
+      "monument_ability": {
+        "type": "frost_aura",
+        "radius": 12,
+        "slowness_amplifier": 1
+      }
     },
     "exalted": {
       "effects": [
-        { "type": "attribute_modifier", "attribute": "minecraft:generic.armor", "amount": 6.0, "operation": "addition" },
-        { "type": "potion_effect", "effect_id": "minecraft:fire_resistance", "amplifier": 0, "ambient": true },
-        { "type": "conditional_combat", "condition": "melee_hit", "apply_slowness": 1, "duration_ticks": 60 }
+        {
+          "type": "attribute_modifier",
+          "attribute": "minecraft:generic.armor",
+          "amount": 6.0,
+          "operation": "addition"
+        },
+        {
+          "type": "potion_effect",
+          "effect_id": "minecraft:fire_resistance",
+          "amplifier": 0,
+          "ambient": true
+        },
+        {
+          "type": "conditional_combat",
+          "condition": "melee_hit",
+          "apply_slowness": 1,
+          "duration_ticks": 60
+        }
       ],
-      "monument_ability": { "type": "frost_aura", "radius": 16, "slowness_amplifier": 1 }
+      "monument_ability": {
+        "type": "frost_aura",
+        "radius": 16,
+        "slowness_amplifier": 1
+      }
     },
     "ascendant": {
       "effects": [
-        { "type": "attribute_modifier", "attribute": "minecraft:generic.armor", "amount": 8.0, "operation": "addition" },
-        { "type": "potion_effect", "effect_id": "minecraft:fire_resistance", "amplifier": 0, "ambient": true },
-        { "type": "conditional_combat", "condition": "melee_hit", "apply_slowness": 2, "duration_ticks": 80 },
-        { "type": "attribute_modifier", "attribute": "minecraft:generic.knockback_resistance", "amount": 0.3, "operation": "addition" }
+        {
+          "type": "attribute_modifier",
+          "attribute": "minecraft:generic.armor",
+          "amount": 8.0,
+          "operation": "addition"
+        },
+        {
+          "type": "potion_effect",
+          "effect_id": "minecraft:fire_resistance",
+          "amplifier": 0,
+          "ambient": true
+        },
+        {
+          "type": "conditional_combat",
+          "condition": "melee_hit",
+          "apply_slowness": 2,
+          "duration_ticks": 80
+        },
+        {
+          "type": "attribute_modifier",
+          "attribute": "minecraft:generic.knockback_resistance",
+          "amount": 0.3,
+          "operation": "addition"
+        }
       ],
-      "monument_ability": { "type": "frost_aura", "radius": 24, "slowness_amplifier": 2 }
+      "monument_ability": {
+        "type": "frost_aura",
+        "radius": 24,
+        "slowness_amplifier": 2
+      }
     }
   },
   "rival_pressure": {
     "primary": {
       "effects": [
-        { "effect_id": "minecraft:weakness", "amplifier": 1, "duration_seconds": 25 }
+        {
+          "effect_id": "minecraft:weakness",
+          "amplifier": 1,
+          "duration_seconds": 25
+        }
       ],
-      "event_pool": ["fire_burst", "ember_rain"]
+      "event_pool": [
+        "fire_burst",
+        "ember_rain"
+      ]
     },
     "secondary": {
       "effects": [
-        { "effect_id": "minecraft:mining_fatigue", "amplifier": 0, "duration_seconds": 20 }
+        {
+          "effect_id": "minecraft:mining_fatigue",
+          "amplifier": 0,
+          "duration_seconds": 20
+        }
       ],
       "event_pool": []
     }
@@ -73,8 +169,14 @@
   "apostasy": {
     "latent_curse": {
       "effects": [
-        { "effect_id": "minecraft:slowness", "amplifier": 2 },
-        { "effect_id": "minecraft:mining_fatigue", "amplifier": 1 }
+        {
+          "effect_id": "minecraft:slowness",
+          "amplifier": 2
+        },
+        {
+          "effect_id": "minecraft:mining_fatigue",
+          "amplifier": 1
+        }
       ],
       "damage_multiplier": 1.2,
       "hunger_drain": 1.3,
@@ -84,14 +186,23 @@
     "scar_modifiers": {
       "health_reduction": 0.03,
       "xp_penalty": 0.04,
-      "death_penalty_increase": 0.10,
+      "death_penalty_increase": 0.1,
       "luck_reduction": 0.02,
       "durability_penalty": 0.15
     },
     "trials": {
-      "phase_1": { "duration_seconds": 60 },
-      "phase_2": { "duration_seconds": 120, "pursuer_type": "minecraft:stray", "pursuer_count": 4 },
-      "phase_3": { "duration_seconds": 180, "pursuer_type": "minecraft:warden" }
+      "phase_1": {
+        "duration_seconds": 60
+      },
+      "phase_2": {
+        "duration_seconds": 120,
+        "pursuer_type": "minecraft:stray",
+        "pursuer_count": 4
+      },
+      "phase_3": {
+        "duration_seconds": 180,
+        "pursuer_type": "minecraft:warden"
+      }
     }
   },
   "boss": {
@@ -106,17 +217,83 @@
     "boss_bar_overlay": "progress",
     "skin_texture": "spells_n_gods:textures/entity/boss_glacia.png",
     "spell_pool": [
-      { "spell_id": "irons_spellbooks:cone_of_cold", "min_level": 10, "max_level": 10, "weight": 18, "range": 12.0 },
-      { "spell_id": "irons_spellbooks:frost_step", "min_level": 8, "max_level": 8, "weight": 10, "range": 999.0 },
-      { "spell_id": "irons_spellbooks:frostbite", "min_level": 5, "max_level": 5, "weight": 15, "range": 6.0 },
-      { "spell_id": "irons_spellbooks:frostwave", "min_level": 8, "max_level": 8, "weight": 15, "range": 12.0 },
-      { "spell_id": "irons_spellbooks:ice_block", "min_level": 6, "max_level": 6, "weight": 12, "range": 999.0 },
-      { "spell_id": "irons_spellbooks:ice_spikes", "min_level": 10, "max_level": 10, "weight": 15, "range": 20.0 },
-      { "spell_id": "irons_spellbooks:ice_tomb", "min_level": 8, "max_level": 8, "weight": 12, "range": 12.0 },
-      { "spell_id": "irons_spellbooks:icicle", "min_level": 10, "max_level": 10, "weight": 18, "range": 20.0 },
-      { "spell_id": "irons_spellbooks:ray_of_frost", "min_level": 5, "max_level": 5, "weight": 15, "range": 20.0 },
-      { "spell_id": "irons_spellbooks:snowball", "min_level": 5, "max_level": 5, "weight": 8, "range": 20.0 },
-      { "spell_id": "irons_spellbooks:summon_polar_bear", "min_level": 10, "max_level": 10, "weight": 10, "range": 999.0 }
+      {
+        "spell_id": "irons_spellbooks:cone_of_cold",
+        "min_level": 10,
+        "max_level": 10,
+        "weight": 18,
+        "range": 12.0
+      },
+      {
+        "spell_id": "irons_spellbooks:frost_step",
+        "min_level": 8,
+        "max_level": 8,
+        "weight": 10,
+        "range": 999.0
+      },
+      {
+        "spell_id": "irons_spellbooks:frostbite",
+        "min_level": 5,
+        "max_level": 5,
+        "weight": 15,
+        "range": 6.0
+      },
+      {
+        "spell_id": "irons_spellbooks:frostwave",
+        "min_level": 8,
+        "max_level": 8,
+        "weight": 15,
+        "range": 12.0
+      },
+      {
+        "spell_id": "irons_spellbooks:ice_block",
+        "min_level": 6,
+        "max_level": 6,
+        "weight": 12,
+        "range": 999.0
+      },
+      {
+        "spell_id": "irons_spellbooks:ice_spikes",
+        "min_level": 10,
+        "max_level": 10,
+        "weight": 15,
+        "range": 20.0
+      },
+      {
+        "spell_id": "irons_spellbooks:ice_tomb",
+        "min_level": 8,
+        "max_level": 8,
+        "weight": 12,
+        "range": 12.0
+      },
+      {
+        "spell_id": "irons_spellbooks:icicle",
+        "min_level": 10,
+        "max_level": 10,
+        "weight": 18,
+        "range": 20.0
+      },
+      {
+        "spell_id": "irons_spellbooks:ray_of_frost",
+        "min_level": 5,
+        "max_level": 5,
+        "weight": 15,
+        "range": 20.0
+      },
+      {
+        "spell_id": "irons_spellbooks:snowball",
+        "min_level": 5,
+        "max_level": 5,
+        "weight": 8,
+        "range": 20.0
+      },
+      {
+        "spell_id": "irons_spellbooks:summon_polar_bear",
+        "min_level": 10,
+        "max_level": 10,
+        "weight": 10,
+        "range": 999.0
+      }
     ],
     "spell_cooldown_ticks": 60,
     "leash_radius": 32.0,
@@ -132,7 +309,25 @@
     "biome_tag": "spells_n_gods:has_structure/god_temple",
     "search_radius": 10000,
     "min_dist_from_spawn": 1000,
-    "size": 16
+    "size": 16,
+    "default_tier": "uncommon",
+    "disable_default": false,
+    "domain_tags": [
+      "#spells_n_gods:nature_structures",
+      "#spells_n_gods:ocean_structures"
+    ],
+    "whitelist": [
+      {
+        "id": "minecraft:igloo",
+        "weight": 20
+      },
+      {
+        "id": "minecraft:ocean_ruin_cold",
+        "weight": 15
+      }
+    ],
+    "placement": "nearest_safe_floor",
+    "default_alignment": "passive"
   },
   "localization": {
     "name_key": "god.spells_n_gods.glacia",

@@ -1,0 +1,9 @@
+{
+  "replace": false,
+  "values": [
+    "minecraft:stronghold",
+    "minecraft:monument",
+    "minecraft:fortress",
+    "minecraft:bastion_remnant"
+  ]
+}
