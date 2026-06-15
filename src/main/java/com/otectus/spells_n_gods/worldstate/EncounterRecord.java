@@ -3,7 +3,6 @@ package com.otectus.spells_n_gods.worldstate;
 import com.otectus.spells_n_gods.spawning.logic.CooldownState;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
-import net.minecraft.nbt.NbtUtils;
 import net.minecraft.nbt.Tag;
 import net.minecraft.world.level.levelgen.structure.BoundingBox;
 
@@ -119,7 +118,9 @@ public class EncounterRecord {
         tag.putInt("SpawnedCount", spawnedCount);
         ListTag list = new ListTag();
         for (UUID uuid : activeDeities) {
-            list.add(NbtUtils.createUUID(uuid));
+            CompoundTag entry = new CompoundTag();
+            entry.putUUID("UUID", uuid);
+            list.add(entry);
         }
         tag.put("Active", list);
         return tag;
@@ -134,9 +135,12 @@ public class EncounterRecord {
         record.lastSpawnGameTime = tag.getLong("LastSpawn");
         record.cooldownEndsGameTime = tag.getLong("CooldownEnds");
         record.spawnedCount = tag.getInt("SpawnedCount");
-        ListTag list = tag.getList("Active", Tag.TAG_INT_ARRAY);
+        ListTag list = tag.getList("Active", Tag.TAG_COMPOUND);
         for (Tag t : list) {
-            record.activeDeities.add(NbtUtils.loadUUID(t));
+            CompoundTag entry = (CompoundTag) t;
+            if (entry.hasUUID("UUID")) {
+                record.activeDeities.add(entry.getUUID("UUID"));
+            }
         }
         return record;
     }
