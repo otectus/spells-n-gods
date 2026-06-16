@@ -3,13 +3,18 @@ package com.otectus.spells_n_gods.rivalry;
 import com.otectus.spells_n_gods.SpellsNGodsMod;
 import com.otectus.spells_n_gods.capability.PlayerDivinityCapability;
 import com.otectus.spells_n_gods.capability.PlayerDivinityData;
+import com.otectus.spells_n_gods.data.EventDefinition;
+import com.otectus.spells_n_gods.data.GodDefinition;
+import com.otectus.spells_n_gods.data.SpellsNGodsDataManager;
 import com.otectus.spells_n_gods.rivalry.DivineEvent.EventSeverity;
 import com.otectus.spells_n_gods.rivalry.DivineEvent.EventType;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.util.RandomSource;
 
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 /**
@@ -31,7 +36,8 @@ public class EventScheduler {
     private static final long MIN_EVENT_INTERVAL_MS = 30 * 60 * 1000; // 30 minutes
     private static long lastEventTimeMs = 0;
 
-    private static final Random RANDOM = new Random();
+    // Event-pool ids that referenced a missing definition, so we warn only once per session.
+    private static final Set<ResourceLocation> WARNED_MISSING_EVENTS = ConcurrentHashMap.newKeySet();
 
     /**
      * Called periodically (e.g., every 5 minutes) to check pressure and schedule events.
@@ -81,7 +87,7 @@ public class EventScheduler {
         }
 
         // Random chance to actually trigger
-        if (RANDOM.nextFloat() > eventChance) {
+        if (server.overworld().getRandom().nextFloat() > eventChance) {
             return;
         }
 
@@ -115,16 +121,20 @@ public class EventScheduler {
             return null;
         }
 
-        // Choose event type based on severity
-        EventType type = chooseEventType(severity);
+        // Prefer a data-driven event from the source god's pool for this rival; the severity-based enum
+        // type remains as the fallback when the pool is empty or all its ids lack loaded definitions.
+        RandomSource random = server.overworld().getRandom();
+        ResourceLocation chosenDefId = chooseEventDefId(sourceGodId, targetGodId, random);
+        EventType type = chooseEventType(severity, random);
 
         long now = System.currentTimeMillis();
-        long delay = RANDOM.nextLong(60_000, 300_000); // 1-5 minutes delay
+        long delay = 60_000L + random.nextInt(240_000); // 1-5 minutes delay
         long duration = getEventDuration(severity);
 
         return DivineEvent.builder()
                 .sourceGod(sourceGodId)
                 .targetGod(targetGodId)
+                .eventDef(chosenDefId)
                 .type(type)
                 .severity(severity)
                 .scheduledAt(now + delay)
@@ -133,19 +143,52 @@ public class EventScheduler {
                 .build();
     }
 
-    private static EventType chooseEventType(EventSeverity severity) {
+    /**
+     * Resolve a random, loaded {@link EventDefinition} id from the source god's {@code event_pool} for the
+     * pressured rival, or {@code null} when no usable pool entry exists (caller falls back to the enum).
+     */
+    private static ResourceLocation chooseEventDefId(ResourceLocation sourceGodId,
+                                                     ResourceLocation targetGodId,
+                                                     RandomSource random) {
+        GodDefinition source = SpellsNGodsDataManager.getGods().get(sourceGodId);
+        if (source == null) {
+            return null;
+        }
+        String slot = source.rivalSlot(targetGodId.getPath());
+        if (slot.isEmpty()) {
+            return null;
+        }
+
+        Map<ResourceLocation, EventDefinition> events = SpellsNGodsDataManager.getEvents();
+        List<ResourceLocation> resolved = new ArrayList<>();
+        for (String rawId : source.eventPool(slot)) {
+            ResourceLocation defId = new ResourceLocation(SpellsNGodsMod.MODID, rawId);
+            if (events.containsKey(defId)) {
+                resolved.add(defId);
+            } else if (WARNED_MISSING_EVENTS.add(defId)) {
+                SpellsNGodsMod.LOGGER.warn("Rival event pool for {} references missing event '{}'",
+                        sourceGodId, rawId);
+            }
+        }
+        if (resolved.isEmpty()) {
+            return null;
+        }
+        return resolved.get(random.nextInt(resolved.size()));
+    }
+
+    private static EventType chooseEventType(EventSeverity severity, RandomSource random) {
         return switch (severity) {
             case LEGENDARY -> {
                 EventType[] types = {EventType.DIVINE_TRIAL, EventType.RIVAL_CURSE, EventType.DIVINE_MANIFESTATION};
-                yield types[RANDOM.nextInt(types.length)];
+                yield types[random.nextInt(types.length)];
             }
             case MAJOR -> {
                 EventType[] types = {EventType.FAITH_TEST, EventType.DIVINE_TRIAL};
-                yield types[RANDOM.nextInt(types.length)];
+                yield types[random.nextInt(types.length)];
             }
             case MODERATE -> {
                 EventType[] types = {EventType.FAITH_TEST, EventType.OMEN};
-                yield types[RANDOM.nextInt(types.length)];
+                yield types[random.nextInt(types.length)];
             }
             case MINOR -> EventType.OMEN;
         };

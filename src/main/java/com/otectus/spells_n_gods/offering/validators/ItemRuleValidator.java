@@ -1,20 +1,15 @@
 package com.otectus.spells_n_gods.offering.validators;
 
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.otectus.spells_n_gods.data.GodDefinition;
 import com.otectus.spells_n_gods.offering.OfferingValidator;
 import com.otectus.spells_n_gods.offering.ValidationResult;
-import net.minecraft.core.registries.Registries;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class ItemRuleValidator implements OfferingValidator {
@@ -23,6 +18,8 @@ public class ItemRuleValidator implements OfferingValidator {
     private final boolean mustBeUnused;
     private final Rarity minRarity;
     private final List<TagKey<Item>> denyTags;
+    private final List<TagKey<Item>> allowTags;
+    private final JsonObject rules;
     private final float baseValue;
     private final float rarityMultiplierCommon;
     private final float rarityMultiplierUncommon;
@@ -33,7 +30,7 @@ public class ItemRuleValidator implements OfferingValidator {
     public ItemRuleValidator(String id, JsonObject definition) {
         this.id = id;
 
-        JsonObject rules = definition.has("rules") ? definition.getAsJsonObject("rules") : new JsonObject();
+        this.rules = definition.has("rules") ? definition.getAsJsonObject("rules") : new JsonObject();
 
         this.mustBeCrafted = rules.has("must_be_crafted") && rules.get("must_be_crafted").getAsBoolean();
         this.mustBeUnused = rules.has("must_be_unused") && rules.get("must_be_unused").getAsBoolean();
@@ -41,14 +38,8 @@ public class ItemRuleValidator implements OfferingValidator {
         String minRarityStr = rules.has("min_rarity") ? rules.get("min_rarity").getAsString() : null;
         this.minRarity = parseRarity(minRarityStr);
 
-        this.denyTags = new ArrayList<>();
-        if (rules.has("deny_tags")) {
-            JsonArray tagsArray = rules.getAsJsonArray("deny_tags");
-            for (JsonElement elem : tagsArray) {
-                ResourceLocation tagId = new ResourceLocation(elem.getAsString());
-                denyTags.add(TagKey.create(Registries.ITEM, tagId));
-            }
-        }
+        this.denyTags = OfferingRuleChecks.parseTagList(rules, "deny_tags");
+        this.allowTags = OfferingRuleChecks.parseTagList(rules, "allow_items");
 
         JsonObject valueScoring = definition.has("value_scoring") ? definition.getAsJsonObject("value_scoring") : new JsonObject();
         this.baseValue = valueScoring.has("base_value") ? valueScoring.get("base_value").getAsFloat() : 10.0f;
@@ -97,6 +88,16 @@ public class ItemRuleValidator implements OfferingValidator {
             if (stack.is(tag)) {
                 return ValidationResult.fail("spells_n_gods.offering.denied_item");
             }
+        }
+
+        ValidationResult allow = OfferingRuleChecks.checkAllowItems(allowTags, stack);
+        if (!allow.valid()) {
+            return allow;
+        }
+
+        ValidationResult actions = OfferingRuleChecks.checkActionRequirements(rules, player);
+        if (!actions.valid()) {
+            return actions;
         }
 
         return ValidationResult.ok();

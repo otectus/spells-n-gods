@@ -154,7 +154,7 @@
           "duration_seconds": 10
         }
       ],
-      "event_pool": []
+      "event_pool": ["arcane_audit", "blight_wave"]
     }
   },
   "apostasy": {

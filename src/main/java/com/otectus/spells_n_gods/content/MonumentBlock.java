@@ -4,10 +4,12 @@ import com.otectus.spells_n_gods.capability.PlayerDivinityCapability;
 import com.otectus.spells_n_gods.capability.PlayerDivinityData;
 import com.otectus.spells_n_gods.config.SpellsNGodsConfig;
 import com.otectus.spells_n_gods.data.GodDefinition;
+import com.otectus.spells_n_gods.data.MonumentDefinition;
 import com.otectus.spells_n_gods.data.SpellsNGodsDataManager;
 import com.otectus.spells_n_gods.prayer.PrayerManager;
 import com.otectus.spells_n_gods.registry.ModBlockEntities;
 import com.otectus.spells_n_gods.registry.ModParticles;
+import com.otectus.spells_n_gods.util.AmbientResolver;
 import com.otectus.spells_n_gods.util.SchoolColors;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.particles.DustParticleOptions;
@@ -16,6 +18,8 @@ import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -127,6 +131,7 @@ public class MonumentBlock extends Block implements EntityBlock {
         if (god == null) return;
 
         String school = god.magicSchool();
+        MonumentDefinition def = SpellsNGodsDataManager.getMonuments().get(new ResourceLocation(godId));
         double cx = pos.getX() + 0.5;
         double cy = pos.getY() + 0.5;
         double cz = pos.getZ() + 0.5;
@@ -140,9 +145,11 @@ public class MonumentBlock extends Block implements EntityBlock {
                     0, 0.005, 0);
         }
 
-        // School-themed particle (15% chance per tick)
+        // School-themed particle (15% chance per tick) — honors the monument's authored ambient particle,
+        // falling back to the school particle when unset/unresolved.
         if (random.nextFloat() < 0.15f) {
-            ParticleOptions schoolParticle = SchoolColors.getSchoolParticle(school);
+            String particleId = def != null ? def.particle() : "";
+            ParticleOptions schoolParticle = AmbientResolver.resolveParticle(particleId, school);
             double angle = random.nextDouble() * Math.PI * 2.0;
             double radius = 0.3 + random.nextDouble() * 0.3;
             level.addParticle(schoolParticle,
@@ -161,6 +168,15 @@ public class MonumentBlock extends Block implements EntityBlock {
                     cy + 0.8 + random.nextDouble() * 0.5,
                     cz + (random.nextDouble() - 0.5) * 0.2,
                     0, 0.015, 0);
+        }
+
+        // Occasional authored ambient sound — rare and quiet so monuments are atmospheric, not noisy.
+        if (def != null && random.nextFloat() < 0.012f) {
+            SoundEvent ambient = AmbientResolver.resolveSound(def.ambientSound());
+            if (ambient != null) {
+                level.playLocalSound(cx, cy, cz, ambient, SoundSource.BLOCKS,
+                        0.35f, 0.9f + random.nextFloat() * 0.2f, false);
+            }
         }
     }
 

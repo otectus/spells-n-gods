@@ -5,7 +5,7 @@
   "duration_seconds": 120,
   "radius": 24,
   "conditions": {
-    "requires_rival": "meridian",
+    "requires_rival": "celia",
     "tier_at_least": "devout"
   },
   "effects": [

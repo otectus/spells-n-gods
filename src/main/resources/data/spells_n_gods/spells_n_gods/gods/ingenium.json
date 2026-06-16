@@ -161,7 +161,7 @@
           "duration_seconds": 15
         }
       ],
-      "event_pool": []
+      "event_pool": ["lockdown", "sabotage"]
     }
   },
   "apostasy": {

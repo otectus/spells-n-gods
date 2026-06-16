@@ -1,4 +1,15 @@
 {
   "replace": false,
-  "values": []
+  "values": [
+    "minecraft:cobblestone",
+    "minecraft:dirt",
+    "minecraft:sand",
+    "minecraft:gravel",
+    "minecraft:netherrack",
+    "minecraft:cobbled_deepslate",
+    "minecraft:andesite",
+    "minecraft:diorite",
+    "minecraft:granite",
+    "minecraft:oak_planks"
+  ]
 }

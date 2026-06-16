@@ -11,4 +11,14 @@ public record MonumentDefinition(int schema, ResourceLocation id, JsonObject raw
         ResourceLocation id = SpellsNGodsJsonUtil.parseId(idRaw, location);
         return Optional.of(new MonumentDefinition(schema, id, json.deepCopy()));
     }
+
+    /** Authored ambient particle id (e.g. {@code spells_n_gods:embers}); {@code ""} if unset. */
+    public String particle() {
+        return SpellsNGodsJsonUtil.getString(raw, "particle", "");
+    }
+
+    /** Authored ambient loop-sound id (e.g. {@code spells_n_gods:war_drum}); {@code ""} if unset. */
+    public String ambientSound() {
+        return SpellsNGodsJsonUtil.getString(raw, "ambient_sound", "");
+    }
 }

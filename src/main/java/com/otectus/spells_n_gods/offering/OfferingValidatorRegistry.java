@@ -4,6 +4,7 @@ import com.google.gson.JsonObject;
 import com.otectus.spells_n_gods.SpellsNGodsMod;
 import com.otectus.spells_n_gods.data.OfferingValidatorDefinition;
 import com.otectus.spells_n_gods.data.SpellsNGodsDataManager;
+import com.otectus.spells_n_gods.offering.validators.ActionRuleValidator;
 import com.otectus.spells_n_gods.offering.validators.AlwaysValidValidator;
 import com.otectus.spells_n_gods.offering.validators.ItemRuleValidator;
 import net.minecraft.resources.ResourceLocation;
@@ -42,6 +43,7 @@ public class OfferingValidatorRegistry {
 
         return switch (type) {
             case "item_rule" -> new ItemRuleValidator(id, json);
+            case "action_rule" -> new ActionRuleValidator(id, json);
             case "always_valid" -> new AlwaysValidValidator();
             default -> {
                 SpellsNGodsMod.LOGGER.warn("Unknown validator type: {}, using fallback", type);

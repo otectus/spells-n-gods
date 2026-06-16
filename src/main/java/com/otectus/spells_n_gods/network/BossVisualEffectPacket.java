@@ -1,6 +1,8 @@
 package com.otectus.spells_n_gods.network;
 
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.network.NetworkEvent;
 
 import java.util.function.Supplier;
@@ -39,7 +41,7 @@ public class BossVisualEffectPacket {
         buf.writeDouble(msg.originX);
         buf.writeDouble(msg.originY);
         buf.writeDouble(msg.originZ);
-        buf.writeUtf(msg.school);
+        buf.writeUtf(msg.school, 64);
     }
 
     public static BossVisualEffectPacket decode(FriendlyByteBuf buf) {
@@ -47,15 +49,17 @@ public class BossVisualEffectPacket {
         double x = buf.readDouble();
         double y = buf.readDouble();
         double z = buf.readDouble();
-        String school = buf.readUtf();
+        String school = buf.readUtf(64);
         return new BossVisualEffectPacket(type, x, y, z, school);
     }
 
     public static void handle(BossVisualEffectPacket msg, Supplier<NetworkEvent.Context> ctx) {
-        ctx.get().enqueueWork(() -> {
-            com.otectus.spells_n_gods.client.BossFightScreenEffects.handleEffect(
-                    msg.effectType, msg.originX, msg.originY, msg.originZ, msg.school);
-        });
+        ctx.get().enqueueWork(() ->
+            DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () ->
+                com.otectus.spells_n_gods.client.BossFightScreenEffects.handleEffect(
+                        msg.effectType, msg.originX, msg.originY, msg.originZ, msg.school)
+            )
+        );
         ctx.get().setPacketHandled(true);
     }
 }

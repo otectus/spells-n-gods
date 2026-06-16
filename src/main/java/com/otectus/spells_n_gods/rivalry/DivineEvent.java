@@ -13,12 +13,18 @@ public record DivineEvent(
         UUID eventId,
         ResourceLocation sourceGodId,
         ResourceLocation targetGodId,
+        ResourceLocation eventDefId,
         EventType type,
         long scheduledTimeMs,
         long expiresTimeMs,
         EventSeverity severity,
         List<UUID> affectedPlayers
 ) {
+    /** True when this event is driven by a loaded {@code EventDefinition} rather than the legacy enum. */
+    public boolean isDataDriven() {
+        return eventDefId != null;
+    }
+
     public enum EventType {
         // Positive events (for the source god's followers)
         DIVINE_BLESSING,        // Temporary buff to source god followers
@@ -72,6 +78,7 @@ public record DivineEvent(
         private UUID eventId = UUID.randomUUID();
         private ResourceLocation sourceGodId;
         private ResourceLocation targetGodId;
+        private ResourceLocation eventDefId = null;
         private EventType type;
         private long scheduledTimeMs;
         private long expiresTimeMs;
@@ -90,6 +97,11 @@ public record DivineEvent(
 
         public Builder targetGod(ResourceLocation id) {
             this.targetGodId = id;
+            return this;
+        }
+
+        public Builder eventDef(ResourceLocation id) {
+            this.eventDefId = id;
             return this;
         }
 
@@ -123,6 +135,7 @@ public record DivineEvent(
                     eventId,
                     sourceGodId,
                     targetGodId,
+                    eventDefId,
                     type,
                     scheduledTimeMs,
                     expiresTimeMs,

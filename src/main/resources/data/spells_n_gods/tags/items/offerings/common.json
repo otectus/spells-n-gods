@@ -1,4 +1,15 @@
 {
   "replace": false,
-  "values": []
+  "values": [
+    "minecraft:iron_ingot",
+    "minecraft:gold_ingot",
+    "minecraft:copper_ingot",
+    "minecraft:coal",
+    "minecraft:quartz",
+    "minecraft:amethyst_shard",
+    "minecraft:lapis_lazuli",
+    "minecraft:redstone",
+    "minecraft:leather",
+    "minecraft:wheat"
+  ]
 }

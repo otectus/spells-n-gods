@@ -1,0 +1,26 @@
+{
+  "schema": 1,
+  "id": "frost_shackle",
+  "type": "debuff_aura",
+  "duration_seconds": 60,
+  "radius": 16,
+  "conditions": {
+    "requires_rival": "glacia",
+    "tier_at_least": "devout"
+  },
+  "effects": [
+    {
+      "type": "slowness",
+      "amplifier": 2
+    },
+    {
+      "type": "mining_fatigue",
+      "amplifier": 1
+    }
+  ],
+  "presentation": {
+    "title_key": "event.spells_n_gods.frost_shackle",
+    "particles": "snowflake",
+    "sound": "block.glass.break"
+  }
+}

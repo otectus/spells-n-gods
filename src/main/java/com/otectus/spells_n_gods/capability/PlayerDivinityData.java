@@ -15,6 +15,17 @@ public class PlayerDivinityData {
     private long latentCurseEndMs;
     private OfferingHistory offeringHistory;
 
+    // Action-tracking timestamps (epoch ms) consumed by action_rule offering validators
+    private long lastManaSpendMs;
+    private long lastReplantMs;
+    private long lastTradeCycleMs;
+    private long lastRiskMs;
+    private long lastKillCreditMs;
+
+    // Transient rival-event prayer-cooldown modifier (multiplier active until eventCooldownEndMs)
+    private float eventCooldownMultiplier;
+    private long eventCooldownEndMs;
+
     // Apostasy system fields
     private ScarData scarData;
     private String lastAbandonedGodId;
@@ -37,6 +48,13 @@ public class PlayerDivinityData {
         this.apostasyCooldownEndMs = 0L;
         this.latentCurseEndMs = 0L;
         this.offeringHistory = new OfferingHistory();
+        this.lastManaSpendMs = 0L;
+        this.lastReplantMs = 0L;
+        this.lastTradeCycleMs = 0L;
+        this.lastRiskMs = 0L;
+        this.lastKillCreditMs = 0L;
+        this.eventCooldownMultiplier = 1.0f;
+        this.eventCooldownEndMs = 0L;
         this.scarData = new ScarData();
         this.lastAbandonedGodId = null;
         this.inApostasyTrial = false;
@@ -147,6 +165,28 @@ public class PlayerDivinityData {
         return offeringHistory;
     }
 
+    // Action-tracking getters/setters (timestamps used by action_rule offering validators)
+    public long getLastManaSpendMs() { return lastManaSpendMs; }
+    public void setLastManaSpendMs(long ms) { this.lastManaSpendMs = ms; }
+    public long getLastReplantMs() { return lastReplantMs; }
+    public void setLastReplantMs(long ms) { this.lastReplantMs = ms; }
+    public long getLastTradeCycleMs() { return lastTradeCycleMs; }
+    public void setLastTradeCycleMs(long ms) { this.lastTradeCycleMs = ms; }
+    public long getLastRiskMs() { return lastRiskMs; }
+    public void setLastRiskMs(long ms) { this.lastRiskMs = ms; }
+    public long getLastKillCreditMs() { return lastKillCreditMs; }
+    public void setLastKillCreditMs(long ms) { this.lastKillCreditMs = ms; }
+
+    /** Effective prayer-cooldown multiplier from an active rival event (1.0 when none/expired). */
+    public float getEventCooldownMultiplier() {
+        return System.currentTimeMillis() < eventCooldownEndMs ? eventCooldownMultiplier : 1.0f;
+    }
+
+    public void setEventCooldownModifier(float multiplier, long endMs) {
+        this.eventCooldownMultiplier = multiplier;
+        this.eventCooldownEndMs = endMs;
+    }
+
     // Apostasy system getters/setters
     public ScarData getScarData() {
         return scarData;
@@ -237,6 +277,13 @@ public class PlayerDivinityData {
         tag.putString("CurrentTier", currentTier.name());
         tag.putLong("ApostasyCooldownEndMs", apostasyCooldownEndMs);
         tag.putLong("LatentCurseEndMs", latentCurseEndMs);
+        tag.putLong("LastManaSpendMs", lastManaSpendMs);
+        tag.putLong("LastReplantMs", lastReplantMs);
+        tag.putLong("LastTradeCycleMs", lastTradeCycleMs);
+        tag.putLong("LastRiskMs", lastRiskMs);
+        tag.putLong("LastKillCreditMs", lastKillCreditMs);
+        tag.putFloat("EventCooldownMult", eventCooldownMultiplier);
+        tag.putLong("EventCooldownEndMs", eventCooldownEndMs);
         tag.put("OfferingHistory", offeringHistory.save());
         tag.put("ScarData", scarData.save());
         if (lastAbandonedGodId != null) {
@@ -279,6 +326,13 @@ public class PlayerDivinityData {
         }
         apostasyCooldownEndMs = tag.getLong("ApostasyCooldownEndMs");
         latentCurseEndMs = tag.getLong("LatentCurseEndMs");
+        lastManaSpendMs = tag.getLong("LastManaSpendMs");
+        lastReplantMs = tag.getLong("LastReplantMs");
+        lastTradeCycleMs = tag.getLong("LastTradeCycleMs");
+        lastRiskMs = tag.getLong("LastRiskMs");
+        lastKillCreditMs = tag.getLong("LastKillCreditMs");
+        eventCooldownMultiplier = tag.contains("EventCooldownMult") ? tag.getFloat("EventCooldownMult") : 1.0f;
+        eventCooldownEndMs = tag.getLong("EventCooldownEndMs");
         if (tag.contains("OfferingHistory")) {
             offeringHistory.load(tag.getCompound("OfferingHistory"));
         }
@@ -313,6 +367,13 @@ public class PlayerDivinityData {
         this.currentTier = other.currentTier;
         this.apostasyCooldownEndMs = other.apostasyCooldownEndMs;
         this.latentCurseEndMs = other.latentCurseEndMs;
+        this.lastManaSpendMs = other.lastManaSpendMs;
+        this.lastReplantMs = other.lastReplantMs;
+        this.lastTradeCycleMs = other.lastTradeCycleMs;
+        this.lastRiskMs = other.lastRiskMs;
+        this.lastKillCreditMs = other.lastKillCreditMs;
+        this.eventCooldownMultiplier = other.eventCooldownMultiplier;
+        this.eventCooldownEndMs = other.eventCooldownEndMs;
         this.offeringHistory.load(other.offeringHistory.save());
         this.scarData.copyFrom(other.scarData);
         this.lastAbandonedGodId = other.lastAbandonedGodId;
@@ -335,6 +396,8 @@ public class PlayerDivinityData {
         this.currentTier = DivineTier.NONE;
         this.apostasyCooldownEndMs = 0L;
         this.latentCurseEndMs = 0L;
+        this.eventCooldownMultiplier = 1.0f;
+        this.eventCooldownEndMs = 0L;
         this.offeringHistory.clear();
         // Note: scarData is NOT reset - scars are permanent
         this.lastAbandonedGodId = null;

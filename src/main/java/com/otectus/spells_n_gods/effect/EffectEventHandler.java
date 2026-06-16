@@ -21,8 +21,6 @@ import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
-import java.util.Random;
-
 @Mod.EventBusSubscriber(modid = SpellsNGodsMod.MODID)
 public class EffectEventHandler {
 
@@ -137,8 +135,6 @@ public class EffectEventHandler {
 
     // ==================== DEATH EFFECTS (Mortyss - Finality) ====================
 
-    private static final Random RANDOM = new Random();
-
     @SubscribeEvent(priority = EventPriority.HIGHEST)
     public static void onPlayerDeath(LivingDeathEvent event) {
         if (!(event.getEntity() instanceof ServerPlayer player)) {
@@ -178,7 +174,7 @@ public class EffectEventHandler {
             event.getDrops().removeIf(itemEntity -> {
                 ItemStack stack = itemEntity.getItem();
 
-                if (RANDOM.nextFloat() < itemRetention) {
+                if (player.getRandom().nextFloat() < itemRetention) {
                     // Serialize item for restoration on respawn
                     retainedItems.add(stack.save(new CompoundTag()));
                     return true;
@@ -227,10 +223,10 @@ public class EffectEventHandler {
         for (TierEffect effect : profile.getActiveEffects()) {
             if (effect instanceof LuckManipulationEffect luckEffect) {
                 float bonusChance = luckEffect.getBonusDropChance();
-                if (bonusChance > 0 && RANDOM.nextFloat() < bonusChance) {
+                if (bonusChance > 0 && player.getRandom().nextFloat() < bonusChance) {
                     // Duplicate random drops
                     event.getDrops().forEach(drop -> {
-                        if (RANDOM.nextFloat() < 0.5f) {
+                        if (player.getRandom().nextFloat() < 0.5f) {
                             ItemStack bonus = drop.getItem().copy();
                             drop.getItem().grow(bonus.getCount());
                         }

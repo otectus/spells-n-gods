@@ -5,6 +5,8 @@ import com.otectus.spells_n_gods.capability.DivineTier;
 import com.otectus.spells_n_gods.capability.PlayerDivinityCapability;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.network.NetworkEvent;
 
 import java.util.function.Supplier;
@@ -35,7 +37,7 @@ public class SyncDivinityPacket {
     public static void encode(SyncDivinityPacket packet, FriendlyByteBuf buf) {
         buf.writeBoolean(packet.godId != null);
         if (packet.godId != null) {
-            buf.writeUtf(packet.godId);
+            buf.writeUtf(packet.godId, 256);
         }
         buf.writeFloat(packet.favor);
         buf.writeEnum(packet.blessingState);
@@ -47,7 +49,7 @@ public class SyncDivinityPacket {
     }
 
     public static SyncDivinityPacket decode(FriendlyByteBuf buf) {
-        String godId = buf.readBoolean() ? buf.readUtf() : null;
+        String godId = buf.readBoolean() ? buf.readUtf(256) : null;
         float favor = buf.readFloat();
         BlessingState blessingState = buf.readEnum(BlessingState.class);
         DivineTier currentTier = buf.readEnum(DivineTier.class);
@@ -60,22 +62,24 @@ public class SyncDivinityPacket {
     }
 
     public static void handle(SyncDivinityPacket packet, Supplier<NetworkEvent.Context> ctx) {
-        ctx.get().enqueueWork(() -> {
-            var player = Minecraft.getInstance().player;
-            if (player != null) {
-                player.getCapability(PlayerDivinityCapability.DIVINITY).ifPresent(data -> {
-                    data.setChosenGodId(packet.godId);
-                    data.setFavor(packet.favor);
-                    data.setBlessingState(packet.blessingState);
-                    data.setCurrentTier(packet.currentTier);
-                    data.setLastOfferingEpochMs(packet.lastOfferingEpochMs);
-                    data.setLastPrayerEpochMs(packet.lastPrayerEpochMs);
-                });
-                // Store scar info in persistent data for client-side rendering
-                player.getPersistentData().putInt("spells_n_gods:scar_count", packet.scarCount);
-                player.getPersistentData().putFloat("spells_n_gods:scar_health_reduction", packet.totalHealthReduction);
-            }
-        });
+        ctx.get().enqueueWork(() ->
+            DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> {
+                var player = Minecraft.getInstance().player;
+                if (player != null) {
+                    player.getCapability(PlayerDivinityCapability.DIVINITY).ifPresent(data -> {
+                        data.setChosenGodId(packet.godId);
+                        data.setFavor(packet.favor);
+                        data.setBlessingState(packet.blessingState);
+                        data.setCurrentTier(packet.currentTier);
+                        data.setLastOfferingEpochMs(packet.lastOfferingEpochMs);
+                        data.setLastPrayerEpochMs(packet.lastPrayerEpochMs);
+                    });
+                    // Store scar info in persistent data for client-side rendering
+                    player.getPersistentData().putInt("spells_n_gods:scar_count", packet.scarCount);
+                    player.getPersistentData().putFloat("spells_n_gods:scar_health_reduction", packet.totalHealthReduction);
+                }
+            })
+        );
         ctx.get().setPacketHandled(true);
     }
 }

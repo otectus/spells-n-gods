@@ -1,0 +1,26 @@
+{
+  "schema": 1,
+  "id": "holy_purge",
+  "type": "instant",
+  "duration_seconds": 5,
+  "radius": 12,
+  "conditions": {
+    "requires_rival": "deus",
+    "tier_at_least": "devout"
+  },
+  "effects": [
+    {
+      "type": "knockback_burst",
+      "strength": 2.0
+    },
+    {
+      "type": "reduced_healing",
+      "multiplier": 0.3
+    }
+  ],
+  "presentation": {
+    "title_key": "event.spells_n_gods.holy_purge",
+    "particles": "flash",
+    "sound": "entity.lightning_bolt.thunder"
+  }
+}

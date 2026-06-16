@@ -9,6 +9,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.RandomSource;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
@@ -334,7 +335,7 @@ public class ApostasyTrialManager {
     private static BlockPos findSpawnPosition(ServerPlayer player, int distance) {
         ServerLevel level = player.serverLevel();
         BlockPos playerPos = player.blockPosition();
-        Random random = new Random();
+        RandomSource random = level.getRandom();
 
         for (int attempts = 0; attempts < 10; attempts++) {
             double angle = random.nextDouble() * Math.PI * 2;

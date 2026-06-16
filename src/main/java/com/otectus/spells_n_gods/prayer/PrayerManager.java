@@ -61,7 +61,8 @@ public class PrayerManager {
 
         long now = System.currentTimeMillis();
         int cooldownSeconds = god.worship().prayer().cooldownSeconds();
-        long cooldownMs = cooldownSeconds * 1000L;
+        // An active rival event (increase_cooldown_multiplier) lengthens prayer cooldowns; 1.0 otherwise.
+        long cooldownMs = (long) (cooldownSeconds * 1000L * data.getEventCooldownMultiplier());
 
         if (data.getLastPrayerEpochMs() > 0 && (now - data.getLastPrayerEpochMs()) < cooldownMs) {
             long remainingMs = cooldownMs - (now - data.getLastPrayerEpochMs());

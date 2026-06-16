@@ -100,6 +100,32 @@ public record GodDefinition(
         ));
     }
 
+    /**
+     * Event-pool ids declared under {@code rival_pressure.<slot>.event_pool} (bare paths, no namespace).
+     *
+     * @param slot {@code "primary"} or {@code "secondary"}
+     */
+    public List<String> eventPool(String slot) {
+        JsonObject slotObj = SpellsNGodsJsonUtil.getObject(rivalPressure, slot);
+        return slotObj == null ? List.of() : SpellsNGodsJsonUtil.getStringList(slotObj, "event_pool");
+    }
+
+    /**
+     * Which rival slot a given rival god occupies for this god.
+     *
+     * @param rivalIdPath the rival god's path (e.g. {@code "glacia"})
+     * @return {@code "primary"}, {@code "secondary"}, or {@code ""} if not a rival
+     */
+    public String rivalSlot(String rivalIdPath) {
+        if (rivals != null && rivalIdPath.equals(rivals.primary())) {
+            return "primary";
+        }
+        if (rivals != null && rivalIdPath.equals(rivals.secondary())) {
+            return "secondary";
+        }
+        return "";
+    }
+
     // --- Existing sub-records (unchanged) ---
 
     public record RivalDefinition(String primary, String secondary) {

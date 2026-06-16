@@ -1,4 +1,14 @@
 {
   "replace": false,
-  "values": []
+  "values": [
+    "minecraft:diamond",
+    "minecraft:emerald",
+    "minecraft:netherite_ingot",
+    "minecraft:netherite_scrap",
+    "minecraft:nether_star",
+    "minecraft:enchanted_golden_apple",
+    "minecraft:heart_of_the_sea",
+    "minecraft:totem_of_undying",
+    "minecraft:echo_shard"
+  ]
 }

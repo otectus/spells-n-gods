@@ -28,10 +28,10 @@ public final class PlacementResolver {
         int height = Math.max(2, entityHeight);
         RandomSource random = level.getRandom();
         BlockPos base = switch (placement) {
-            case CENTER_OF_STRUCTURE -> centerColumn(level, bounds, height);
-            case NEAREST_SAFE_FLOOR -> nearestSafeFloor(level, bounds, height);
+            case CENTER_OF_STRUCTURE -> centerColumn(level, bounds, height).orElse(null);
+            case NEAREST_SAFE_FLOOR -> nearestSafeFloor(level, bounds, height).orElse(null);
             case NEAREST_AIR_ABOVE_FLOOR -> nearestSafeFloor(level, bounds, height).map(BlockPos::above).orElse(null);
-            case RANDOM_VALID_POSITION -> randomValid(level, bounds, height, random);
+            case RANDOM_VALID_POSITION -> randomValid(level, bounds, height, random).orElse(null);
             case SHRINE_ANCHOR -> shrineAnchor(level, bounds, height)
                     .or(() -> nearestSafeFloor(level, bounds, height)).orElse(null);
         };
