@@ -80,7 +80,7 @@ public final class SpellsNGodsCommands {
                             var gods = SpellsNGodsDataManager.getGods();
                             if (gods.isEmpty()) {
                                 ctx.getSource().sendSuccess(() -> Component.literal("No gods loaded! The data pack may not have been applied.").withStyle(ChatFormatting.RED), false);
-                                ctx.getSource().sendSuccess(() -> Component.literal("Try /reload to refresh data packs, then /spellsngods listgods again.").withStyle(ChatFormatting.YELLOW), false);
+                                ctx.getSource().sendSuccess(() -> Component.literal("Try /reload to refresh data packs, then /spells_n_gods listgods again.").withStyle(ChatFormatting.YELLOW), false);
                                 return 0;
                             }
                             int count = 0;
@@ -95,7 +95,7 @@ public final class SpellsNGodsCommands {
                             return count;
                         }))
                 .then(Commands.literal("setrune")
-                        .then(Commands.argument("god_id", StringArgumentType.string())
+                        .then(Commands.argument("god_id", StringArgumentType.greedyString())
                                 .suggests(GOD_SUGGESTIONS)
                                 .executes(ctx -> {
                                     String godIdStr = StringArgumentType.getString(ctx, "god_id");
@@ -319,12 +319,12 @@ public final class SpellsNGodsCommands {
                 // Boss commands
                 .then(Commands.literal("boss")
                         .then(Commands.literal("spawn")
-                                .then(Commands.argument("god_id", StringArgumentType.string())
+                                .then(Commands.argument("god_id", StringArgumentType.greedyString())
                                         .suggests(GOD_SUGGESTIONS)
                                         .executes(ctx -> {
                                             String godIdStr = StringArgumentType.getString(ctx, "god_id");
                                             try {
-                                                SpellsNGodsMod.LOGGER.info("[SpellsNGods] /spellsngods boss spawn '{}' — attempting...", godIdStr);
+                                                SpellsNGodsMod.LOGGER.info("[SpellsNGods] /spells_n_gods boss spawn '{}' — attempting...", godIdStr);
 
                                                 var resolved = resolveGod(godIdStr);
                                                 if (resolved == null) {
@@ -377,7 +377,7 @@ public final class SpellsNGodsCommands {
                                             }
                                         })))
                         .then(Commands.literal("kill")
-                                .then(Commands.argument("god_id", StringArgumentType.string())
+                                .then(Commands.argument("god_id", StringArgumentType.greedyString())
                                         .suggests(GOD_SUGGESTIONS)
                                         .executes(ctx -> {
                                             String godIdStr = StringArgumentType.getString(ctx, "god_id");
@@ -413,7 +413,7 @@ public final class SpellsNGodsCommands {
                                             }
                                         })))
                         .then(Commands.literal("locate")
-                                .then(Commands.argument("god_id", StringArgumentType.string())
+                                .then(Commands.argument("god_id", StringArgumentType.greedyString())
                                         .suggests(GOD_SUGGESTIONS)
                                         .executes(ctx -> {
                                             String godIdStr = StringArgumentType.getString(ctx, "god_id");
@@ -443,7 +443,7 @@ public final class SpellsNGodsCommands {
                                             }
                                         })))
                         .then(Commands.literal("info")
-                                .then(Commands.argument("god_id", StringArgumentType.string())
+                                .then(Commands.argument("god_id", StringArgumentType.greedyString())
                                         .suggests(GOD_SUGGESTIONS)
                                         .executes(ctx -> {
                                             String godIdStr = StringArgumentType.getString(ctx, "god_id");
@@ -621,7 +621,7 @@ public final class SpellsNGodsCommands {
                                 ServerPlayer player = ctx.getSource().getPlayerOrException();
                                 ServerLevel level = player.serverLevel();
 
-                                SpellsNGodsMod.LOGGER.info("[SpellsNGods] /spellsngods testspawn — creating bare GodBossEntity...");
+                                SpellsNGodsMod.LOGGER.info("[SpellsNGods] /spells_n_gods testspawn — creating bare GodBossEntity...");
                                 GodBossEntity boss = ModEntities.GOD_BOSS.get().create(level);
                                 if (boss == null) {
                                     SpellsNGodsMod.LOGGER.error("[SpellsNGods] testspawn: create() returned null");

@@ -4,6 +4,24 @@ All notable changes to **Spells 'n Gods** are documented here.
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and the project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.1] — 2026-06-17
+
+A bugfix release: god bosses can now be spawned by name through the in-game commands.
+
+### Fixed
+- **God boss spawn commands now accept namespaced ids.** The `god_id` argument on
+  `/spells_n_gods boss spawn`, `boss kill`, `boss locate`, `boss info`, and `setrune` used an
+  unquoted string parser that stopped at the `:` character, so the fully-namespaced ids offered by
+  tab-completion (e.g. `spells_n_gods:bella`) failed with *"Expected whitespace to end one
+  argument, but found trailing data"*. These arguments now read the full id, so both bare (`bella`)
+  and namespaced (`spells_n_gods:bella`) forms work, including tab-completed suggestions.
+
+### Changed
+- **Command name corrected in docs and messages.** The command root is `/spells_n_gods`
+  (with underscores); stale `/spellsngods` references in the README, an in-game hint, and log
+  lines were corrected. Clarified in the README that gods are variants of a single `god_boss`
+  entity, so `/summon spells_n_gods:bella` does not work — use `/spells_n_gods boss spawn bella`.
+
 ## [1.0.0] — 2026-06-17
 
 First stable, release-ready build. This release completes the core worship loop end-to-end,

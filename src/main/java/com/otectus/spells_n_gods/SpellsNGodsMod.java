@@ -130,7 +130,7 @@ public class SpellsNGodsMod {
     }
 
     private void onRegisterCommands(RegisterCommandsEvent event) {
-        LOGGER.info("[SpellsNGods] RegisterCommandsEvent fired — registering /spellsngods commands");
+        LOGGER.info("[SpellsNGods] RegisterCommandsEvent fired — registering /spells_n_gods commands");
         SpellsNGodsCommands.register(event.getDispatcher());
     }
 

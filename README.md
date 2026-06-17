@@ -166,7 +166,7 @@ src/main/java/com/otectus/spells_n_gods/
   boss/           - GodBossEntity, GeckoLib model/renderer, AI goals, phase system
   capability/     - PlayerDivinityCapability, blessing state, scar data
   client/         - Client-side rendering and UI
-  command/        - /spellsngods command tree
+  command/        - /spells_n_gods command tree
   compat/         - Optional mod integration (Iron's Spells, SimplySwords, Jade)
   config/         - ForgeConfigSpec (common + server + shrine)
   content/        - Blocks (MonumentBlock, RuinedIdolBlock, RuneItem)
@@ -198,7 +198,11 @@ src/main/resources/
 
 ## Commands
 
-All commands require permission level 2 (`/spellsngods`):
+All commands are under the `/spells_n_gods` root and require permission level 2.
+A god id may be given bare (`bella`) or fully namespaced (`spells_n_gods:bella`) —
+for example, `/spells_n_gods boss spawn bella`. Note that gods are variants of a
+single `god_boss` entity, so `/summon spells_n_gods:bella` does **not** work; use the
+`boss spawn` command below.
 
 | Command | Description |
 |---------|-------------|
