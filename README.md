@@ -58,6 +58,7 @@ Each god's boss drops a unique divine weapon with a right-click ability (Shift+R
 - **GeckoLib-animated boss entities** (3 blocks tall) that guard one-per-world temples
 - **Boss phase system** (Idle / Combat / Enraged) with configurable health thresholds
 - **Arena leash AI** that keeps bosses tethered to their temple
+- **Siege AI** — bosses track the player through walls within their awareness range and break through blocks (Wither/Ender-Dragon style) to reach them, escalating to an area smash if walled out; bedrock, block entities, temples, and the `#spells_n_gods:boss_unbreakable` tag are always spared (`[boss_siege]` config)
 - **Indestructible temple structures** with block-break, explosion, and piston protection
 - **Custom schematic support** for modpack creators to override temple generation with `.nbt` files
 - **Boss respawn system** with configurable timers and chunk-aware deferred spawning

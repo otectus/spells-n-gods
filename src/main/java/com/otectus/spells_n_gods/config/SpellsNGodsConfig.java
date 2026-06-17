@@ -79,6 +79,13 @@ public final class SpellsNGodsConfig {
         public final ForgeConfigSpec.DoubleValue bossBaseMovementSpeed;
         public final ForgeConfigSpec.IntValue bossSpellCooldownTicks;
 
+        // --- Boss Siege (block-breaking) ---
+        public final ForgeConfigSpec.BooleanValue bossSiegeEnabled;
+        public final ForgeConfigSpec.DoubleValue bossSiegeAwarenessRange;
+        public final ForgeConfigSpec.IntValue bossSiegeBreakIntervalTicks;
+        public final ForgeConfigSpec.IntValue bossSiegeEscalationSeconds;
+        public final ForgeConfigSpec.IntValue bossSiegeSmashRadius;
+
         // --- Structure ---
         public final ForgeConfigSpec.BooleanValue structuresEnabled;
         public final ForgeConfigSpec.BooleanValue structureProtection;
@@ -185,6 +192,21 @@ public final class SpellsNGodsConfig {
             bossBaseAttackDamage = builder.defineInRange("baseAttackDamage", 10.0, 0.0, 1000.0);
             bossBaseMovementSpeed = builder.defineInRange("baseMovementSpeed", 0.3, 0.01, 5.0);
             bossSpellCooldownTicks = builder.defineInRange("spellCooldownTicks", 60, 1, 72000);
+            builder.pop();
+
+            builder.push("boss_siege");
+            builder.comment("God bosses break through blocks to reach the player, like the Wither or Ender Dragon.",
+                            "Protected temple blocks, bedrock, block entities, and anything in the",
+                            "#spells_n_gods:boss_unbreakable block tag are always spared.");
+            bossSiegeEnabled = builder.define("enabled", true);
+            builder.comment("Range in blocks at which a boss tracks the player (through walls) and pursues.");
+            bossSiegeAwarenessRange = builder.defineInRange("awarenessRange", 48.0, 8.0, 128.0);
+            builder.comment("How often (in ticks) an active siege breaks blocks. Lower = faster digging.");
+            bossSiegeBreakIntervalTicks = builder.defineInRange("breakIntervalTicks", 5, 1, 200);
+            builder.comment("Seconds a boss must stay walled-out before escalating to a Wither-style area smash.");
+            bossSiegeEscalationSeconds = builder.defineInRange("escalationDelaySeconds", 6, 0, 300);
+            builder.comment("Half-width (in blocks) of the area smash once a boss has escalated.");
+            bossSiegeSmashRadius = builder.defineInRange("smashRadius", 2, 1, 8);
             builder.pop();
 
             builder.push("structure");

@@ -25,9 +25,12 @@ power that scales with the foe you face, regeneration, luck, and more.
 
 Each god is themed to a magic school and guards a hand-built temple with a **GeckoLib-animated boss**
 — a towering guardian with a phase system (Idle → Combat → Enraged), arena-leash AI, and a spell pool
-powered by Iron's Spells. Defeat one to claim its **divine weapon** and **runic fragments**. Temples
-are indestructible (block-break, explosion, and piston protected) and bosses respawn on configurable
-timers.
+powered by Iron's Spells. These guardians **hunt you through the terrain**: they know exactly where you
+are within their awareness range and **smash through blocks** like the Wither or Ender Dragon to reach
+you, escalating to an area-breaking rampage if you try to wall yourself off — but they can never harm
+bedrock or their own protected temple. Defeat one to claim its **divine weapon** and **runic
+fragments**. Temples are indestructible (block-break, explosion, and piston protected) and bosses
+respawn on configurable timers.
 
 ## ✦ Faith Has Consequences
 

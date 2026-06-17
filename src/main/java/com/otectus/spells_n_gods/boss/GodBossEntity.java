@@ -231,6 +231,10 @@ public class GodBossEntity extends Monster implements GeoEntity {
         var kbAttr = this.getAttribute(Attributes.KNOCKBACK_RESISTANCE);
         if (kbAttr != null) kbAttr.setBaseValue(bossDef.knockbackResistance());
 
+        // Awareness range: how far the boss tracks the player (through walls) and pursues.
+        var followAttr = this.getAttribute(Attributes.FOLLOW_RANGE);
+        if (followAttr != null) followAttr.setBaseValue(SpellsNGodsConfig.COMMON.bossSiegeAwarenessRange.get());
+
         // Equip weapon
         ItemStack weapon = ModIntegrationLayer.getWeaponForGod(bossDef);
         this.setItemSlot(EquipmentSlot.MAINHAND, weapon);
@@ -298,6 +302,8 @@ public class GodBossEntity extends Monster implements GeoEntity {
         this.goalSelector.addGoal(3, new BossShieldGoal(this));
         // Priority 4: Cast spells from spell pool
         this.goalSelector.addGoal(4, new SpellcastingGoal(this));
+        // Priority 4 (flagless): break through blocks to reach the target, escalating if walled out
+        this.goalSelector.addGoal(4, new BossSiegeGoal(this));
         // Priority 5: Post-attack tactical reposition
         repositionGoal = new BossRepositionGoal(this);
         this.goalSelector.addGoal(5, repositionGoal);
@@ -317,7 +323,9 @@ public class GodBossEntity extends Monster implements GeoEntity {
 
         // Target selectors
         this.targetSelector.addGoal(1, new HurtByTargetGoal(this));
-        this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, Player.class, true));
+        // mustSee = false: the boss always knows where the player is within its follow range,
+        // so it keeps aggro through walls (which the BossSiegeGoal then breaks).
+        this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, Player.class, false));
     }
 
     // --- Boss Bar ---

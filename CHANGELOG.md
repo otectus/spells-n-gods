@@ -4,6 +4,29 @@ All notable changes to **Spells 'n Gods** are documented here.
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and the project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.0] — 2026-06-17
+
+Adds siege behaviour so god bosses hunt the player through terrain instead of being trapped by walls.
+
+### Added
+- **Boss siege AI.** God bosses now know exactly where the player is within an awareness range
+  (default 48 blocks) — they keep aggro through walls instead of losing the player on line-of-sight
+  break — and **break through blocks to reach them**, like the Wither or Ender Dragon. While
+  obstructed, a boss tunnels the column ahead of it; if it stays walled out past an escalation delay
+  (default 6s) it switches to a Wither-style area smash until it breaks through.
+- **`#spells_n_gods:boss_unbreakable` block tag** (datapack-overridable) listing blocks a boss may
+  never break. Seeded with `#minecraft:wither_immune`, bedrock, obsidian/crying obsidian, reinforced
+  deepslate, portal/anchor frames, spawners, beacons, and enchanting tables.
+- **`[boss_siege]` config section** (COMMON): `enabled`, `awarenessRange`, `breakIntervalTicks`,
+  `escalationDelaySeconds`, `smashRadius`.
+- **Unit tests** for the pure siege decision/geometry logic (`BossSiegeLogic`), the project's first
+  committed test suite.
+
+### Safety
+- A boss can **never** break a protected temple — siege block-breaking reuses the same
+  `GodWorldState.isPositionProtected` region check that guards against player griefing — nor bedrock,
+  fluids, block entities (so containers don't spill), or anything in the `boss_unbreakable` tag.
+
 ## [1.0.1] — 2026-06-17
 
 A bugfix release: god bosses can now be spawned by name through the in-game commands.
