@@ -11,6 +11,7 @@ import com.otectus.spells_n_gods.apostasy.ScarEffectHandler;
 import com.otectus.spells_n_gods.boss.GodBossEntity;
 import com.otectus.spells_n_gods.capability.BlessingState;
 import com.otectus.spells_n_gods.capability.CapabilityHandler;
+import com.otectus.spells_n_gods.config.SpellsNGodsConfig;
 import com.otectus.spells_n_gods.capability.DivineTier;
 import com.otectus.spells_n_gods.capability.PlayerDivinityCapability;
 import com.otectus.spells_n_gods.capability.PlayerDivinityData;
@@ -534,12 +535,13 @@ public final class SpellsNGodsCommands {
                         .then(Commands.literal("protect")
                                 .then(Commands.literal("on")
                                         .executes(ctx -> {
-                                            // Runtime toggle - note: doesn't persist across restarts (config does)
+                                            SpellsNGodsConfig.COMMON.structureProtection.set(true);
                                             ctx.getSource().sendSuccess(() -> Component.literal("Structure protection enabled").withStyle(ChatFormatting.GREEN), true);
                                             return 1;
                                         }))
                                 .then(Commands.literal("off")
                                         .executes(ctx -> {
+                                            SpellsNGodsConfig.COMMON.structureProtection.set(false);
                                             ctx.getSource().sendSuccess(() -> Component.literal("Structure protection disabled").withStyle(ChatFormatting.YELLOW), true);
                                             return 1;
                                         }))))

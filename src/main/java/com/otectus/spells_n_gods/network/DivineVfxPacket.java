@@ -33,7 +33,7 @@ public class DivineVfxPacket {
         this.x = x;
         this.y = y;
         this.z = z;
-        this.school = school;
+        this.school = school != null ? school : "";
         this.intensity = intensity;
     }
 

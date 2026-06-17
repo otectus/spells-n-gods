@@ -1,0 +1,10 @@
+{
+  "replace": false,
+  "values": [
+    "minecraft:echo_shard",
+    "minecraft:sculk",
+    "minecraft:sculk_catalyst",
+    "minecraft:sculk_sensor",
+    "minecraft:sculk_shrieker"
+  ]
+}

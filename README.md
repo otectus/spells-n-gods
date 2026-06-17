@@ -64,12 +64,47 @@ Each god's boss drops a unique divine weapon with a right-click ability (Shift+R
 - **9 divine weapons** (6 melee + 2 ranged + 1 caster) with unique right-click abilities and passive on-hit effects
 - **9 god-specific divine relics** (craftable), each themed to its deity, that reveal the location of that god's temple
 - **Runic Fragment drops** with per-god NBT sourcing and enchant glint
-- **4-tier blessing system** (Initiate / Devout / Exalted / Ascendant) with unique effects per god
+- **4-tier blessing system** (Initiate / Devout / Exalted / Ascendant) with unique effects per god, applied the instant you tier up
+- **Themed offerings** — each god accepts datapack-defined item tags, gated by per-god validators
 - **Favor decay and rivalry pressure** between opposing gods
-- **Apostasy system** with latent curses, cumulative scars, and multi-phase trials
+- **Apostasy system** with latent curses (amplified damage), cumulative scars (reduced health/luck/XP, faster gear wear), and multi-phase trials
+- **Durability modifiers** — apostasy scars wear gear faster, Aurex/Permanence blessings make it last longer (server-side, deterministic, applied via a contained Mixin)
 - **Per-god loot tables** with themed vanilla drops
 - **Optional mod integration** with Iron's Spells n' Spellbooks and SimplySwords (graceful fallback to vanilla when absent)
+- **Dedicated-server safe** — strict client/server separation, no client classes loaded on servers
 - **Extensive config** (common + server + shrine) covering boss stats, structure generation, loot, locator, worship, schematics, and debug options
+
+## Worship & Progression
+
+Bind a **Rune** to an armor stand to raise your god's **Monument**, then earn *favor* at it:
+
+- **Pray** — right-click the Monument **with an empty hand** to channel a timed prayer (stand
+  still and stay close). Each completed prayer grants favor.
+- **Offer** — right-click the Monument **while holding an item**. If the item matches your god's
+  themed offering (see below), it is consumed and grants favor scaled by rarity, enchantments and
+  stack size; otherwise you are told why it was rejected and nothing is consumed.
+
+Favor crosses four **tier thresholds** (Initiate → Devout → Exalted → Ascendant), each unlocking
+the blessings authored in that god's datapack file. Blessings apply **immediately** on tier-up.
+Neglecting a god past its grace window *halts* blessings until you next make an offering; abandoning
+a god (**apostasy**) inflicts a latent curse and permanent scars.
+
+### Offering themes
+
+Each god accepts items via item tags under `data/spells_n_gods/tags/items/`. The themed tags ship
+with sensible vanilla defaults and are fully datapack-overridable:
+
+| God theme | Accepts (tags) |
+|-----------|----------------|
+| Fire | `fire_themed`, `smelted_goods` |
+| Ice | `ice_themed`, `frozen_goods` |
+| Holy | `holy_themed`, `golden_goods` |
+| Nature | `nature_themed`, `harvested_goods` |
+| Lightning | `lightning_themed`, `storm_goods` |
+| Ender | `ender_themed`, `void_touched` |
+| Eldritch | `eldritch_themed`, `arcane_artifacts` |
+| Evocation | `evocation_themed`, `mechanisms` |
+| Blood | `blood_themed`, `alchemical` (also requires a recent kill) |
 
 ## Requirements
 

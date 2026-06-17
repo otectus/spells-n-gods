@@ -1,0 +1,10 @@
+{
+  "replace": false,
+  "values": [
+    "minecraft:obsidian",
+    "minecraft:crying_obsidian",
+    "minecraft:echo_shard",
+    "minecraft:end_crystal",
+    "minecraft:sculk_sensor"
+  ]
+}

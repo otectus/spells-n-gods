@@ -27,8 +27,11 @@ public class BossShieldGoal extends Goal {
     private final GodBossEntity boss;
     private int shieldDuration;
     private int cooldown = 0;
+    /** Absorption granted by the current shield, removed when the shield drops. */
+    private float grantedAbsorption = 0f;
 
     private static final double PUSH_STRENGTH = 1.5;
+    private static final float SHIELD_ABSORPTION = 20.0f;
 
     public BossShieldGoal(GodBossEntity boss) {
         this.boss = boss;
@@ -63,8 +66,9 @@ public class BossShieldGoal extends Goal {
         boss.getNavigation().stop();
         boss.setShielding(true);
 
-        // Apply temporary invulnerability frames via damage absorption
-        boss.setAbsorptionAmount(boss.getAbsorptionAmount() + 20.0f);
+        // Apply temporary damage absorption while the shield is up (removed in stop()).
+        grantedAbsorption = SHIELD_ABSORPTION;
+        boss.setAbsorptionAmount(boss.getAbsorptionAmount() + grantedAbsorption);
 
         // Shield activation sound
         boss.level().playSound(null, boss.blockPosition(),
@@ -135,6 +139,11 @@ public class BossShieldGoal extends Goal {
         cooldown = boss.getCurrentPhase().isEnraged() ? def.shieldEnragedCooldown() : def.shieldBaseCooldown();
         shieldDuration = 0;
         boss.setShielding(false);
+        // Remove whatever absorption this shield granted so it doesn't accumulate over a long fight.
+        if (grantedAbsorption > 0f) {
+            boss.setAbsorptionAmount(Math.max(0f, boss.getAbsorptionAmount() - grantedAbsorption));
+            grantedAbsorption = 0f;
+        }
         // Trigger tactical reposition after shield expires
         if (boss.getRepositionGoal() != null) {
             boss.getRepositionGoal().triggerReposition();

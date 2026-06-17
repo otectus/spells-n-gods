@@ -33,7 +33,9 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.minecraftforge.fml.loading.FMLEnvironment;
 import net.minecraftforge.fml.loading.FMLPaths;
 import org.slf4j.Logger;
 
@@ -62,10 +64,16 @@ public class SpellsNGodsMod {
         ModParticles.PARTICLE_TYPES.register(modBus);
 
         modBus.addListener(this::onCommonSetup);
-        modBus.addListener(this::onClientSetup);
         modBus.addListener(this::onEntityAttributeCreation);
-        modBus.addListener(this::onRegisterParticleProviders);
         modBus.addListener(ModCreativeTabs::onBuildContents);
+
+        // Client-only mod-bus listeners. Registering these on a dedicated server would force FML to
+        // load client-only event classes (RegisterParticleProvidersEvent -> ParticleEngine,
+        // FMLClientSetupEvent's client renderer refs) and crash with "invalid dist DEDICATED_SERVER".
+        if (FMLEnvironment.dist == Dist.CLIENT) {
+            modBus.addListener(this::onClientSetup);
+            modBus.addListener(this::onRegisterParticleProviders);
+        }
 
         LOGGER.info("[SpellsNGods] Mod constructor complete — all registries queued");
 

@@ -85,12 +85,13 @@ public class EffectParser {
     }
 
     private static TierEffect parsePotionEffect(JsonObject obj) {
-        if (!obj.has("effect")) {
-            SpellsNGodsMod.LOGGER.warn("potion_effect missing 'effect' field");
+        // Data authoring uses "effect_id"; tolerate the shorter "effect" alias too.
+        String effectId = readString(obj, null, "effect_id", "effect");
+        if (effectId == null) {
+            SpellsNGodsMod.LOGGER.warn("potion_effect missing 'effect_id' field");
             return null;
         }
 
-        String effectId = obj.get("effect").getAsString();
         int amplifier = obj.has("amplifier") ? obj.get("amplifier").getAsInt() : 0;
 
         ResourceLocation effectLoc = ResourceLocation.tryParse(effectId);
@@ -115,7 +116,8 @@ public class EffectParser {
         }
 
         String attributeId = obj.get("attribute").getAsString();
-        double value = obj.has("value") ? obj.get("value").getAsDouble() : 0.0;
+        // Data authoring uses "amount"; tolerate the "value" alias too.
+        double value = readDouble(obj, 0.0, "amount", "value");
         String opStr = obj.has("operation") ? obj.get("operation").getAsString() : "add";
         String name = obj.has("name") ? obj.get("name").getAsString() : "spells_n_gods_tier_" + attributeId;
 
@@ -147,7 +149,11 @@ public class EffectParser {
 
     private static TierEffect parseConditionalCombat(JsonObject obj) {
         String conditionStr = obj.has("condition") ? obj.get("condition").getAsString() : "LOW_HEALTH";
-        Condition condition = Condition.valueOf(conditionStr.toUpperCase());
+        Condition condition = parseEnum(Condition.class, conditionStr, null);
+        if (condition == null) {
+            SpellsNGodsMod.LOGGER.warn("Unknown conditional_combat condition '{}' — skipping effect", conditionStr);
+            return null;
+        }
         float damageBonus = obj.has("damage_bonus") ? obj.get("damage_bonus").getAsFloat() : 0f;
         float damageResistance = obj.has("damage_resistance") ? obj.get("damage_resistance").getAsFloat() : 0f;
         float speedBonus = obj.has("speed_bonus") ? obj.get("speed_bonus").getAsFloat() : 0f;
@@ -155,7 +161,8 @@ public class EffectParser {
     }
 
     private static TierEffect parsePassiveRegen(JsonObject obj) {
-        float baseRate = obj.has("base_rate") ? obj.get("base_rate").getAsFloat() : 1f;
+        // Data authoring uses "heal_per_second"; tolerate the "base_rate" alias too.
+        float baseRate = (float) readDouble(obj, 1.0, "heal_per_second", "base_rate");
         boolean scalesWithEnv = obj.has("scales_with_environment") && obj.get("scales_with_environment").getAsBoolean();
         boolean requiresSatiation = obj.has("requires_satiation") && obj.get("requires_satiation").getAsBoolean();
         return new PassiveRegenEffect(baseRate, scalesWithEnv, requiresSatiation);
@@ -195,10 +202,52 @@ public class EffectParser {
 
     private static TierEffect parseTransgression(JsonObject obj) {
         String typeStr = obj.has("transgression_type") ? obj.get("transgression_type").getAsString() : "SHADOW_SIGHT";
-        TransgressionType type = TransgressionType.valueOf(typeStr.toUpperCase());
+        TransgressionType type = parseEnum(TransgressionType.class, typeStr, null);
+        if (type == null) {
+            SpellsNGodsMod.LOGGER.warn("Unknown transgression_type '{}' — skipping effect", typeStr);
+            return null;
+        }
         int amplifier = obj.has("amplifier") ? obj.get("amplifier").getAsInt() : 0;
         float sideEffect = obj.has("side_effect_intensity") ? obj.get("side_effect_intensity").getAsFloat() : 0.5f;
         return new TransgressionEffect(type, amplifier, sideEffect);
+    }
+
+    // ---- tolerant readers --------------------------------------------------------------------
+
+    /** Return the first present key's string value, or {@code fallback} if none are present. */
+    private static String readString(JsonObject obj, String fallback, String... keys) {
+        for (String key : keys) {
+            if (obj.has(key) && obj.get(key).isJsonPrimitive()) {
+                return obj.get(key).getAsString();
+            }
+        }
+        return fallback;
+    }
+
+    /** Return the first present key's numeric value, or {@code fallback} if none are present. */
+    private static double readDouble(JsonObject obj, double fallback, String... keys) {
+        for (String key : keys) {
+            if (obj.has(key) && obj.get(key).isJsonPrimitive()) {
+                try {
+                    return obj.get(key).getAsDouble();
+                } catch (NumberFormatException ignored) {
+                    // try next key
+                }
+            }
+        }
+        return fallback;
+    }
+
+    /** Case-insensitive enum lookup that returns {@code fallback} instead of throwing on a bad value. */
+    private static <E extends Enum<E>> E parseEnum(Class<E> type, String value, E fallback) {
+        if (value == null) {
+            return fallback;
+        }
+        try {
+            return Enum.valueOf(type, value.toUpperCase());
+        } catch (IllegalArgumentException e) {
+            return fallback;
+        }
     }
 
     public static List<TierEffect> parseEffectsArray(JsonArray effectsArray) {

@@ -1,0 +1,12 @@
+{
+  "replace": false,
+  "values": [
+    "minecraft:amethyst_shard",
+    "minecraft:amethyst_block",
+    "minecraft:ender_eye",
+    "minecraft:experience_bottle",
+    "minecraft:enchanted_book",
+    "minecraft:lapis_lazuli",
+    "minecraft:nether_star"
+  ]
+}

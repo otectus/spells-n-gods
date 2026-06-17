@@ -87,23 +87,11 @@ public class RuneItem extends Item {
         tooltip.add(Component.translatable("item.spells_n_gods.rune.tooltip")
                 .withStyle(ChatFormatting.DARK_GRAY));
 
-        // Show scar history if player has scars
-        if (level != null && level.isClientSide()) {
-            Player holder = net.minecraft.client.Minecraft.getInstance().player;
-            if (holder != null) {
-                int scarCount = holder.getPersistentData().getInt("spells_n_gods:scar_count");
-                if (scarCount > 0) {
-                    tooltip.add(Component.empty());
-                    tooltip.add(Component.translatable("item.spells_n_gods.rune.scarred", scarCount)
-                            .withStyle(ChatFormatting.DARK_RED));
-                    float healthReduction = holder.getPersistentData().getFloat("spells_n_gods:scar_health_reduction");
-                    if (healthReduction > 0) {
-                        tooltip.add(Component.literal("  -" + (int)(healthReduction * 100) + "% max health")
-                                .withStyle(ChatFormatting.RED));
-                    }
-                }
-            }
-        }
+        // Show scar history for the local player. Delegated to a client-only class via DistExecutor
+        // so this common item class never links Minecraft/LocalPlayer (which would crash dedicated
+        // servers at class-load time).
+        net.minecraftforge.fml.DistExecutor.unsafeRunWhenOn(net.minecraftforge.api.distmarker.Dist.CLIENT,
+                () -> () -> com.otectus.spells_n_gods.client.RuneClientTooltip.appendScarInfo(tooltip));
     }
 
     @Override

@@ -2,6 +2,8 @@ package com.otectus.spells_n_gods.network;
 
 import com.otectus.spells_n_gods.animation.PlayerAnimationType;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.network.NetworkEvent;
 
 import java.util.UUID;
@@ -38,10 +40,12 @@ public class PlayerAnimationPacket {
     }
 
     public static void handle(PlayerAnimationPacket msg, Supplier<NetworkEvent.Context> ctx) {
-        ctx.get().enqueueWork(() -> {
-            com.otectus.spells_n_gods.client.PlayerAnimationHandler.handleAnimation(
-                    msg.targetPlayerId, msg.animationType, msg.action);
-        });
+        // Guard the client-only handler so this common-side class never links client/playerAnimator
+        // types on a dedicated server (mirrors the other PLAY_TO_CLIENT packets in this mod).
+        ctx.get().enqueueWork(() ->
+            DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () ->
+                com.otectus.spells_n_gods.client.PlayerAnimationHandler.handleAnimation(
+                        msg.targetPlayerId, msg.animationType, msg.action)));
         ctx.get().setPacketHandled(true);
     }
 }

@@ -1,0 +1,15 @@
+{
+  "replace": false,
+  "values": [
+    "minecraft:iron_ingot",
+    "minecraft:gold_ingot",
+    "minecraft:copper_ingot",
+    "minecraft:netherite_scrap",
+    "minecraft:glass",
+    "minecraft:brick",
+    "minecraft:nether_brick",
+    "minecraft:charcoal",
+    "minecraft:smooth_stone",
+    "minecraft:terracotta"
+  ]
+}

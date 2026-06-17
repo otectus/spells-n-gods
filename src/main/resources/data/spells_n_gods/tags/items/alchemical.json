@@ -1,0 +1,17 @@
+{
+  "replace": false,
+  "values": [
+    "minecraft:nether_wart",
+    "minecraft:blaze_powder",
+    "minecraft:ghast_tear",
+    "minecraft:fermented_spider_eye",
+    "minecraft:magma_cream",
+    "minecraft:gunpowder",
+    "minecraft:glowstone_dust",
+    "minecraft:redstone",
+    "minecraft:sugar",
+    "minecraft:rabbit_foot",
+    "minecraft:spider_eye",
+    "minecraft:glistering_melon_slice"
+  ]
+}

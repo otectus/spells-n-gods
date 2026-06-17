@@ -1,5 +1,8 @@
 plugins {
     id 'net.minecraftforge.gradle' version '6.0.+'
+    // MixinGradle wires the Mixin annotation processor + refmap generation/reobf so our
+    // ItemStack durability mixin remaps correctly for production (SRG) as well as dev.
+    id 'org.spongepowered.mixin' version '0.7.38'
     id 'eclipse'
     id 'maven-publish'
 }
@@ -51,6 +54,13 @@ minecraft {
     }
 }
 
+// Register our mixin config + refmap with ForgeGradle so the AP-generated refmap
+// (official -> SRG, e.g. ItemStack#hurt -> m_220157_) is embedded and reobf'd into the jar.
+mixin {
+    add sourceSets.main, 'spells_n_gods.refmap.json'
+    config 'spells_n_gods.mixins.json'
+}
+
 sourceSets.main.resources { srcDir 'src/generated/resources' }
 
 repositories {
@@ -69,6 +79,11 @@ repositories {
 
 dependencies {
     minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
+
+    // Mixin annotation processor — generates spells_n_gods.refmap.json (official -> SRG) so the
+    // ItemStack durability mixin applies in production, not just dev. The Mixin runtime/API itself
+    // is supplied transitively by Forge; only the AP needs to be on the annotationProcessor config.
+    annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
 
     // GeckoLib - Entity animation framework (required at runtime for boss models)
     // Must match the version in the modpack (4.8.3) to avoid runtime rendering issues

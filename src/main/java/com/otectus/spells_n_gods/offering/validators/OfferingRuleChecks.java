@@ -32,6 +32,17 @@ public final class OfferingRuleChecks {
 
     private OfferingRuleChecks() {}
 
+    /**
+     * Parse the offering allowlist. Item-rule validators author it as {@code accept_tags} and
+     * action-rule validators as {@code allow_items}; both are merged into one allowlist here so a
+     * present-but-unmatched list correctly rejects off-theme items.
+     */
+    public static List<TagKey<Item>> parseAllowList(JsonObject rules) {
+        List<TagKey<Item>> tags = parseTagList(rules, "allow_items");
+        tags.addAll(parseTagList(rules, "accept_tags"));
+        return tags;
+    }
+
     /** Parse a JSON tag array ({@code allow_items}/{@code deny_tags}), tolerating a leading {@code '#'}. */
     public static List<TagKey<Item>> parseTagList(JsonObject rules, String key) {
         List<TagKey<Item>> tags = new ArrayList<>();

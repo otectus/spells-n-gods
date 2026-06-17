@@ -3,6 +3,11 @@ loaderVersion="[47,)"
 license="All Rights Reserved"
 issueTrackerURL=""
 
+# Durability scaling mixin (apostasy scars / Aurex blessings). All gameplay logic lives in
+# com.otectus.spells_n_gods.durability; the mixin only scales ItemStack.hurt's damage amount.
+[[mixins]]
+config="spells_n_gods.mixins.json"
+
 [[mods]]
 modId="${mod_id}"
 version="${mod_version}"

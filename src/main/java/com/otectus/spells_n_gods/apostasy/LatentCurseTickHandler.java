@@ -5,6 +5,8 @@ import com.otectus.spells_n_gods.capability.PlayerDivinityCapability;
 import com.otectus.spells_n_gods.capability.PlayerDivinityData;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraftforge.event.TickEvent;
+import net.minecraftforge.event.entity.living.LivingHurtEvent;
+import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
@@ -46,5 +48,23 @@ public class LatentCurseTickHandler {
 
         // Tick curse effects
         LatentCurseManager.tickCurseEffects(player);
+    }
+
+    /**
+     * Cursed apostates take amplified damage. The per-curse multiplier (>= 1.0) comes from the
+     * abandoned god's {@code apostasy.latent_curse.damage_multiplier}.
+     */
+    @SubscribeEvent(priority = EventPriority.LOW)
+    public static void onPlayerHurt(LivingHurtEvent event) {
+        if (!(event.getEntity() instanceof ServerPlayer player)) {
+            return;
+        }
+        if (!LatentCurseManager.hasCurse(player)) {
+            return;
+        }
+        float multiplier = LatentCurseManager.getDamageMultiplier(player);
+        if (multiplier > 1.0f) {
+            event.setAmount(event.getAmount() * multiplier);
+        }
     }
 }

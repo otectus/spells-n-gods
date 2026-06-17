@@ -1,0 +1,9 @@
+{
+  "replace": false,
+  "values": [
+    "minecraft:lightning_rod",
+    "minecraft:copper_ingot",
+    "minecraft:copper_block",
+    "minecraft:raw_copper"
+  ]
+}

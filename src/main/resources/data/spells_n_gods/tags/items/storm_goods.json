@@ -1,0 +1,10 @@
+{
+  "replace": false,
+  "values": [
+    "minecraft:phantom_membrane",
+    "minecraft:feather",
+    "minecraft:prismarine_crystals",
+    "minecraft:nautilus_shell",
+    "minecraft:prismarine_shard"
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "required": true,
+  "minVersion": "0.8.5",
+  "package": "com.otectus.spells_n_gods.mixin",
+  "compatibilityLevel": "JAVA_17",
+  "refmap": "spells_n_gods.refmap.json",
+  "mixins": [
+    "ItemStackMixin"
+  ],
+  "client": [],
+  "server": [],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

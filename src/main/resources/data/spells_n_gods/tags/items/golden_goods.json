@@ -1,0 +1,11 @@
+{
+  "replace": false,
+  "values": [
+    "minecraft:gold_ingot",
+    "minecraft:gold_block",
+    "minecraft:gold_nugget",
+    "minecraft:golden_apple",
+    "minecraft:golden_carrot",
+    "minecraft:glistering_melon_slice"
+  ]
+}

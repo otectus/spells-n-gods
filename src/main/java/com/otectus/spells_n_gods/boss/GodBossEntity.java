@@ -705,6 +705,12 @@ public class GodBossEntity extends Monster implements GeoEntity {
             currentPhase = BossPhase.IDLE;
         }
         this.entityData.set(DATA_ENRAGED, currentPhase == BossPhase.ENRAGED);
+        // Re-apply the enrage attribute buffs when reloading a boss that was already enraged;
+        // updatePhase() only buffs on the IDLE/COMBAT -> ENRAGED transition, which never fires on load.
+        // applyEnrageBuffs() is idempotent (it no-ops if the modifier already exists).
+        if (currentPhase == BossPhase.ENRAGED) {
+            applyEnrageBuffs();
+        }
         spellCooldown = tag.getInt("SpellCooldown");
         setEmerging(tag.getBoolean("Emerging"));
         statsApplied = false; // Will re-apply on next tick

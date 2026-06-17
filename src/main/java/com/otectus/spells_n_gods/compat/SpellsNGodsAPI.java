@@ -88,7 +88,16 @@ public class SpellsNGodsAPI {
      * Check if a player has a specific tier or higher.
      */
     public static boolean hasTierOrHigher(ServerPlayer player, String tierName) {
-        DivineTier required = DivineTier.valueOf(tierName.toUpperCase());
+        if (tierName == null) {
+            return false;
+        }
+        DivineTier required;
+        try {
+            required = DivineTier.valueOf(tierName.toUpperCase());
+        } catch (IllegalArgumentException e) {
+            // Unknown tier name from a script/integration — treat as "requirement not met".
+            return false;
+        }
         DivineTier current = getPlayerTier(player);
         return current.ordinal() >= required.ordinal();
     }

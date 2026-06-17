@@ -7,6 +7,7 @@ import com.otectus.spells_n_gods.capability.PlayerDivinityCapability;
 import com.otectus.spells_n_gods.capability.PlayerDivinityData;
 import com.otectus.spells_n_gods.data.GodDefinition;
 import com.otectus.spells_n_gods.data.SpellsNGodsDataManager;
+import com.otectus.spells_n_gods.effect.EffectEventHandler;
 import com.otectus.spells_n_gods.animation.PlayerAnimationType;
 import com.otectus.spells_n_gods.network.DivineVfxPacket;
 import com.otectus.spells_n_gods.network.ModNetwork;
@@ -79,6 +80,9 @@ public class OfferingProcessor {
 
         // Apply the offering effects via state machine
         BlessingStateMachine.onOfferingAccepted(data, finalValue);
+
+        // Recompute blessing effects so a tier-up (or a HALTED->ACTIVE revival) applies immediately.
+        EffectEventHandler.onTierChange(player);
 
         // Sync to client
         CapabilityHandler.syncToClient(player);

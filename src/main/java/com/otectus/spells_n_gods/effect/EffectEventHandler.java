@@ -119,10 +119,12 @@ public class EffectEventHandler {
             return;
         }
 
+        net.minecraft.world.entity.LivingEntity victim = event.getEntity();
+
         // Apply conditional combat damage bonus
         for (TierEffect effect : profile.getActiveEffects()) {
             if (effect instanceof ConditionalCombatEffect combatEffect) {
-                if (combatEffect.isConditionMet(player)) {
+                if (combatEffect.isConditionMet(player, victim)) {
                     float bonus = combatEffect.getDamageBonus();
                     if (bonus > 0) {
                         float newDamage = event.getAmount() * (1f + bonus);
@@ -238,7 +240,8 @@ public class EffectEventHandler {
 
     // ==================== DURABILITY EFFECTS (Aurex - Permanence) ====================
 
-    // Note: Durability multiplier is applied via item damage event
-    // This requires a mixin or custom item handling for full implementation
-    // The multiplier can be retrieved from EffectProfileCache.get(player).getMultiplier(EffectType.DURABILITY_MULTIPLIER)
+    // Durability scaling is applied by ItemStackMixin -> DurabilityDamageHandler, which reads the
+    // blessing multiplier (EffectProfileCache.get(player).getMultiplier(DURABILITY_MULTIPLIER)) and
+    // the apostasy-scar penalty and scales ItemStack.hurt's damage amount. Forge 1.20.1 has no
+    // durability event, so a mixin is the only clean hook. See com.otectus.spells_n_gods.durability.
 }

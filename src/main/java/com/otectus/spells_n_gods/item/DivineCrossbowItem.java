@@ -69,7 +69,8 @@ public class DivineCrossbowItem extends CrossbowItem {
                 return InteractionResultHolder.success(stack);
             }
             if (isAbilityOnCooldown(stack)) {
-                return super.use(level, player, hand);
+                // Ability still cooling down — swallow the input rather than firing the loaded bolt.
+                return InteractionResultHolder.fail(stack);
             }
             return abilityEnsnaringShot((ServerLevel) level, (ServerPlayer) player, stack, hand);
         }

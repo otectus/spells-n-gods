@@ -58,10 +58,6 @@ public class ScarEffectHandler {
      */
     @SubscribeEvent(priority = EventPriority.HIGH)
     public static void onXpChange(PlayerXpEvent.XpChange event) {
-        if (event.getAmount() <= 0) {
-            return; // Only affect XP gains, not losses
-        }
-
         Player player = event.getEntity();
         if (!(player instanceof ServerPlayer serverPlayer)) {
             return;
@@ -69,16 +65,27 @@ public class ScarEffectHandler {
 
         PlayerDivinityData data = PlayerDivinityCapability.getOrCreate(serverPlayer);
         ScarData scarData = data.getScarData();
-
         if (scarData.getScarCount() == 0) {
             return;
         }
 
-        float totalPenalty = scarData.getTotalXpPenalty();
-        if (totalPenalty > 0) {
-            int originalXp = event.getAmount();
-            int reducedXp = (int) (originalXp * (1.0f - Math.min(totalPenalty, 0.9f)));
-            event.setAmount(Math.max(1, reducedXp));
+        if (event.getAmount() > 0) {
+            // Scars sap XP gains.
+            float totalPenalty = scarData.getTotalXpPenalty();
+            if (totalPenalty > 0) {
+                int originalXp = event.getAmount();
+                int reducedXp = (int) (originalXp * (1.0f - Math.min(totalPenalty, 0.9f)));
+                event.setAmount(Math.max(1, reducedXp));
+            }
+        } else if (event.getAmount() < 0) {
+            // Scars deepen the penalty of death: amplify XP lost (mirrors the blessing XP-retention
+            // path in EffectEventHandler). Stored at the moment of death so scar state is consistent.
+            float deathPenalty = serverPlayer.getPersistentData().getFloat("spells_n_gods:scar_death_penalty");
+            if (deathPenalty > 0) {
+                int amplified = (int) (event.getAmount() * (1.0f + Math.min(deathPenalty, 1.0f)));
+                event.setAmount(amplified);
+                serverPlayer.getPersistentData().remove("spells_n_gods:scar_death_penalty");
+            }
         }
     }
 

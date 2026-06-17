@@ -2,11 +2,14 @@ package com.otectus.spells_n_gods.prayer;
 
 import com.otectus.spells_n_gods.SpellsNGodsMod;
 import com.otectus.spells_n_gods.capability.CapabilityHandler;
+import com.otectus.spells_n_gods.capability.DivineTier;
 import com.otectus.spells_n_gods.capability.PlayerDivinityCapability;
 import com.otectus.spells_n_gods.capability.PlayerDivinityData;
 import com.otectus.spells_n_gods.content.MonumentBlockEntity;
 import com.otectus.spells_n_gods.data.GodDefinition;
 import com.otectus.spells_n_gods.data.SpellsNGodsDataManager;
+import com.otectus.spells_n_gods.effect.EffectEventHandler;
+import com.otectus.spells_n_gods.state.BlessingStateMachine;
 import com.otectus.spells_n_gods.animation.PlayerAnimationType;
 import com.otectus.spells_n_gods.network.DivineVfxPacket;
 import com.otectus.spells_n_gods.network.ModNetwork;
@@ -33,6 +36,8 @@ import java.util.concurrent.ConcurrentHashMap;
 public class PrayerManager {
     private static final Map<UUID, PrayerSession> activeSessions = new ConcurrentHashMap<>();
     private static final double MAX_DISTANCE_SQUARED = 16.0;
+    /** Favor granted by a single completed prayer. */
+    private static final float PRAYER_FAVOR_GAIN = 1.0f;
 
     public static boolean startPrayer(ServerPlayer player, MonumentBlockEntity monument) {
         UUID playerId = player.getUUID();
@@ -163,11 +168,16 @@ public class PrayerManager {
         }
 
         PlayerDivinityData data = dataOpt.get();
-        long now = System.currentTimeMillis();
 
-        data.setLastPrayerEpochMs(now);
-        data.addFavor(1.0f);
-        data.setLastFavorUpdateMs(now);
+        // Grant favor and recompute the tier through the state machine (sets lastPrayerEpochMs,
+        // favor, and the new tier from favor thresholds).
+        DivineTier previousTier = data.getCurrentTier();
+        BlessingStateMachine.onPrayerCompleted(data, PRAYER_FAVOR_GAIN);
+        DivineTier newTier = data.getCurrentTier();
+
+        // Recompute blessing effects so a tier-up (or first prayer after binding) takes effect now,
+        // rather than only after a relog/respawn.
+        EffectEventHandler.onTierChange(player);
 
         CapabilityHandler.syncToClient(player);
 
@@ -191,6 +201,19 @@ public class PrayerManager {
                 DivineVfxPacket.VfxType.PRAYER_COMPLETE,
                 player.getX(), player.getY(), player.getZ(),
                 school, 0));
+
+        // Celebrate a tier advancement earned through prayer (mirrors the offering path).
+        if (newTier.getLevel() > previousTier.getLevel()) {
+            ModNetwork.sendToPlayer(player, new DivineVfxPacket(
+                    DivineVfxPacket.VfxType.TIER_UP,
+                    player.getX(), player.getY(), player.getZ(),
+                    school, newTier.getLevel()));
+            ModNetwork.sendToTrackingAndSelf(player, new PlayerAnimationPacket(
+                    player.getUUID(), PlayerAnimationType.TIER_UP_CELEBRATE, PlayerAnimationPacket.Action.PLAY));
+            player.sendSystemMessage(Component.translatable(
+                    "spells_n_gods.tier.advanced", newTier.getTierKey())
+                    .withStyle(style -> style.withColor(0xFFD700)));
+        }
 
         SpellsNGodsMod.LOGGER.debug("Player {} completed prayer, favor now {}", player.getName().getString(), data.getFavor());
     }

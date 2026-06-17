@@ -589,13 +589,17 @@ public class DivineWeaponItem extends SwordItem {
             for (int dz = -intRadius; dz <= intRadius; dz++) {
                 if (dx * dx + dz * dz > intRadius * intRadius) continue;
                 BlockPos surface = center.offset(dx, 0, dz);
-                // Find the ground surface
                 BlockPos above = surface.above();
-                if (level.getBlockState(surface).isSolidRender(level, surface)
-                        && level.isEmptyBlock(above)) {
-                    if (level.getBlockState(surface).getBlock() == Blocks.WATER) {
-                        level.setBlockAndUpdate(surface, Blocks.FROSTED_ICE.defaultBlockState());
-                    }
+                var surfaceState = level.getBlockState(surface);
+                // Frost Walker: turn water source blocks to frosted ice...
+                if (surfaceState.getBlock() == Blocks.WATER && surfaceState.getFluidState().isSource()) {
+                    level.setBlockAndUpdate(surface, Blocks.FROSTED_ICE.defaultBlockState());
+                }
+                // ...and dust a thin snow layer over solid ground where it can survive.
+                else if (surfaceState.isSolidRender(level, surface)
+                        && level.isEmptyBlock(above)
+                        && Blocks.SNOW.defaultBlockState().canSurvive(level, above)) {
+                    level.setBlockAndUpdate(above, Blocks.SNOW.defaultBlockState());
                 }
             }
         }

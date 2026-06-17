@@ -1,0 +1,12 @@
+{
+  "replace": false,
+  "values": [
+    "minecraft:glowstone",
+    "minecraft:glowstone_dust",
+    "minecraft:golden_apple",
+    "minecraft:enchanted_golden_apple",
+    "minecraft:beacon",
+    "minecraft:totem_of_undying",
+    "minecraft:sea_lantern"
+  ]
+}

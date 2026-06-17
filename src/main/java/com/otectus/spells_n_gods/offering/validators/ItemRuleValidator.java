@@ -39,7 +39,7 @@ public class ItemRuleValidator implements OfferingValidator {
         this.minRarity = parseRarity(minRarityStr);
 
         this.denyTags = OfferingRuleChecks.parseTagList(rules, "deny_tags");
-        this.allowTags = OfferingRuleChecks.parseTagList(rules, "allow_items");
+        this.allowTags = OfferingRuleChecks.parseAllowList(rules);
 
         JsonObject valueScoring = definition.has("value_scoring") ? definition.getAsJsonObject("value_scoring") : new JsonObject();
         this.baseValue = valueScoring.has("base_value") ? valueScoring.get("base_value").getAsFloat() : 10.0f;

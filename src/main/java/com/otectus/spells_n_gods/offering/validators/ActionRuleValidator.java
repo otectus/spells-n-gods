@@ -26,7 +26,7 @@ public class ActionRuleValidator implements OfferingValidator {
     public ActionRuleValidator(String id, JsonObject definition) {
         this.id = id;
         this.rules = definition.has("rules") ? definition.getAsJsonObject("rules") : new JsonObject();
-        this.allowTags = OfferingRuleChecks.parseTagList(rules, "allow_items");
+        this.allowTags = OfferingRuleChecks.parseAllowList(rules);
 
         JsonObject valueScoring = definition.has("value_scoring")
                 ? definition.getAsJsonObject("value_scoring") : new JsonObject();

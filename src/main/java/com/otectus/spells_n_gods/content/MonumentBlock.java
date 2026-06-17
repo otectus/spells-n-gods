@@ -6,6 +6,7 @@ import com.otectus.spells_n_gods.config.SpellsNGodsConfig;
 import com.otectus.spells_n_gods.data.GodDefinition;
 import com.otectus.spells_n_gods.data.MonumentDefinition;
 import com.otectus.spells_n_gods.data.SpellsNGodsDataManager;
+import com.otectus.spells_n_gods.offering.OfferingProcessor;
 import com.otectus.spells_n_gods.prayer.PrayerManager;
 import com.otectus.spells_n_gods.registry.ModBlockEntities;
 import com.otectus.spells_n_gods.registry.ModParticles;
@@ -88,6 +89,14 @@ public class MonumentBlock extends Block implements EntityBlock {
         if (data.getChosenGodId() == null || !data.getChosenGodId().equals(monumentGodId)) {
             serverPlayer.sendSystemMessage(Component.translatable("spells_n_gods.monument.wrong_god"));
             return InteractionResult.FAIL;
+        }
+
+        // Holding an item turns the interaction into an offering; an empty hand starts a prayer.
+        ItemStack held = serverPlayer.getItemInHand(hand);
+        if (!held.isEmpty()) {
+            OfferingProcessor.OfferingResult result = OfferingProcessor.processOffering(serverPlayer, held);
+            serverPlayer.sendSystemMessage(result.message());
+            return InteractionResult.CONSUME;
         }
 
         // Start prayer if not already praying
