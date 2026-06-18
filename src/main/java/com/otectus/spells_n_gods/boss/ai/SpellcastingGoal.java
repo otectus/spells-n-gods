@@ -43,8 +43,11 @@ public class SpellcastingGoal extends Goal {
 
         double distSqr = boss.distanceToSqr(target);
 
+        List<GodDefinition.SpellEntry> pool = god.boss().spellPool();
+        if (pool == null || pool.isEmpty()) return false;
+
         // Filter spells by per-spell range
-        List<GodDefinition.SpellEntry> eligible = god.boss().spellPool().stream()
+        List<GodDefinition.SpellEntry> eligible = pool.stream()
                 .filter(s -> s.range() * s.range() >= distSqr)
                 .toList();
         if (eligible.isEmpty()) return false;
@@ -140,8 +143,9 @@ public class SpellcastingGoal extends Goal {
     private void executeCast() {
         if (chosenSpell == null || target == null) return;
 
-        int level = ThreadLocalRandom.current().nextInt(
-                chosenSpell.minLevel(), chosenSpell.maxLevel() + 1);
+        // Clamp so malformed datapack data (minLevel > maxLevel) can't crash nextInt.
+        int hi = Math.max(chosenSpell.minLevel(), chosenSpell.maxLevel());
+        int level = ThreadLocalRandom.current().nextInt(chosenSpell.minLevel(), hi + 1);
 
         GodDefinition god = boss.getGodDefinition();
         String school = god != null ? god.magicSchool() : "";

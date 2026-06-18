@@ -4,6 +4,36 @@ All notable changes to **Spells 'n Gods** are documented here.
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and the project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.2.1] — 2026-06-18
+
+Hardening release from a follow-up full-codebase review. Small, localized fixes for crash edges
+that only surface with malformed datapacks or missing deities, plus dependency-range tightening and
+internal cleanup. No gameplay or config changes.
+
+### Fixed
+- **Boss stat application can no longer spin every tick.** If `applyGodStats()` threw (e.g. a
+  malformed god definition), the `statsApplied` flag was never set, so it retried — and re-threw —
+  on every server tick. It's now wrapped: a single error is logged, the flag is set, and the boss
+  runs with defaults (`boss/GodBossEntity.java`).
+- **Spellcasting crash on malformed spell data.** A boss spell entry with `minLevel > maxLevel`
+  made `ThreadLocalRandom.nextInt(origin, bound)` throw and killed the AI tick; the level roll is
+  now clamped. The spell pool is also null/empty-guarded before streaming
+  (`boss/ai/SpellcastingGoal.java`).
+- **Missing-deity state consistency.** When a bound god's JSON is removed, the effect cache now
+  flips the player to `MISSING_DEITY` instead of leaving them `ACTIVE` with no effects
+  (`effect/EffectProfileCache.java`).
+
+### Changed
+- **Dependency ranges bounded.** GeckoLib is now `[4.7,5.0)` (was `[0,)`, which would accept
+  API-incompatible 3.x/5.x and crash at runtime) and Forge is capped to the 47.x line. A mismatched
+  GeckoLib now fails with a clean Forge dependency error instead of a class-load crash
+  (`META-INF/mods.toml`).
+- **Favor-threshold sanity check.** A startup warning fires if `[favorThresholds]` aren't strictly
+  increasing (initiate < devout < exalted < ascendant), which would otherwise silently invert tier
+  progression (`config/SpellsNGodsConfig.java`).
+- **Internal:** de-duplicated the identical ability-cooldown NBT logic in `DivineBowItem` and
+  `DivineCrossbowItem` into a shared `item/ability/AbilityCooldown` helper (no behavior change).
+
 ## [1.2.0] — 2026-06-17
 
 Audit-remediation release: bug fixes, config cleanup, siege hardening, integrator events, and a

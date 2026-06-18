@@ -111,8 +111,8 @@ with sensible vanilla defaults and are fully datapack-overridable:
 ## Requirements
 
 - Minecraft 1.20.1
-- Forge 47.2.0+
-- GeckoLib 4.3+ (required)
+- Forge 47.4.10+ (47.x)
+- GeckoLib 4.7.x (required)
 - Java 17
 
 ### Optional Integrations

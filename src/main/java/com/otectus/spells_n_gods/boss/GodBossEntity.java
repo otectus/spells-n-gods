@@ -391,7 +391,13 @@ public class GodBossEntity extends Monster implements GeoEntity {
         super.customServerAiStep();
 
         if (!statsApplied && !getGodId().isEmpty()) {
-            applyGodStats();
+            try {
+                applyGodStats();
+            } catch (Exception e) {
+                // Set the flag even on failure so we don't re-run (and re-throw) every tick.
+                statsApplied = true;
+                SpellsNGodsMod.LOGGER.error("Failed to apply god stats for '{}'; running with defaults", getGodId(), e);
+            }
         }
 
         // Safety: if boss was emerging when saved but animation handler lost it, finalize.

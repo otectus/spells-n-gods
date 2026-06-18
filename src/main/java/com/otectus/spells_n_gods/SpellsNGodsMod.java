@@ -100,6 +100,7 @@ public class SpellsNGodsMod {
         event.enqueueWork(() -> {
             ModNetwork.register();
             DivineAbilityRegistry.init();
+            SpellsNGodsConfig.validateThresholds();
             LOGGER.info("Spells n'' Gods network and ability registry initialized");
         });
     }

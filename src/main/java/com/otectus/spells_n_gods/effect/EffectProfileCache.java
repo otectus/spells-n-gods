@@ -64,6 +64,8 @@ public class EffectProfileCache {
         GodDefinition god = SpellsNGodsDataManager.getGods().get(new ResourceLocation(data.getChosenGodId()));
         if (god == null) {
             cache.remove(player.getUUID());
+            // Keep blessing state consistent with the absent deity so the player isn't left ACTIVE with no effects.
+            data.setBlessingState(BlessingState.MISSING_DEITY);
             SpellsNGodsMod.LOGGER.warn("Cannot compute effects for player {} - god {} not found",
                     player.getName().getString(), data.getChosenGodId());
             return;

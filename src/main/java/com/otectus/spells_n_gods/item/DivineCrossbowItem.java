@@ -1,5 +1,6 @@
 package com.otectus.spells_n_gods.item;
 
+import com.otectus.spells_n_gods.item.ability.AbilityCooldown;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.chat.Component;
@@ -80,7 +81,7 @@ public class DivineCrossbowItem extends CrossbowItem {
     }
 
     private static boolean isAbilityOnCooldown(ItemStack stack) {
-        return stack.hasTag() && stack.getTag().getInt("AbilityCooldownTicks") > 0;
+        return AbilityCooldown.isActive(stack);
     }
 
     private InteractionResultHolder<ItemStack> abilityEnsnaringShot(ServerLevel level, ServerPlayer player,
@@ -111,7 +112,7 @@ public class DivineCrossbowItem extends CrossbowItem {
         level.playSound(null, player.blockPosition(),
                 SoundEvents.BIG_DRIPLEAF_TILT_UP, SoundSource.PLAYERS, 0.8F, 1.2F);
 
-        stack.getOrCreateTag().putInt("AbilityCooldownTicks", ABILITY_COOLDOWN_TICKS);
+        AbilityCooldown.start(stack, ABILITY_COOLDOWN_TICKS);
         stack.hurtAndBreak(3, player, p -> p.broadcastBreakEvent(hand));
         return InteractionResultHolder.consume(stack);
     }
@@ -155,14 +156,7 @@ public class DivineCrossbowItem extends CrossbowItem {
         if (level.isClientSide()) return;
 
         // Decrement ability cooldown (ticks down even if not held)
-        if (stack.hasTag() && stack.getTag().getInt("AbilityCooldownTicks") > 0) {
-            int remaining = stack.getTag().getInt("AbilityCooldownTicks") - 1;
-            if (remaining <= 0) {
-                stack.getTag().remove("AbilityCooldownTicks");
-            } else {
-                stack.getTag().putInt("AbilityCooldownTicks", remaining);
-            }
-        }
+        AbilityCooldown.tick(stack);
     }
 
     // ─── Tooltip ───
@@ -175,7 +169,7 @@ public class DivineCrossbowItem extends CrossbowItem {
         tooltip.add(Component.literal("Shift+Right-click (loaded): Root + Poison bolt")
                 .withStyle(ChatFormatting.GRAY));
         if (isAbilityOnCooldown(stack)) {
-            int remainingSeconds = (stack.getTag().getInt("AbilityCooldownTicks") + 19) / 20;
+            int remainingSeconds = AbilityCooldown.remainingSeconds(stack);
             tooltip.add(Component.literal("Cooldown: " + remainingSeconds + "s remaining")
                     .withStyle(ChatFormatting.RED));
         } else {

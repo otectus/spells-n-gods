@@ -20,7 +20,7 @@ Spells n' Gods: a datapack-first divine framework.
 [[dependencies.${mod_id}]]
 modId="forge"
 mandatory=true
-versionRange="[${forge_version},)"
+versionRange="[${forge_version},48)"
 ordering="NONE"
 side="BOTH"
 
@@ -35,7 +35,7 @@ side="BOTH"
 [[dependencies.${mod_id}]]
 modId="geckolib"
 mandatory=true
-versionRange="[0,)"
+versionRange="[4.7,5.0)"
 ordering="AFTER"
 side="BOTH"
 

@@ -22,6 +22,23 @@ public final class SpellsNGodsConfig {
     private SpellsNGodsConfig() {
     }
 
+    /**
+     * Warns (does not throw) if favor thresholds aren't strictly increasing, which would invert
+     * tier progression. Call once after config load; matches the codebase's fail-safe style.
+     * ponytail: startup-only warning; a live config reload won't re-check, which is fine for a sanity warning.
+     */
+    public static void validateThresholds() {
+        int initiate = COMMON.thresholdInitiate.get();
+        int devout = COMMON.thresholdDevout.get();
+        int exalted = COMMON.thresholdExalted.get();
+        int ascendant = COMMON.thresholdAscendant.get();
+        if (!(initiate < devout && devout < exalted && exalted < ascendant)) {
+            com.otectus.spells_n_gods.SpellsNGodsMod.LOGGER.warn(
+                    "[SpellsNGods] favorThresholds are not strictly increasing (initiate={}, devout={}, exalted={}, ascendant={}); tier progression may behave unexpectedly.",
+                    initiate, devout, exalted, ascendant);
+        }
+    }
+
     public static final class Common {
         // --- Divinity ---
         public final ForgeConfigSpec.BooleanValue allowApostasy;

@@ -56,8 +56,8 @@ periodic divine events.
 ## Requirements
 
 - **Minecraft** 1.20.1
-- **Forge** 47.2.0+
-- **GeckoLib** 4.x (required)
+- **Forge** 47.4.10+ (47.x)
+- **GeckoLib** 4.7.x (required)
 - **Iron's Spells 'n Spellbooks** (recommended — boss spellcasting)
 
 ## Optional
