@@ -4,6 +4,41 @@ All notable changes to **Spells 'n Gods** are documented here.
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and the project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.2.0] — 2026-06-17
+
+Audit-remediation release: bug fixes, config cleanup, siege hardening, integrator events, and a
+schematic-path fix. Based on a full-codebase review (the resource/asset layer was verified clean).
+
+### Fixed
+- **Boss siege no longer churns blocks unbounded.** The escalated area-smash is now rate-limited
+  (one smash per second), capped at 16 blocks per evaluation, biased toward the player, and **stops
+  entirely** when fully walled by protected/unbreakable blocks (e.g. bedrock or a temple) instead of
+  hammering every tick. `boss/ai/BossSiegeGoal.java`, `boss/ai/BossSiegeLogic.java`.
+- **Latent NPE guarded.** Apostasy ownership check no longer dereferences a possibly-null monument
+  owner (`apostasy/ApostasyHandler.java`).
+- **Ranged-god detection hardened.** Boss bow/crossbow goal selection now matches weapon ids by
+  suffix instead of a loose `contains(...)` substring (`boss/GodBossEntity.java`).
+- **Custom schematic loading path corrected.** `SchematicLoader` read `config/runic_gods/schematics`
+  while the mod's config lives under `config/spells_n_gods/`; it now resolves the mod config dir, so
+  custom `.nbt` shrines can actually load. Docs in `ShrineConfig` corrected to match
+  (`structure/SchematicLoader.java`, `config/ShrineConfig.java`).
+- **Reduced log spam** from structure-spawn placement failures (now debug-level).
+
+### Changed
+- **Removed misleading dead boss config.** Ten `[boss]` values that were never read (`baseHealth`,
+  `baseArmor`, `baseAttackDamage`, `baseMovementSpeed`, `spellCooldownTicks`, `leashRadius`,
+  `respawnDelayTicks`, `enrageHealthPercent`, `enrageDamageMultiplier`, `enrageSpeedMultiplier`) are
+  gone. All boss stats come from per-god JSON; use `[difficulty] bossDifficultyMultiplier` for global
+  HP/damage scaling (`config/SpellsNGodsConfig.java`).
+
+### Added (integration)
+- **Public events are now posted** for KubeJS / FTB Quests and other integrators:
+  `TierChangeEvent` (prayer + offering paths), `PrayerCompleteEvent`, a cancelable `OfferingEvent`
+  (may veto or adjust favor before the item is consumed), `BossDefeatedEvent`, `BossSpawnedEvent`
+  (natural temple + dynamic spawns), and `CurseExpiredEvent`. Previously declared but never fired.
+- New lang key `spells_n_gods.offering.rejected` for a vetoed offering.
+- Unit tests for the capped/biased siege geometry (42 tests total).
+
 ## [1.1.0] — 2026-06-17
 
 Adds siege behaviour so god bosses hunt the player through terrain instead of being trapped by walls.

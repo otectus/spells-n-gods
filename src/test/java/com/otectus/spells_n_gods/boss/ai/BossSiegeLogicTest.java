@@ -130,4 +130,30 @@ class BossSiegeLogicTest {
         // never includes the boss's own vertical column
         assertFalse(offsets.stream().anyMatch(o -> o[0] == 0 && o[2] == 0));
     }
+
+    // --- areaBreakOffsets (biased + capped) ---
+
+    @Test
+    void cappedAreaSmash_respectsMax() {
+        List<int[]> offsets = BossSiegeLogic.areaBreakOffsets(2, 3, 1, 0, 16);
+        assertEquals(16, offsets.size());
+        assertFalse(offsets.stream().anyMatch(o -> o[0] == 0 && o[2] == 0));
+    }
+
+    @Test
+    void nonPositiveMax_meansNoCap() {
+        int full = BossSiegeLogic.areaBreakOffsets(2, 3).size();
+        assertEquals(full, BossSiegeLogic.areaBreakOffsets(2, 3, 1, 0, 0).size());
+        assertEquals(full, BossSiegeLogic.areaBreakOffsets(2, 3, 1, 0, -1).size());
+    }
+
+    @Test
+    void cappedAreaSmash_biasesTowardTarget() {
+        // Toward +X: the first (kept) offsets should lean +X, not -X.
+        List<int[]> offsets = BossSiegeLogic.areaBreakOffsets(2, 3, 1, 0, 16);
+        // The capped set must contain the maximally-toward-target column (+2 on X)...
+        assertTrue(offsets.stream().anyMatch(o -> o[0] == 2));
+        // ...and must NOT contain the farthest-away column (-2 on X), which sorts last.
+        assertFalse(offsets.stream().anyMatch(o -> o[0] == -2));
+    }
 }

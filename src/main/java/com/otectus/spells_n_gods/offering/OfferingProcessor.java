@@ -9,6 +9,7 @@ import com.otectus.spells_n_gods.data.GodDefinition;
 import com.otectus.spells_n_gods.data.SpellsNGodsDataManager;
 import com.otectus.spells_n_gods.effect.EffectEventHandler;
 import com.otectus.spells_n_gods.animation.PlayerAnimationType;
+import com.otectus.spells_n_gods.compat.SpellsNGodsEvents;
 import com.otectus.spells_n_gods.network.DivineVfxPacket;
 import com.otectus.spells_n_gods.network.ModNetwork;
 import com.otectus.spells_n_gods.network.PlayerAnimationPacket;
@@ -68,6 +69,15 @@ public class OfferingProcessor {
             }
         }
 
+        // Public, cancelable event for integrators (KubeJS/FTB Quests): may veto or adjust the value
+        // before anything is consumed or recorded.
+        SpellsNGodsEvents.OfferingEvent offeringEvent =
+                new SpellsNGodsEvents.OfferingEvent(player, god, offering, finalValue);
+        if (net.minecraftforge.common.MinecraftForge.EVENT_BUS.post(offeringEvent)) {
+            return OfferingResult.fail(Component.translatable("spells_n_gods.offering.rejected"));
+        }
+        finalValue = offeringEvent.getFavorValue();
+
         // Record the offering in history
         data.getOfferingHistory().record(offering.getItem());
 
@@ -108,6 +118,11 @@ public class OfferingProcessor {
             player.sendSystemMessage(Component.translatable(
                     "spells_n_gods.tier.advanced", newTier.getTierKey())
                     .withStyle(style -> style.withColor(0xFFD700)));
+        }
+
+        if (newTier != previousTier) {
+            net.minecraftforge.common.MinecraftForge.EVENT_BUS.post(
+                    new SpellsNGodsEvents.TierChangeEvent(player, previousTier, newTier, god));
         }
 
         SpellsNGodsMod.LOGGER.info("Player {} offered {} x{} to {}, gained {} favor",

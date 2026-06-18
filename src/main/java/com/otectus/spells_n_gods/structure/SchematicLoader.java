@@ -20,7 +20,7 @@ import java.util.Map;
 import java.util.Optional;
 
 /**
- * Loads custom .nbt schematics from config/runic_gods/schematics/ and maps them
+ * Loads custom .nbt schematics from config/spells_n_gods/schematics/ and maps them
  * to god IDs. Schematics use the naming convention: {god_id}.nbt
  * (e.g., deus.nbt maps to spells_n_gods:deus).
  *
@@ -46,7 +46,9 @@ public final class SchematicLoader {
         }
 
         String folderName = ShrineConfig.INSTANCE.schematicFolder.get();
-        Path schematicsDir = FMLPaths.CONFIGDIR.get().resolve("runic_gods").resolve(folderName);
+        // Resolve under the mod's own config dir (config/spells_n_gods/), matching where the mod's
+        // config files are actually registered — not the legacy "runic_gods" path.
+        Path schematicsDir = FMLPaths.CONFIGDIR.get().resolve(SpellsNGodsMod.MODID).resolve(folderName);
 
         if (!Files.isDirectory(schematicsDir)) {
             SpellsNGodsMod.LOGGER.info("[SpellsNGods] Schematics directory not found: {}", schematicsDir);

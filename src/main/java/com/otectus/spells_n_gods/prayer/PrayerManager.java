@@ -215,6 +215,16 @@ public class PrayerManager {
                     .withStyle(style -> style.withColor(0xFFD700)));
         }
 
+        // Public events for integrators (KubeJS/FTB Quests).
+        if (god != null) {
+            net.minecraftforge.common.MinecraftForge.EVENT_BUS.post(
+                    new com.otectus.spells_n_gods.compat.SpellsNGodsEvents.PrayerCompleteEvent(player, god, PRAYER_FAVOR_GAIN));
+            if (newTier != previousTier) {
+                net.minecraftforge.common.MinecraftForge.EVENT_BUS.post(
+                        new com.otectus.spells_n_gods.compat.SpellsNGodsEvents.TierChangeEvent(player, previousTier, newTier, god));
+            }
+        }
+
         SpellsNGodsMod.LOGGER.debug("Player {} completed prayer, favor now {}", player.getName().getString(), data.getFavor());
     }
 

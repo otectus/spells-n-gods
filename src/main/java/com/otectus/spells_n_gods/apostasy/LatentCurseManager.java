@@ -222,6 +222,10 @@ public class LatentCurseManager {
         data.setLatentCurseEndMs(0L);
         data.setLastAbandonedGodId(null);
 
+        // Public event for integrators (KubeJS/FTB Quests).
+        net.minecraftforge.common.MinecraftForge.EVENT_BUS.post(
+                new com.otectus.spells_n_gods.compat.SpellsNGodsEvents.CurseExpiredEvent(player, abandonedGodId));
+
         player.sendSystemMessage(Component.translatable("spells_n_gods.curse.expired"));
 
         // Curse lifted celebration VFX

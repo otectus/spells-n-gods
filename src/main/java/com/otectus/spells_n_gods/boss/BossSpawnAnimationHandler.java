@@ -65,8 +65,18 @@ public class BossSpawnAnimationHandler {
     /** Legacy dedicated-temple spawn: rises to the altar standing offset above {@code record.center()}. */
     public static void beginSpawnSequence(ServerLevel level, GodWorldState state,
                                            StructureRecord record) {
-        spawnInternal(level, record.godId(), record.center(), END_Y_OFFSET, SpawnAlignment.HOSTILE,
-                boss -> state.setStructure(record.godId(), record.withBossSpawned(boss.getUUID())));
+        GodBossEntity boss = spawnInternal(level, record.godId(), record.center(), END_Y_OFFSET,
+                SpawnAlignment.HOSTILE,
+                spawned -> state.setStructure(record.godId(), record.withBossSpawned(spawned.getUUID())));
+        if (boss != null) {
+            postSpawned(record.godId(), record.center());
+        }
+    }
+
+    /** Posts the public {@link SpellsNGodsEvents.BossSpawnedEvent} for integrators (KubeJS/FTB Quests). */
+    private static void postSpawned(String godId, BlockPos location) {
+        net.minecraftforge.common.MinecraftForge.EVENT_BUS.post(
+                new com.otectus.spells_n_gods.compat.SpellsNGodsEvents.BossSpawnedEvent(godId, location));
     }
 
     /**
@@ -79,7 +89,11 @@ public class BossSpawnAnimationHandler {
     @Nullable
     public static GodBossEntity spawnGodAt(ServerLevel level, String godId, BlockPos standingPos,
                                            SpawnAlignment alignment, @Nullable Consumer<GodBossEntity> onSpawned) {
-        return spawnInternal(level, godId, standingPos, 0.0, alignment, onSpawned);
+        GodBossEntity boss = spawnInternal(level, godId, standingPos, 0.0, alignment, onSpawned);
+        if (boss != null) {
+            postSpawned(godId, standingPos);
+        }
+        return boss;
     }
 
     @Nullable

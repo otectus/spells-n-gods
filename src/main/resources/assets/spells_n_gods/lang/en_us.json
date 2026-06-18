@@ -93,6 +93,7 @@
   "spells_n_gods.offering.not_bound": "You must be bound to a god to make offerings.",
   "spells_n_gods.offering.unknown_god": "Your god's definition is missing from the datapack.",
   "spells_n_gods.offering.accepted": "%s has accepted your offering. Favor gained.",
+  "spells_n_gods.offering.rejected": "Your offering was rejected.",
   "spells_n_gods.offering.must_be_unused": "This offering must be undamaged.",
   "spells_n_gods.offering.must_be_crafted": "This offering must be crafted by you.",
   "spells_n_gods.offering.rarity_too_low": "This offering is not rare enough.",

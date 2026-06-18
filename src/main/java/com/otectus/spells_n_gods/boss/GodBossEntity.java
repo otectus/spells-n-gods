@@ -260,7 +260,7 @@ public class GodBossEntity extends Monster implements GeoEntity {
      */
     private void initCombatGoals(GodDefinition.BossDefinition bossDef) {
         String weaponId = bossDef.weaponId();
-        if (weaponId.contains("bow_of_agility")) {
+        if (weaponId.endsWith("bow_of_agility")) {
             // Velox: ranged bow at priority 6, fallback melee at 7
             if (meleeGoal != null) {
                 this.goalSelector.removeGoal(meleeGoal);
@@ -273,7 +273,7 @@ public class GodBossEntity extends Monster implements GeoEntity {
                 this.goalSelector.addGoal(8, strafeGoal);
             }
             SpellsNGodsMod.LOGGER.debug("Registered BossBowAttackGoal for ranged god");
-        } else if (weaponId.contains("crossbow_of_the_wild")) {
+        } else if (weaponId.endsWith("crossbow_of_the_wild")) {
             // Venatas: ranged crossbow at priority 6, fallback melee at 7
             if (meleeGoal != null) {
                 this.goalSelector.removeGoal(meleeGoal);
@@ -630,6 +630,11 @@ public class GodBossEntity extends Monster implements GeoEntity {
                 GodDefinition god = getGodDefinition();
                 int respawnDelay = god != null ? god.boss().respawnDelayTicks() : 72000;
                 state.markBossKilled(getGodId(), this.level().getGameTime(), respawnDelay);
+
+                // Public event for integrators (KubeJS/FTB Quests).
+                ServerPlayer killer = source.getEntity() instanceof ServerPlayer sp ? sp : null;
+                net.minecraftforge.common.MinecraftForge.EVENT_BUS.post(
+                        new com.otectus.spells_n_gods.compat.SpellsNGodsEvents.BossDefeatedEvent(getGodId(), killer));
 
                 // Drop compat mod items programmatically
                 ModIntegrationLayer.dropBossLoot(this, source);

@@ -4,10 +4,10 @@ import net.minecraftforge.common.ForgeConfigSpec;
 
 /**
  * Shrine-specific configuration for Spells n' Gods.
- * Saved to config/runic_gods/shrines.toml.
+ * Saved to config/spells_n_gods/shrines.toml.
  *
  * Controls custom schematic loading and shrine generation behavior.
- * Modpack creators can drop .nbt files into config/runic_gods/schematics/
+ * Modpack creators can drop .nbt files into config/spells_n_gods/schematics/
  * using the naming convention: {god_id}.nbt (e.g., deus.nbt, velox.nbt).
  */
 public final class ShrineConfig {
@@ -29,7 +29,7 @@ public final class ShrineConfig {
         builder.push("schematics");
         builder.comment(
                 "Custom schematic support for god shrines.",
-                "Place .nbt structure files in config/runic_gods/schematics/ using the naming convention:",
+                "Place .nbt structure files in config/spells_n_gods/schematics/ using the naming convention:",
                 "  <god_id>.nbt  (e.g., deus.nbt, velox.nbt, celia.nbt)",
                 "For datapack-added gods, use their namespace-stripped ID (e.g., mygods_zeus.nbt for mygods:zeus)."
         );
@@ -40,7 +40,7 @@ public final class ShrineConfig {
                 .define("useCustomSchematics", false);
 
         schematicFolder = builder
-                .comment("Subfolder name under config/runic_gods/ where .nbt schematics are stored.")
+                .comment("Subfolder name under config/spells_n_gods/ where .nbt schematics are stored.")
                 .define("schematicFolder", "schematics");
 
         fallbackToProcedural = builder

@@ -235,7 +235,10 @@ public final class StructureSpawnManager {
         SpawnPlacement placement = god.structure().resolvePlacement(defaultPlacement());
         var placed = PlacementResolver.resolve(level, bounds, placement, BOSS_ENTITY_HEIGHT, null);
         if (placed.isEmpty()) {
-            SpellsNGodsMod.LOGGER.warn("[Sng/Spawn] No safe placement for {} in {} ({}); skipping",
+            // No record is committed here (keeps saved data bounded), so a player lingering in a
+            // structure with no safe placement re-evaluates it each cycle; keep this at debug to
+            // avoid log spam (many structures legitimately offer no safe boss placement).
+            SpellsNGodsMod.LOGGER.debug("[Sng/Spawn] No safe placement for {} in {} ({}); skipping",
                     chosen.deityId(), structureId, placement);
             return;
         }

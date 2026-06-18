@@ -70,8 +70,8 @@ public class ApostasyHandler {
             return ApostasyResult.error("spells_n_gods.apostasy.already_in_trial");
         }
 
-        // Check if player owns this monument
-        if (monument != null && !monument.getOwner().equals(player.getUUID())) {
+        // Check if player owns this monument (an un-owned monument is treated as not-yours)
+        if (monument != null && !player.getUUID().equals(monument.getOwner())) {
             return ApostasyResult.error("spells_n_gods.apostasy.not_your_monument");
         }
 

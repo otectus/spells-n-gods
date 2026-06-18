@@ -121,4 +121,25 @@ public final class BossSiegeLogic {
         }
         return offsets;
     }
+
+    /**
+     * Area-smash offsets biased toward the target and capped to {@code max} blocks. Offsets nearer
+     * the target's horizontal direction come first (so a capped smash carves toward the player rather
+     * than behind the boss), and the list is truncated to {@code max} to bound per-tick destruction.
+     *
+     * @param towardX target horizontal step on X ({@code -1..1}; 0 if none)
+     * @param towardZ target horizontal step on Z ({@code -1..1}; 0 if none)
+     * @param max     maximum number of offsets to return (a value &le; 0 means "no cap")
+     */
+    public static List<int[]> areaBreakOffsets(int radius, int height, int towardX, int towardZ, int max) {
+        List<int[]> all = areaBreakOffsets(radius, height);
+        // Higher dot-product with the target direction = closer to "toward the player" → break first.
+        all.sort((a, b) -> Integer.compare(
+                b[0] * towardX + b[2] * towardZ,
+                a[0] * towardX + a[2] * towardZ));
+        if (max > 0 && max < all.size()) {
+            return new ArrayList<>(all.subList(0, max));
+        }
+        return all;
+    }
 }

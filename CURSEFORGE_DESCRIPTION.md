@@ -46,6 +46,8 @@ periodic divine events.
   temples, and structure spawning are all JSON.
 - **Optional integrations** with Iron's Spells 'n Spellbooks and Simply Swords, with graceful vanilla
   fallback when they're absent.
+- **Forge events for KubeJS / FTB Quests** — bind, tier-change, prayer, offering (cancelable),
+  boss spawn/defeat, apostasy, and curse-expiry hooks for quest and reward integration.
 - **Dedicated-server safe** — strict client/server separation, verified to boot cleanly on servers.
 - **Extensive config** for boss stats, structure generation, loot, worship pacing, schematics, and debug.
 

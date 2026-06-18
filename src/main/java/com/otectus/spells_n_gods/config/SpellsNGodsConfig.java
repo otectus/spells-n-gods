@@ -67,17 +67,10 @@ public final class SpellsNGodsConfig {
         public final ForgeConfigSpec.BooleanValue playerAnimationsEnabled;
 
         // --- Boss ---
+        // Per-boss stats (health, armor, attack, speed, leash, respawn delay, enrage thresholds,
+        // spell cooldown) are authored per-god in the gods/*.json datapack; use bossDifficultyMultiplier
+        // for global HP/damage scaling. No redundant global stat overrides are exposed here.
         public final ForgeConfigSpec.BooleanValue bossesEnabled;
-        public final ForgeConfigSpec.IntValue bossRespawnDelayTicks;
-        public final ForgeConfigSpec.DoubleValue bossLeashRadius;
-        public final ForgeConfigSpec.DoubleValue bossEnrageHealthPercent;
-        public final ForgeConfigSpec.DoubleValue bossEnrageDamageMultiplier;
-        public final ForgeConfigSpec.DoubleValue bossEnrageSpeedMultiplier;
-        public final ForgeConfigSpec.DoubleValue bossBaseHealth;
-        public final ForgeConfigSpec.DoubleValue bossBaseArmor;
-        public final ForgeConfigSpec.DoubleValue bossBaseAttackDamage;
-        public final ForgeConfigSpec.DoubleValue bossBaseMovementSpeed;
-        public final ForgeConfigSpec.IntValue bossSpellCooldownTicks;
 
         // --- Boss Siege (block-breaking) ---
         public final ForgeConfigSpec.BooleanValue bossSiegeEnabled;
@@ -176,22 +169,11 @@ public final class SpellsNGodsConfig {
             builder.pop();
 
             builder.push("boss");
-            builder.comment("Master toggle for the boss encounter system.");
+            builder.comment("Master toggle for the boss encounter system.",
+                            "Per-god boss stats (health, armor, attack, speed, leash radius, respawn delay,",
+                            "enrage thresholds, spell cooldown) are defined in the gods/*.json datapack.",
+                            "Use the [difficulty] bossDifficultyMultiplier for global HP/damage scaling.");
             bossesEnabled = builder.define("enabled", true);
-            builder.comment("Default respawn delay in ticks (72000 = 1 hour). Per-god JSON values override.");
-            bossRespawnDelayTicks = builder.defineInRange("respawnDelayTicks", 72000, 0, Integer.MAX_VALUE);
-            builder.comment("Default leash radius in blocks. Boss returns to arena if it strays beyond this.");
-            bossLeashRadius = builder.defineInRange("leashRadius", 32.0, 8.0, 256.0);
-            builder.comment("Health percentage at which boss enters enraged phase.");
-            bossEnrageHealthPercent = builder.defineInRange("enrageHealthPercent", 0.25, 0.0, 1.0);
-            bossEnrageDamageMultiplier = builder.defineInRange("enrageDamageMultiplier", 1.5, 1.0, 10.0);
-            bossEnrageSpeedMultiplier = builder.defineInRange("enrageSpeedMultiplier", 1.3, 1.0, 5.0);
-            builder.comment("Default base stats (per-god JSON values override).");
-            bossBaseHealth = builder.defineInRange("baseHealth", 300.0, 1.0, 10000.0);
-            bossBaseArmor = builder.defineInRange("baseArmor", 8.0, 0.0, 100.0);
-            bossBaseAttackDamage = builder.defineInRange("baseAttackDamage", 10.0, 0.0, 1000.0);
-            bossBaseMovementSpeed = builder.defineInRange("baseMovementSpeed", 0.3, 0.01, 5.0);
-            bossSpellCooldownTicks = builder.defineInRange("spellCooldownTicks", 60, 1, 72000);
             builder.pop();
 
             builder.push("boss_siege");

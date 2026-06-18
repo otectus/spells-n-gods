@@ -72,6 +72,7 @@ Each god's boss drops a unique divine weapon with a right-click ability (Shift+R
 - **Durability modifiers** — apostasy scars wear gear faster, Aurex/Permanence blessings make it last longer (server-side, deterministic, applied via a contained Mixin)
 - **Per-god loot tables** with themed vanilla drops
 - **Optional mod integration** with Iron's Spells n' Spellbooks and SimplySwords (graceful fallback to vanilla when absent)
+- **Integrator events** (Forge event bus) for KubeJS/FTB Quests: player bound, tier change, prayer complete, offering (cancelable), boss spawned/defeated, apostasy, and curse expired
 - **Dedicated-server safe** — strict client/server separation, no client classes loaded on servers
 - **Extensive config** (common + server + shrine) covering boss stats, structure generation, loot, locator, worship, schematics, and debug options
 
